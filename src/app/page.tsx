@@ -1,5 +1,6 @@
 import Image from "next/image";
 import dynamic from 'next/dynamic'
+import { ZipCodeSearch } from '@/components/ZipCodeSearch'
 
 const ThreeScene = dynamic(() => import('@/components/ThreeScene'), { ssr: false })
 
@@ -56,6 +57,8 @@ export default function Home() {
         <div style={{ width: '100%', height: '400px' }}>
           <ThreeScene />
         </div>
+        <h1>Zillow Property Search</h1>
+        <ZipCodeSearch />
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         {/* ... footer content ... */}

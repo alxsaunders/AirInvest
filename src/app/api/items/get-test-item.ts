@@ -36,5 +36,4 @@ async function getItem(userId: string): Promise<void> {
   }
 }
 
-// Replace this with the actual userId of an item you want to retrieve
 getItem('user-1729494044644');
