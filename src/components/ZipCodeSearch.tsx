@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ApifyData } from './ApifyData'
+import { ZillowListings } from './ZillowListings'
 
 export const ZipCodeSearch: React.FC = () => {
   const [zipCode, setZipCode] = useState('')
@@ -24,7 +24,7 @@ export const ZipCodeSearch: React.FC = () => {
         />
         <button onClick={handleSearch}>Search</button>
       </div>
-      {searchTriggered && <ApifyData zipCode={zipCode} />}
+      {searchTriggered && <ZillowListings zipCode={zipCode} />}
     </div>
   )
 }

@@ -6,17 +6,17 @@ import Image from 'next/image'
 interface ZillowListing {
   id: string
   address: string
-  price: number | string // Update to allow for string prices
+  price: number | string
   imgSrc: string
   // Add other fields as needed
 }
 
-interface ApifyDataProps {
+interface ZillowListingsProps {
   zipCode: string
   limit?: number
 }
 
-export const ApifyData: React.FC<ApifyDataProps> = ({ zipCode, limit = 5 }) => {
+export const ZillowListings: React.FC<ZillowListingsProps> = ({ zipCode, limit = 5 }) => {
   const [data, setData] = useState<ZillowListing[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
@@ -24,7 +24,7 @@ export const ApifyData: React.FC<ApifyDataProps> = ({ zipCode, limit = 5 }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/apify-data?zipCode=${zipCode}&limit=${limit}`)
+        const response = await fetch(`/api/zillow?zipCode=${zipCode}&limit=${limit}`)
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
@@ -43,12 +43,10 @@ export const ApifyData: React.FC<ApifyDataProps> = ({ zipCode, limit = 5 }) => {
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
 
-  // Helper function to format price
   const formatPrice = (price: number | string) => {
     if (typeof price === 'number') {
       return price.toLocaleString()
     }
-    // If it's a string, return as is or try to parse it
     return price
   }
 
@@ -68,10 +66,8 @@ export const ApifyData: React.FC<ApifyDataProps> = ({ zipCode, limit = 5 }) => {
               className="mt-2 rounded"
             />
           )}
-          {/* Add more fields as needed */}
         </div>
       ))}
     </div>
   )
 }
-

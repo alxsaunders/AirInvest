@@ -15,7 +15,7 @@ async function addTestItem() {
   const params = {
     TableName: process.env.DYNAMODB_TABLE_NAME,
     Item: {
-      userId: 'user-' + Date.now(), // Add this line to include the userId
+      uesrId: 'user-' + Date.now(), // Add this line to include the userId
       id: 'test-item-' + Date.now(),
       name: 'Test Item',
       description: 'This is a test item added via script '
