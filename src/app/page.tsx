@@ -2,6 +2,7 @@ import Image from "next/image";
 import dynamic from 'next/dynamic'
 import { ZipCodeSearch } from '@/components/ZipCodeSearch'
 import { LocationSearch } from '@/components/LocationSearch'
+import Map from '../components/Map';
 
 const ThreeScene = dynamic(() => import('@/components/ThreeScene'), { ssr: false })
 
@@ -62,13 +63,28 @@ export default function Home() {
         <h2 className="text-2xl font-semibold mb-4">Zillow Listings</h2>
         <ZipCodeSearch />
       </section>
+      <section>
+      <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">My Google Maps Page</h1>
+      <Map 
+        center={{ lat: 40.7128, lng: -74.0060 }}
+        zoom={13}
+        markers={[
+          {
+            position: { lat: 40.7128, lng: -74.0060 },
+            title: "New York City"
+          }
+        ]}
+      />
+    </div>
+      </section>
         <section>
         <h2 className="text-2xl font-semibold mb-4">Airbnb Listings</h2>
         <LocationSearch />
       </section>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        {/* ... footer content ... */}
+        {/* ... footer content ... */} 
       </footer>
     </div>
   );

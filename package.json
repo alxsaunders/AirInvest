@@ -13,6 +13,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.675.0",
     "@aws-sdk/lib-dynamodb": "^3.675.0",
+    "@react-google-maps/api": "^2.20.3",
     "@react-three/drei": "^9.114.4",
     "@react-three/fiber": "^8.17.10",
     "@types/three": "^0.169.0",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.2",
     "@testing-library/react": "^16.0.1",
+    "@types/google.maps": "^3.58.1",
     "@types/jest": "^29.5.13",
     "@types/node": "^20.16.13",
     "@types/react": "^18",
