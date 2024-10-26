@@ -44,6 +44,6 @@ export async function GET(request: Request) {
     return NextResponse.json(items)
   } catch (error) {
     console.error('Error in Zillow API route:', error)
-    return NextResponse.json({ error: error.message || 'An unexpected error occurred' }, { status: 500 })
+    return NextResponse.json({ error: onmessage || 'An unexpected error occurred' }, { status: 500 })
   }
 }
