@@ -49,7 +49,7 @@ function RotatingBox() {
       onPointerUp={handlePointerUp}
       onPointerOut={handlePointerUp} // Stop dragging when the pointer leaves the object
     >
-      <meshStandardMaterial color="skyblue" />
+      <meshStandardMaterial color="orange" />
     </Box>
   )
 }
