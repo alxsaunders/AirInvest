@@ -1,9 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { signUp } from 'aws-amplify/auth';
+import { Amplify } from 'aws-amplify';
+
+// Configure Amplify with hardcoded values
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: 'us-east-1_6rob18eEz',
+      userPoolClientId: '1s2u15tlv7uh3hv226a48ecjp5'
+    }
+  }
+});
 
 export default function Home() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,10 +28,62 @@ export default function Home() {
     phone: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    setIsLoading(true);
+    setError('');
+  
+    try {
+      const formattedPhone = formData.phone.startsWith('+1') 
+        ? formData.phone 
+        : `+1${formData.phone.replace(/\D/g, '')}`;
+  
+      const signUpResult = await signUp({
+        username: formData.email,
+        password: formData.password,
+        options: {
+          userAttributes: {
+            email: formData.email,
+            given_name: formData.firstName,
+            family_name: formData.lastName,
+            phone_number: formattedPhone,
+          }
+        }
+      });
+  
+      console.log('Sign up successful:', signUpResult);
+      
+      // Pass the email to the verification page
+      router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
+    } catch (err) {
+      console.error('Error during sign up:', err);
+      // Handle specific AWS Cognito errors
+      if (err instanceof Error) {
+        switch (err.name) {
+          case 'UsernameExistsException':
+            setError('An account with this email already exists.');
+            break;
+          case 'InvalidParameterException':
+            if (err.message.includes('password')) {
+              setError('Password must be at least 8 characters long and contain uppercase, lowercase, numbers, and special characters.');
+            } else if (err.message.includes('phone')) {
+              setError('Please enter a valid phone number in +1XXXXXXXXXX format.');
+            } else {
+              setError(err.message);
+            }
+            break;
+          case 'InvalidPasswordException':
+            setError('Password must meet complexity requirements.');
+            break;
+          default:
+            setError(err.message);
+        }
+      } else {
+        setError('Failed to create account. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -29,6 +97,12 @@ export default function Home() {
             </h1>
             
             <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded">
+                  {error}
+                </div>
+              )}
+
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium mb-2">
                   First Name
@@ -36,7 +110,8 @@ export default function Home() {
                 <input
                   type="text"
                   id="firstName"
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400"
+                  required
+                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="John"
                   value={formData.firstName}
                   onChange={(e) => setFormData({...formData, firstName: e.target.value})}
@@ -50,7 +125,8 @@ export default function Home() {
                 <input
                   type="text"
                   id="lastName"
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400"
+                  required
+                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Doe"
                   value={formData.lastName}
                   onChange={(e) => setFormData({...formData, lastName: e.target.value})}
@@ -64,7 +140,8 @@ export default function Home() {
                 <input
                   type="email"
                   id="email"
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400"
+                  required
+                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="johndoe@gmail.com"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -78,11 +155,16 @@ export default function Home() {
                 <input
                   type="password"
                   id="password"
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400"
+                  required
+                  minLength={8}
+                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="********"
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
+                <p className="text-sm text-gray-400 mt-1">
+                  Must be at least 8 characters with uppercase, lowercase, numbers, and special characters
+                </p>
               </div>
 
               <div>
@@ -92,18 +174,24 @@ export default function Home() {
                 <input
                   type="tel"
                   id="phone"
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400"
-                  placeholder="432-875-9864"
+                  required
+                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  placeholder="+1 (555) 555-5555"
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 />
+                <p className="text-sm text-gray-400 mt-1">
+                  Format: +1 followed by your number
+                </p>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
+                disabled={isLoading}
+                className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200
+                  ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                SIGN UP
+                {isLoading ? 'Creating Account...' : 'SIGN UP'}
               </button>
             </form>
 
@@ -137,6 +225,7 @@ export default function Home() {
               width={600}
               height={600}
               className="object-contain"
+              priority
             />
           </div>
         </div>
