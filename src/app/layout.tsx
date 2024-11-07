@@ -7,7 +7,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: 'AirInvst - Watch Your Investments Soar',
   description: 'Investment platform for real estate analysis using Airbnb and Zillow data',
+
 };
+
 
 export default function RootLayout({
   children,

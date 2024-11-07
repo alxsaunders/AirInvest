@@ -11,6 +11,7 @@
     "get-test-item": "ts-node src/app/api/items/get-test-item.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-cognito-identity": "^3.686.0",
     "@aws-sdk/client-dynamodb": "^3.675.0",
     "@aws-sdk/lib-dynamodb": "^3.675.0",
     "@react-google-maps/api": "^2.20.3",
@@ -18,6 +19,7 @@
     "@react-three/fiber": "^8.17.10",
     "@types/three": "^0.169.0",
     "apify-client": "^2.9.7",
+    "aws-amplify": "^6.8.0",
     "aws-sdk": "^2.1691.0",
     "next": "14.2.15",
     "react": "^18",
