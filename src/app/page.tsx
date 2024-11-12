@@ -6,6 +6,10 @@ import { useRouter } from 'next/navigation';
 import { signUp } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import { getCurrentUser } from 'aws-amplify/auth';
+import Head from 'next/head';
+
+
+
 
 // Configure Amplify with hardcoded values
 Amplify.configure({
@@ -102,6 +106,7 @@ export default function Home() {
   };
 
   return (
+    
     <div className="min-h-screen bg-[#1E1E1E] text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

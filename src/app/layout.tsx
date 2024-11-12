@@ -8,11 +8,16 @@ import '@/lib/auth-config';
 import { AuthProvider } from '@/context/AuthContext';
 import NavBar from '@/components/NavBar';
 import './globals.css';
+import { metadata } from './metadata';
+
+
 
 const inter = Inter({ subsets: ['latin'] });
 
 // Define protected routes that require authentication
 const protectedRoutes = ['/dashboard', '/profile', '/settings'];
+
+
 
 function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -58,6 +63,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+       <head>
+          <meta name="description" content={metadata.description} />
+          <title>{metadata.title}</title>
+        </head>
       <body className={inter.className}>
         <AuthProvider>
           <RootLayoutContent>{children}</RootLayoutContent>
