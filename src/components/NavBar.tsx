@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { fetchUserAttributes } from 'aws-amplify/auth';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 const NavBar = () => {
   const pathname = usePathname();
@@ -20,6 +21,7 @@ const NavBar = () => {
   const getUserAttributes = async () => {
     if (user) {
       try {
+        const currentUser = await getCurrentUser();
         const attributes = await fetchUserAttributes();
         setFirstName(attributes.given_name || attributes.name?.split(' ')[0] || null);
       } catch (error) {
@@ -53,7 +55,7 @@ const NavBar = () => {
     <nav className="bg-[#1E1E1E] p-4">
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
+        <Link href={firstName ? "/dashboard" : "/"} className="flex items-center space-x-2">
             <div className="flex items-center">
               <span className="text-white text-2xl font-bold">AirInvst</span>
               <span className="text-blue-400 ml-2">
@@ -63,10 +65,11 @@ const NavBar = () => {
               </span>
             </div>
           </Link>
+
           
           <div className="flex items-center space-x-8">
-            <Link 
-              href="/" 
+          <Link 
+              href={firstName ? "/dashboard" : "/"} 
               className={`text-white hover:text-blue-400 font-medium ${isActive('/')}`}
             >
               Home

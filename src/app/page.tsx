@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { signUp } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 // Configure Amplify with hardcoded values
 Amplify.configure({
@@ -27,6 +28,20 @@ export default function Home() {
     password: '',
     phone: ''
   });
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        await getCurrentUser();
+        // Redirect to dashboard if authenticated
+        router.push('/dashboard');
+      } catch (error) {
+        // User is not logged in, stay on the sign-up page
+      }
+    };
+
+    checkUser();
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
