@@ -5,6 +5,13 @@ const nextConfig = {
     images: {
         domains: ['photos.zillowstatic.com', 'a0.muscache.com', 'airbnb-photos.com'],
     },
-  };
-  
-  export default nextConfig;
+    webpack: (config) => {
+        config.module.rules.push({
+            test: /\.csv$/,
+            use: 'raw-loader'
+        });
+        return config;
+    },
+};
+
+export default nextConfig;
