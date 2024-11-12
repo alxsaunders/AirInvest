@@ -4,27 +4,40 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { fetchUserAttributes } from 'aws-amplify/auth';
 
 const NavBar = () => {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [userName, setUserName] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) {
-      setUserName(user.signInDetails?.loginId?.split('@')[0] || null);
-    } else {
-      setUserName(null);
-    }
-    setIsLoading(false);
+    getUserAttributes();
   }, [user, pathname]);
+
+  const getUserAttributes = async () => {
+    if (user) {
+      try {
+        const attributes = await fetchUserAttributes();
+        setFirstName(attributes.given_name || attributes.name?.split(' ')[0] || null);
+      } catch (error) {
+        console.error('Error fetching user attributes:', error);
+        setFirstName(null);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setFirstName(null);
+      setIsLoading(false);
+    }
+  };
 
   const handleSignOut = async () => {
     try {
       await logout();
-      setUserName(null);
+      setFirstName(null);
       setShowDropdown(false);
       window.location.href = '/';
     } catch (error) {
@@ -72,13 +85,13 @@ const NavBar = () => {
             </Link>
 
             {!isLoading && (
-              userName ? (
+              firstName ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowDropdown(!showDropdown)}
                     className="flex items-center space-x-1 text-white hover:text-blue-400 font-medium focus:outline-none"
                   >
-                    <span>Hello, {userName}</span>
+                    <span>Hello, {firstName}</span>
                     <svg
                       className={`w-4 h-4 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
                       fill="none"
