@@ -1,11 +1,36 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
-const NavBar: React.FC = () => {
+const NavBar = () => {
   const pathname = usePathname();
+  const { user, logout } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user.signInDetails?.loginId?.split('@')[0] || null);
+    } else {
+      setUserName(null);
+    }
+    setIsLoading(false);
+  }, [user, pathname]);
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+      setUserName(null);
+      setShowDropdown(false);
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   const isActive = React.useCallback((path: string): string => {
     return pathname === path ? 'text-blue-400' : '';
@@ -45,12 +70,57 @@ const NavBar: React.FC = () => {
             >
               About
             </Link>
-            <Link 
-              href="/login" 
-              className="text-white hover:text-blue-400 font-medium"
-            >
-              Login/SignUp
-            </Link>
+
+            {!isLoading && (
+              userName ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    className="flex items-center space-x-1 text-white hover:text-blue-400 font-medium focus:outline-none"
+                  >
+                    <span>Hello, {userName}</span>
+                    <svg
+                      className={`w-4 h-4 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  {showDropdown && (
+                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                      <Link
+                        href="/dashboard"
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link 
+                  href="/login"  
+                  className="text-white hover:text-blue-400 font-medium"
+                >
+                  Login/SignUp
+                </Link>
+              )
+            )}
           </div>
         </div>
       </div>

@@ -1,26 +1,28 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  
-  // Check authentication
-  const isAuthenticated = request.cookies.get('authenticated');
+export function middleware(req: NextRequest) {
+  // Get the current path
+  const path = req.nextUrl.pathname;
 
-  // Protected routes pattern
-  const isProtectedRoute = pathname.startsWith('/dashboard');
+  // Check for Amplify auth tokens - both idToken and accessToken for reliability
+  const idToken = req.cookies.get('amplify.idToken');
+  const accessToken = req.cookies.get('amplify.accessToken');
+  const isAuthenticated = !!(idToken && accessToken);
 
-  if (isProtectedRoute && !isAuthenticated) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+  // // If user is trying to access login while authenticated
+  // if (isAuthenticated) {
+  //   return NextResponse.redirect(new URL('/dashboard', req.url));
+  // }
 
-  if (isAuthenticated && (pathname === '/login' || pathname === '/register')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
+  // // If user is trying to access dashboard while not authenticated
+  // if (!isAuthenticated) {
+  //   return NextResponse.redirect(new URL('/login', req.url));
+  // }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/register']
+  matcher: ['/login', '/dashboard']
 };
