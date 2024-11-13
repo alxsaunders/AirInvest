@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { MapPin, TrendingUp, Home } from 'lucide-react';
-
+import { MapPin, TrendingUp, Home, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface MarketData {
   RegionID: string;
@@ -24,6 +31,9 @@ const MarketAnalysis = () => {
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [cityData, setCityData] = useState<MarketData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [filteredCities, setFilteredCities] = useState<Array<{ name: string; id: string }>>([]);
 
   // Load cities on component mount
   useEffect(() => {
@@ -32,6 +42,7 @@ const MarketAnalysis = () => {
         const response = await fetch('/api/market-data/cities');
         const data = await response.json();
         setCities(data);
+        setFilteredCities(data);
         setSelectedCity(data[0]?.name || '');
       } catch (error) {
         console.error('Error loading cities:', error);
@@ -40,6 +51,35 @@ const MarketAnalysis = () => {
 
     loadCities();
   }, []);
+
+  // Filter cities based on search term and filter type
+  useEffect(() => {
+    let filtered = cities;
+
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(city => 
+        city.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Apply type filter
+    if (filter !== 'all') {
+      // This is a placeholder - you'll need to adjust based on your actual data structure
+      filtered = filtered.filter(city => {
+        switch (filter) {
+          case 'metro':
+            return city.name.includes('Metro');
+          case 'city':
+            return !city.name.includes('Metro');
+          default:
+            return true;
+        }
+      });
+    }
+
+    setFilteredCities(filtered);
+  }, [searchTerm, filter, cities]);
 
   // Load city data when selection changes
   useEffect(() => {
@@ -84,22 +124,54 @@ const MarketAnalysis = () => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <div className="flex justify-between items-center">
+        <div className="space-y-4">
           <CardTitle className="flex items-center gap-2">
             <MapPin className="w-5 h-5" />
             Market Analysis
           </CardTitle>
-          <select 
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            className="p-2 border rounded-md"
-          >
-            {cities.map(city => (
-              <option key={city.id} value={city.name}>
-                {city.name}
-              </option>
-            ))}
-          </select>
+          
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* Search Input */}
+            <div className="relative flex-1">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+              <Input
+                type="text"
+                placeholder="Search locations..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8"
+              />
+            </div>
+
+            {/* Filter Dropdown */}
+            <Select value={filter} onValueChange={setFilter}>
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="Filter by type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Locations</SelectItem>
+                <SelectItem value="metro">Metro Areas</SelectItem>
+                <SelectItem value="city">Cities</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* City Selection */}
+            <Select 
+              value={selectedCity} 
+              onValueChange={setSelectedCity}
+            >
+              <SelectTrigger className="w-full sm:w-[200px]">
+                <SelectValue placeholder="Select location" />
+              </SelectTrigger>
+              <SelectContent>
+                {filteredCities.map(city => (
+                  <SelectItem key={city.id} value={city.name}>
+                    {city.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </CardHeader>
       
