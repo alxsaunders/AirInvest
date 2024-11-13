@@ -4,8 +4,8 @@ import { getCurrentUser } from 'aws-amplify/auth';
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: 'us-east-1_6rob18eEz',
-      userPoolClientId: '1s2u15tlv7uh3hv226a48ecjp5',
+      userPoolId: process.env.NEXT_PUBLIC_AWS_USER_POOL_ID!,
+      userPoolClientId: process.env.NEXT_PUBLIC_AWS_CLIENT_ID!,
       signUpVerificationMethod: 'code'
     }
   }

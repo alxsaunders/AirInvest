@@ -9,7 +9,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import NavBar from '@/components/NavBar';
 import './globals.css';
 import { metadata } from './metadata';
-
+import './globals.css'
 
 
 const inter = Inter({ subsets: ['latin'] });

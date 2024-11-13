@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getCurrentUser } from 'aws-amplify/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'; // Add router import
+import MarketAnalysis from '@/components/MarketAnalysis';
 
 export default function Dashboard() {
   const router = useRouter(); // Initialize router
@@ -109,6 +110,10 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 className="text-2xl font-bold text-white mb-8">Market Analysis</h1>
+        <MarketAnalysis />
       </div>
 
         {/* Map Section */}
