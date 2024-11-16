@@ -1,16 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getCurrentUser } from 'aws-amplify/auth';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Add router import
+import { useRouter } from 'next/navigation';
 import MarketAnalysis from '@/components/MarketAnalysis';
+import Map from '@/components/DashMap';
+import Script from 'next/script';
 
 export default function Dashboard() {
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<google.maps.LatLngLiteral>({
+    lat: 28.5999998,
+    lng: -81.3392352
+  });
 
   useEffect(() => {
     checkAuth();
@@ -23,20 +29,39 @@ export default function Dashboard() {
       setUserName(email ? email.split('@')[0] : null);
     } catch (error) {
       setUserName(null);
-      // Redirect to login if auth fails
       router.push('/login');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Handle search submit
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      // Handle search logic here
-      console.log('Searching for:', searchQuery);
+  const handleCityChange = useCallback(async (cityName: string) => {
+    if (!window.google || !cityName) return;
+    
+    const geocoder = new google.maps.Geocoder();
+    try {
+      const result = await new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
+        geocoder.geocode({ address: cityName }, (results, status) => {
+          if (status === 'OK' && results) {
+            resolve(results);
+          } else {
+            reject(status);
+          }
+        });
+      });
+      
+      const location = {
+        lat: result[0].geometry.location.lat(),
+        lng: result[0].geometry.location.lng()
+      };
+      setSelectedLocation(location);
+    } catch (error) {
+      console.error('Geocoding error:', error);
     }
+  }, []);
+
+  const handleGoogleMapsLoad = () => {
+    setMapLoaded(true);
   };
 
   if (isLoading) {
@@ -65,65 +90,30 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
-      {/* Hero Search Section */}
-      <div className="relative pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-8">
-              Search Location
-            </h1>
-            
-            <div className="max-w-2xl mx-auto">
-              <form onSubmit={handleSearch}>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Winter Park, 32792"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-6 py-4 rounded-full bg-white/20 backdrop-blur-md 
-                             text-white placeholder-white/70 text-lg border border-white/10
-                             focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <button 
-                    type="submit"
-                    className="absolute right-4 top-1/2 -translate-y-1/2
-                             hover:text-blue-400 transition-colors"
-                  >
-                    <svg 
-                      className="w-6 h-6 text-white" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+    <>
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
+        onLoad={handleGoogleMapsLoad}
+      />
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <h1 className="text-2xl font-bold text-white mb-8">Market Analysis</h1>
+          <MarketAnalysis onCityChange={handleCityChange} />
         </div>
-      </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-2xl font-bold text-white mb-8">Market Analysis</h1>
-        <MarketAnalysis />
-      </div>
 
-        {/* Map Section */}
-        <div className="mt-8">
-          <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 h-96">
+        <div className="mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+          <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6">
             <h2 className="text-xl font-semibold text-white mb-4">Map View</h2>
-            {/* Add your map component here */}
+            {mapLoaded && (
+              <Map
+                center={selectedLocation}
+                zoom={12}
+                markers={[{ position: selectedLocation, title: 'Selected Location' }]}
+              />
+            )}
           </div>
         </div>
       </div>
- 
+    </>
   );
 }
