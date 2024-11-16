@@ -1,8 +1,9 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { MapPin, TrendingUp, Home, Search, ChevronDown } from 'lucide-react';
-import { parse } from 'csv-parse/sync';
+import { MapPin, TrendingUp, Home, ChevronDown } from 'lucide-react';
 
 interface MarketData {
   RegionID: string;
@@ -19,7 +20,11 @@ interface MarketData {
   }>;
 }
 
-const MarketAnalysis = () => {
+interface MarketAnalysisProps {
+  onCityChange: (city: string) => Promise<void>;
+}
+
+const MarketAnalysis: React.FC<MarketAnalysisProps> = ({ onCityChange }) => {
   const [cities, setCities] = useState<Array<{ name: string; id: string }>>([]);
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [cityData, setCityData] = useState<MarketData | null>(null);
@@ -28,15 +33,15 @@ const MarketAnalysis = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [displayValue, setDisplayValue] = useState('');
 
-  // Load cities on component mount
   useEffect(() => {
     const loadCities = async () => {
       try {
         const response = await fetch('/api/market-data/cities');
         const data = await response.json();
         setCities(data);
-        setSelectedCity(data[0]?.name || '');
-        setDisplayValue(data[0]?.name || '');
+        if (data[0]?.name) {
+          await handleSelectCity(data[0].name);
+        }
       } catch (error) {
         console.error('Error loading cities:', error);
       }
@@ -45,7 +50,6 @@ const MarketAnalysis = () => {
     loadCities();
   }, []);
 
-  // Load city data when selection changes
   useEffect(() => {
     const loadCityData = async () => {
       if (!selectedCity) return;
@@ -73,16 +77,12 @@ const MarketAnalysis = () => {
     }).format(value);
   };
 
-  // Filter cities based on search term
-  const filteredCities = cities.filter(city =>
-    city.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleSelectCity = (cityName: string) => {
+  const handleSelectCity = async (cityName: string) => {
     setSelectedCity(cityName);
     setDisplayValue(cityName);
     setSearchTerm('');
     setIsOpen(false);
+    await onCityChange(cityName);
   };
 
   const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -131,15 +131,20 @@ const MarketAnalysis = () => {
             </div>
             {isOpen && (
               <div className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-white border rounded-md shadow-lg">
-                {filteredCities.map(city => (
-                  <div
-                    key={city.id}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleSelectCity(city.name)}
-                  >
-                    {city.name}
-                  </div>
-                ))}
+                {cities
+                  .filter(city => 
+                    city.name.toLowerCase().includes(searchTerm.toLowerCase())
+                  )
+                  .map(city => (
+                    <div
+                      key={city.id}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleSelectCity(city.name)}
+                    >
+                      {city.name}
+                    </div>
+                  ))
+                }
               </div>
             )}
           </div>
@@ -149,7 +154,6 @@ const MarketAnalysis = () => {
       <CardContent>
         {cityData && (
           <div className="space-y-6">
-            {/* Current Home Value */}
             <div className="bg-blue-50 p-4 rounded-lg">
               <div className="flex items-center gap-2 text-blue-700 mb-2">
                 <Home className="w-5 h-5" />
@@ -163,7 +167,6 @@ const MarketAnalysis = () => {
               </p>
             </div>
 
-            {/* Price Trend Chart */}
             <div className="h-64">
               <h3 className="text-sm font-semibold mb-2">Price Trend</h3>
               <ResponsiveContainer width="100%" height="100%">
@@ -196,7 +199,6 @@ const MarketAnalysis = () => {
               </ResponsiveContainer>
             </div>
 
-            {/* Price Forecast */}
             {cityData.forecasts.length > 0 && (
               <div className="bg-green-50 p-4 rounded-lg">
                 <div className="flex items-center gap-2 text-green-700 mb-2">
