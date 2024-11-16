@@ -1,29 +1,30 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useCallback } from 'react';
-import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import MarketAnalysis from '@/components/MarketAnalysis';
-import Map from '@/components/DashMap';
-import Script from 'next/script';
+import { useEffect, useState, useCallback } from "react";
+import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import MarketAnalysis from "@/components/MarketAnalysis";
+import Map from "@/components/DashMap";
+import Script from "next/script";
 
 export default function Dashboard() {
   const router = useRouter();
   const [firstName, setFirstName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState<google.maps.LatLngLiteral>({
-    lat: 28.5999998,
-    lng: -81.3392352
-  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedLocation, setSelectedLocation] =
+    useState<google.maps.LatLngLiteral>({
+      lat: 28.5999998,
+      lng: -81.3392352,
+    });
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return 'Good Morning';
-    if (hour >= 12 && hour < 18) return 'Good Afternoon';
-    return 'Good Evening';
+    if (hour >= 5 && hour < 12) return "Good Morning";
+    if (hour >= 12 && hour < 18) return "Good Afternoon";
+    return "Good Evening";
   };
 
   useEffect(() => {
@@ -36,19 +37,21 @@ export default function Dashboard() {
       if (currentUser) {
         try {
           const attributes = await fetchUserAttributes();
-          setFirstName(attributes.given_name || attributes.name?.split(' ')[0] || null);
+          setFirstName(
+            attributes.given_name || attributes.name?.split(" ")[0] || null
+          );
         } catch (error) {
-          console.error('Error fetching user attributes:', error);
+          console.error("Error fetching user attributes:", error);
           setFirstName(null);
         } finally {
           setIsLoading(false);
         }
       } else {
-        router.push('/login');
+        router.push("/login");
       }
     } catch (error) {
-      console.error('Error checking auth:', error);
-      router.push('/login');
+      console.error("Error checking auth:", error);
+      router.push("/login");
     }
   };
 
@@ -57,49 +60,53 @@ export default function Dashboard() {
     if (searchQuery.trim() && window.google) {
       const geocoder = new google.maps.Geocoder();
       try {
-        const result = await new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
-          geocoder.geocode({ address: searchQuery }, (results, status) => {
-            if (status === 'OK' && results) {
-              resolve(results);
-            } else {
-              reject(status);
-            }
-          });
-        });
-        
+        const result = await new Promise<google.maps.GeocoderResult[]>(
+          (resolve, reject) => {
+            geocoder.geocode({ address: searchQuery }, (results, status) => {
+              if (status === "OK" && results) {
+                resolve(results);
+              } else {
+                reject(status);
+              }
+            });
+          }
+        );
+
         const location = {
           lat: result[0].geometry.location.lat(),
-          lng: result[0].geometry.location.lng()
+          lng: result[0].geometry.location.lng(),
         };
         setSelectedLocation(location);
       } catch (error) {
-        console.error('Geocoding error:', error);
+        console.error("Geocoding error:", error);
       }
     }
   };
 
   const handleCityChange = useCallback(async (cityName: string) => {
     if (!window.google || !cityName) return;
-    
+
     const geocoder = new google.maps.Geocoder();
     try {
-      const result = await new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
-        geocoder.geocode({ address: cityName }, (results, status) => {
-          if (status === 'OK' && results) {
-            resolve(results);
-          } else {
-            reject(status);
-          }
-        });
-      });
-      
+      const result = await new Promise<google.maps.GeocoderResult[]>(
+        (resolve, reject) => {
+          geocoder.geocode({ address: cityName }, (results, status) => {
+            if (status === "OK" && results) {
+              resolve(results);
+            } else {
+              reject(status);
+            }
+          });
+        }
+      );
+
       const location = {
         lat: result[0].geometry.location.lat(),
-        lng: result[0].geometry.location.lng()
+        lng: result[0].geometry.location.lng(),
       };
       setSelectedLocation(location);
     } catch (error) {
-      console.error('Geocoding error:', error);
+      console.error("Geocoding error:", error);
     }
   }, []);
 
@@ -115,9 +122,13 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
         <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Sign In Required</h2>
-          <p className="text-gray-300 mb-6">Please sign in to access the dashboard</p>
-          <Link 
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Sign In Required
+          </h2>
+          <p className="text-gray-300 mb-6">
+            Please sign in to access the dashboard
+          </p>
+          <Link
             href="/login"
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
@@ -127,7 +138,6 @@ export default function Dashboard() {
       </div>
     );
   }
-
 
   return (
     <>
@@ -140,7 +150,8 @@ export default function Dashboard() {
         <div className="w-full bg-gray-800/50 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <h1 className="text-3xl font-bold text-white">
-              {getGreeting()}, <span className="text-blue-400">{firstName}</span>
+              {getGreeting()},{" "}
+              <span className="text-blue-400">{firstName}</span>
             </h1>
           </div>
         </div>
@@ -152,7 +163,7 @@ export default function Dashboard() {
               <h1 className="text-4xl font-bold text-white mb-8">
                 Search Location
               </h1>
-              
+
               <div className="max-w-2xl mx-auto">
                 <form onSubmit={handleSearch}>
                   <div className="relative">
@@ -165,22 +176,22 @@ export default function Dashboard() {
                                text-white placeholder-white/70 text-lg border border-white/10
                                focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <button 
+                    <button
                       type="submit"
                       className="absolute right-4 top-1/2 -translate-y-1/2
                                hover:text-blue-400 transition-colors"
                     >
-                      <svg 
-                        className="w-6 h-6 text-white" 
-                        fill="none" 
-                        stroke="currentColor" 
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
                       >
-                        <path 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
-                          strokeWidth={2} 
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                         />
                       </svg>
                     </button>
@@ -196,25 +207,44 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Market Analysis Side */}
             <div>
-              <h1 className="text-2xl font-bold text-white mb-8">Market Analysis</h1>
+              <h1 className="text-2xl font-bold text-white mb-8">
+                Market Analysis
+              </h1>
               <MarketAnalysis onCityChange={handleCityChange} />
             </div>
 
             {/* Map Side */}
             <div className="flex flex-col">
               <h2 className="text-2xl font-bold text-white mb-8">Map View</h2>
-              <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 flex-grow">
+              <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 mb-4" style={{ height: '450px' }}>
                 {mapLoaded ? (
                   <Map
                     center={selectedLocation}
                     zoom={12}
-                    markers={[{ position: selectedLocation, title: 'Selected Location' }]}
+                    markers={[
+                      {
+                        position: selectedLocation,
+                        title: "Selected Location",
+                      },
+                    ]}
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
                   </div>
                 )}
+              </div>
+
+              {/* Reduced margin-bottom on title and top-margin on card */}
+              <h2 className="text-2xl font-bold text-white mb-4">
+                Saved Location
+              </h2>
+              <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6">
+                <div className="flex justify-end">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    View
+                  </button>
+                </div>
               </div>
             </div>
           </div>
