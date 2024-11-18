@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
-import { Property, SearchFilters, LocationUpdate } from '@/types/property';
-import { generateZillowUrl } from '@/utils/zillow';
-import PropertyResults from './PropertyResults';
+import { SearchFilters, LocationUpdate } from '@/types/property';
 
 interface PropertySearchProps {
   onLocationUpdate: (location: LocationUpdate) => void;
@@ -46,11 +45,10 @@ const bathOptions = [
 ];
 
 export default function PropertySearch({ onLocationUpdate }: PropertySearchProps) {
+  const router = useRouter();
   const [city, setCity] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [isStateOpen, setIsStateOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [properties, setProperties] = useState<Property[]>([]);
   const [filters, setFilters] = useState<SearchFilters>({
     minPrice: '',
     maxPrice: '',
@@ -71,9 +69,8 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
     e.preventDefault();
     if (!city || !selectedState) return;
 
-    setIsLoading(true);
     try {
-      // First, get the coordinates for the map
+      // Get coordinates for the map
       const geocoder = new google.maps.Geocoder();
       const result = await new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
         geocoder.geocode({ address: `${city}, ${selectedState}` }, (results, status) => {
@@ -90,35 +87,24 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
         lng: result[0].geometry.location.lng()
       };
 
+      // Update map
       onLocationUpdate(location);
 
-      // Generate Zillow search URL and fetch properties
-      const searchUrl = generateZillowUrl(city, selectedState, filters);
-      const response = await fetch('/api/zillow/search', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          url: searchUrl,
-          filters: {
-            ...filters,
-            city,
-            state: selectedState
-          }
-        }),
+      // Navigate to results with necessary params
+      const searchParams = new URLSearchParams({
+        city,
+        state: selectedState,
+        lat: location.lat.toString(),
+        lng: location.lng.toString(),
+        ...(filters.minPrice && { minPrice: filters.minPrice }),
+        ...(filters.maxPrice && { maxPrice: filters.maxPrice }),
+        ...(filters.beds && { beds: filters.beds }),
+        ...(filters.baths && { baths: filters.baths })
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch properties');
-      }
-
-      const data = await response.json();
-      setProperties(data);
+      router.push(`/results?${searchParams.toString()}`);
     } catch (error) {
       console.error('Search failed:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -134,8 +120,8 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
               onChange={(e) => setCity(e.target.value)}
               placeholder="Enter city..."
               className="w-full px-6 py-4 rounded-l-full bg-white/20 backdrop-blur-md 
-                     text-white placeholder-white/70 text-lg border border-white/10
-                     focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       text-white placeholder-white/70 text-lg border border-white/10
+                       focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           
@@ -144,7 +130,7 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
               type="button"
               onClick={() => setIsStateOpen(!isStateOpen)}
               className="w-full px-6 py-4 rounded-r-full bg-white/20 backdrop-blur-md 
-                     text-white text-lg border border-white/10 flex items-center justify-between"
+                       text-white text-lg border border-white/10 flex items-center justify-between"
             >
               {selectedState || 'State'}
               <ChevronDown className="w-5 h-5" />
@@ -211,16 +197,12 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
           <button
             type="submit"
             className="px-8 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
-                   transition-colors flex-shrink-0"
+                     transition-colors flex-shrink-0"
           >
             Search
           </button>
         </div>
       </form>
-
-      <div className="mt-8">
-        <PropertyResults properties={properties} isLoading={isLoading} />
-      </div>
     </div>
   );
 }

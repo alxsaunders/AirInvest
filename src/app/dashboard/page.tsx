@@ -5,20 +5,20 @@ import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import MarketAnalysis from "@/components/MarketAnalysis";
+import PropertySearch from "@/components/PropertySearch";
 import Map from "@/components/DashMap";
 import Script from "next/script";
+import { LocationUpdate } from "@/types/property";
 
 export default function Dashboard() {
   const router = useRouter();
   const [firstName, setFirstName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLocation, setSelectedLocation] =
-    useState<google.maps.LatLngLiteral>({
-      lat: 28.5999998,
-      lng: -81.3392352,
-    });
+  const [selectedLocation, setSelectedLocation] = useState<google.maps.LatLngLiteral>({
+    lat: 28.5999998,
+    lng: -81.3392352,
+  });
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -55,34 +55,12 @@ export default function Dashboard() {
     }
   };
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim() && window.google) {
-      const geocoder = new google.maps.Geocoder();
-      try {
-        const result = await new Promise<google.maps.GeocoderResult[]>(
-          (resolve, reject) => {
-            geocoder.geocode({ address: searchQuery }, (results, status) => {
-              if (status === "OK" && results) {
-                resolve(results);
-              } else {
-                reject(status);
-              }
-            });
-          }
-        );
-
-        const location = {
-          lat: result[0].geometry.location.lat(),
-          lng: result[0].geometry.location.lng(),
-        };
-        setSelectedLocation(location);
-      } catch (error) {
-        console.error("Geocoding error:", error);
-      }
-    }
+  // Handle location updates from PropertySearch
+  const handleLocationUpdate = (location: LocationUpdate) => {
+    setSelectedLocation(location);
   };
 
+  // Handle location updates from MarketAnalysis
   const handleCityChange = useCallback(async (cityName: string) => {
     if (!window.google || !cityName) return;
 
@@ -122,12 +100,8 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
         <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            Sign In Required
-          </h2>
-          <p className="text-gray-300 mb-6">
-            Please sign in to access the dashboard
-          </p>
+          <h2 className="text-2xl font-bold text-white mb-4">Sign In Required</h2>
+          <p className="text-gray-300 mb-6">Please sign in to access the dashboard</p>
           <Link
             href="/login"
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -150,59 +124,24 @@ export default function Dashboard() {
         <div className="w-full bg-gray-800/50 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <h1 className="text-3xl font-bold text-white">
-              {getGreeting()},{" "}
-              <span className="text-blue-400">{firstName}</span>
+              {getGreeting()}, <span className="text-blue-400">{firstName}</span>
             </h1>
           </div>
         </div>
 
-        {/* Search Section */}
+        {/* Property Search Section */}
         <div className="relative pt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-white mb-8">
-                Search Location
+                Search Properties
               </h1>
-
-              <div className="max-w-2xl mx-auto">
-                <form onSubmit={handleSearch}>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Winter Park, 32792"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full px-6 py-4 rounded-full bg-white/20 backdrop-blur-md 
-                               text-white placeholder-white/70 text-lg border border-white/10
-                               focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <button
-                      type="submit"
-                      className="absolute right-4 top-1/2 -translate-y-1/2
-                               hover:text-blue-400 transition-colors"
-                    >
-                      <svg
-                        className="w-6 h-6 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </form>
-              </div>
+              <PropertySearch onLocationUpdate={handleLocationUpdate} />
             </div>
           </div>
         </div>
 
-        {/* Market Analysis and Map Section - Side by Side */}
+        {/* Market Analysis and Map Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Market Analysis Side */}
@@ -216,7 +155,10 @@ export default function Dashboard() {
             {/* Map Side */}
             <div className="flex flex-col">
               <h2 className="text-2xl font-bold text-white mb-8">Map View</h2>
-              <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 mb-4" style={{ height: '450px' }}>
+              <div 
+                className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 mb-4" 
+                style={{ height: '450px' }}
+              >
                 {mapLoaded ? (
                   <Map
                     center={selectedLocation}
@@ -235,7 +177,6 @@ export default function Dashboard() {
                 )}
               </div>
 
-              {/* Reduced margin-bottom on title and top-margin on card */}
               <h2 className="text-2xl font-bold text-white mb-4">
                 Saved Location
               </h2>
