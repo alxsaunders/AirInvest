@@ -195,12 +195,11 @@ export default function ResultsPage() {
                   <h3 className="text-lg font-semibold text-white">
                     {property.address || 'Address not available'}
                   </h3>
-                  <h4>
-                  {property.detailUrl || 'link not available'}
-
-                  </h4>
+                  <a href={property.detailUrl || '#'} target="_blank" rel="noopener noreferrer">
+  {property.detailUrl ? 'View On Zillow' : 'Link not available'}
+</a>
                   <p className="text-gray-300 mt-2">
-                    {formatPrice(property.price)}
+                    {formatNumber(property.price)}
                   </p>
                   <div className="text-gray-400 mt-2">
                     {formatNumber(property.beds)} beds • {formatNumber(property.baths)} baths
