@@ -12,13 +12,15 @@ import { LocationUpdate } from "@/types/property";
 
 export default function Dashboard() {
   const router = useRouter();
+  const [initialLoad, setInitialLoad] = useState(false);
   const [firstName, setFirstName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<google.maps.LatLngLiteral>({
-    lat: 28.5999998,
-    lng: -81.3392352,
-  });
+  const [selectedLocation, setSelectedLocation] =
+    useState<google.maps.LatLngLiteral>({
+      lat: 28.5999998,
+      lng: -81.3392352,
+    });
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -29,6 +31,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     checkAuth();
+    if (!initialLoad) {
+      setInitialLoad(true);
+      if (!window.performance.navigation.type) {
+        window.location.reload();
+      }
+    }
   }, []);
 
   const checkAuth = async () => {
@@ -100,8 +108,12 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
         <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Sign In Required</h2>
-          <p className="text-gray-300 mb-6">Please sign in to access the dashboard</p>
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Sign In Required
+          </h2>
+          <p className="text-gray-300 mb-6">
+            Please sign in to access the dashboard
+          </p>
           <Link
             href="/login"
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -112,6 +124,7 @@ export default function Dashboard() {
       </div>
     );
   }
+
 
   return (
     <>
@@ -124,7 +137,8 @@ export default function Dashboard() {
         <div className="w-full bg-gray-800/50 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <h1 className="text-3xl font-bold text-white">
-              {getGreeting()}, <span className="text-blue-400">{firstName}</span>
+              {getGreeting()},{" "}
+              <span className="text-blue-400">{firstName}</span>
             </h1>
           </div>
         </div>
@@ -155,9 +169,9 @@ export default function Dashboard() {
             {/* Map Side */}
             <div className="flex flex-col">
               <h2 className="text-2xl font-bold text-white mb-8">Map View</h2>
-              <div 
-                className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 mb-4" 
-                style={{ height: '450px' }}
+              <div
+                className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 mb-4"
+                style={{ height: "450px" }}
               >
                 {mapLoaded ? (
                   <Map
@@ -173,6 +187,12 @@ export default function Dashboard() {
                 ) : (
                   <div className="flex items-center justify-center h-full">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                    {/* <button
+                      onClick={() => window.location.reload()}
+                      className="px-4 py-2 bg-blue-1200 text-white rounded hover:bg-blue-700 transition-colors"
+                    >
+                      Refresh Map
+                    </button> */}
                   </div>
                 )}
               </div>
