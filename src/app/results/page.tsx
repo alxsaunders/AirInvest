@@ -3,6 +3,9 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { getCurrentUser } from "aws-amplify/auth";
+import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 
 interface ZillowProperty {
   zpid: string;
@@ -15,6 +18,17 @@ interface ZillowProperty {
   detailUrl: string;
   [key: string]: any;
 }
+export const checkAuth = async () => {
+    const router = useRouter();
+    try {
+      const user = await getCurrentUser();
+      return { success: true, user };
+    } catch (error) {
+      router.push("/login");
+      return { success: false };
+    }
+   };
+   
 
 export default function ResultsPage() {
   const searchParams = useSearchParams();
@@ -33,6 +47,8 @@ export default function ResultsPage() {
     return `$${price.toLocaleString()}`;
   };
 
+  checkAuth()
+ 
   useEffect(() => {
     const fetchResults = async () => {
       // Prevent duplicate requests in development mode
