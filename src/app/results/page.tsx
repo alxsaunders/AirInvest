@@ -3,6 +3,9 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { getCurrentUser } from "aws-amplify/auth";
+import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 
 interface ZillowProperty {
   zpid: string;
@@ -15,6 +18,17 @@ interface ZillowProperty {
   detailUrl: string;
   [key: string]: any;
 }
+export const checkAuth = async () => {
+    const router = useRouter();
+    try {
+      const user = await getCurrentUser();
+      return { success: true, user };
+    } catch (error) {
+      router.push("/login");
+      return { success: false };
+    }
+   };
+   
 
 export default function ResultsPage() {
   const searchParams = useSearchParams();
@@ -28,13 +42,23 @@ export default function ResultsPage() {
     return num?.toLocaleString() ?? "N/A";
   };
 
-  const formatPrice = (price: number | null | undefined) => {
-    if (!price) return "Price not available";
-    return `$${price.toLocaleString()}`;
-  };
 
+  checkAuth()
+ 
   useEffect(() => {
     const fetchResults = async () => {
+      const isFreshSearch = sessionStorage.getItem('isFreshSearch') === 'true';
+      const cachedResults = sessionStorage.getItem('propertyResults');
+      const cachedParams = sessionStorage.getItem('searchParams');
+
+      if (cachedResults && cachedParams === searchParams.toString() && !isFreshSearch) {
+        console.log("Using cached results");
+        setProperties(JSON.parse(cachedResults));
+        setIsLoading(false);
+        return;
+      }
+      sessionStorage.removeItem('isFreshSearch');
+
       // Prevent duplicate requests in development mode
       if (requestMade.current) {
         console.log("Request already made, skipping...");
@@ -53,6 +77,29 @@ export default function ResultsPage() {
         setError("City and state are required");
         setIsLoading(false);
         return;
+      }
+
+      const useCache = searchParams.get('useCache') === 'true';
+      
+      if (useCache) {
+        // Fetch from cache
+        const cacheResponse = await fetch("/api/check-cache", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            city: searchParams.get('city'),
+            state: searchParams.get('state'),
+          }),
+        });
+        
+        const cacheData = await cacheResponse.json();
+        if (cacheData.results) {
+          setProperties(cacheData.results);
+          setIsLoading(false);
+          return;
+        }
       }
 
       try {
@@ -105,6 +152,22 @@ export default function ResultsPage() {
 
         const data = await response.json();
         setProperties(data);
+
+        await fetch('/api/check-cache', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              city: searchParams.get('city'),
+              state: searchParams.get('state'),
+              results: data
+          })
+      });
+
+        sessionStorage.setItem('propertyResults', JSON.stringify(data));
+        sessionStorage.setItem('searchParams', searchParams.toString());
+
       } catch (error) {
         console.error("Error fetching results:", error);
         setError("Failed to fetch results");

@@ -1,110 +1,188 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ChevronDown } from 'lucide-react';
-import { SearchFilters, LocationUpdate } from '@/types/property';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ChevronDown } from "lucide-react";
+import { SearchFilters, LocationUpdate } from "@/types/property";
 
 interface PropertySearchProps {
   onLocationUpdate: (location: LocationUpdate) => void;
 }
 
 const states = [
-  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
-  'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
-  'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
-  'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
-  'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+  "AL",
+  "AK",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "FL",
+  "GA",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "OH",
+  "OK",
+  "OR",
+  "PA",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
 ];
 
 const priceRanges = [
-  { label: 'Any Price', value: '' },
-  { label: 'Under $200k', value: '0-200000' },
-  { label: '$200k-$400k', value: '200000-400000' },
-  { label: '$400k-$600k', value: '400000-600000' },
-  { label: '$600k-$800k', value: '600000-800000' },
-  { label: '$800k-$1M', value: '800000-1000000' },
-  { label: 'Over $1M', value: '1000000-' }
+  { label: "Any Price", value: "" },
+  { label: "Under $200k", value: "0-200000" },
+  { label: "$200k-$400k", value: "200000-400000" },
+  { label: "$400k-$600k", value: "400000-600000" },
+  { label: "$600k-$800k", value: "600000-800000" },
+  { label: "$800k-$1M", value: "800000-1000000" },
+  { label: "Over $1M", value: "1000000-" },
 ];
 
 const bedOptions = [
-  { label: 'Any', value: '' },
-  { label: '1+', value: '1' },
-  { label: '2+', value: '2' },
-  { label: '3+', value: '3' },
-  { label: '4+', value: '4' },
-  { label: '5+', value: '5' }
+  { label: "Any", value: "" },
+  { label: "1+", value: "1" },
+  { label: "2+", value: "2" },
+  { label: "3+", value: "3" },
+  { label: "4+", value: "4" },
+  { label: "5+", value: "5" },
 ];
 
 const bathOptions = [
-  { label: 'Any', value: '' },
-  { label: '1+', value: '1' },
-  { label: '2+', value: '2' },
-  { label: '3+', value: '3' },
-  { label: '4+', value: '4' }
+  { label: "Any", value: "" },
+  { label: "1+", value: "1" },
+  { label: "2+", value: "2" },
+  { label: "3+", value: "3" },
+  { label: "4+", value: "4" },
 ];
 
-export default function PropertySearch({ onLocationUpdate }: PropertySearchProps) {
+export default function PropertySearch({
+  onLocationUpdate,
+}: PropertySearchProps) {
   const router = useRouter();
-  const [city, setCity] = useState('');
-  const [selectedState, setSelectedState] = useState('');
+  const [city, setCity] = useState("");
+  const [selectedState, setSelectedState] = useState("");
   const [isStateOpen, setIsStateOpen] = useState(false);
   const [filters, setFilters] = useState<SearchFilters>({
-    minPrice: '',
-    maxPrice: '',
-    beds: '',
-    baths: ''
+    minPrice: "",
+    maxPrice: "",
+    beds: "",
+    baths: "",
   });
 
   const handlePriceRangeChange = (range: string) => {
     if (!range) {
-      setFilters(prev => ({ ...prev, minPrice: '', maxPrice: '' }));
+      setFilters((prev) => ({ ...prev, minPrice: "", maxPrice: "" }));
       return;
     }
-    const [min, max] = range.split('-');
-    setFilters(prev => ({ ...prev, minPrice: min, maxPrice: max }));
+    const [min, max] = range.split("-");
+    setFilters((prev) => ({ ...prev, minPrice: min, maxPrice: max }));
   };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!city || !selectedState) return;
 
-    try {
-      // Get coordinates for the map
-      const geocoder = new google.maps.Geocoder();
-      const result = await new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
-        geocoder.geocode({ address: `${city}, ${selectedState}` }, (results, status) => {
-          if (status === "OK" && results) {
-            resolve(results);
-          } else {
-            reject(status);
-          }
-        });
-      });
+   try {
+     // Get coordinates first as we need them either way
+     const geocoder = new google.maps.Geocoder();
+     const result = await new Promise<google.maps.GeocoderResult[]>(
+       (resolve, reject) => {
+         geocoder.geocode(
+           { address: `${city}, ${selectedState}` },
+           (results, status) => {
+             if (status === "OK" && results) {
+               resolve(results);
+             } else {
+               reject(status);
+             }
+           }
+         );
+       }
+     );
 
-      const location = {
-        lat: result[0].geometry.location.lat(),
-        lng: result[0].geometry.location.lng()
-      };
+     const location = {
+       lat: result[0].geometry.location.lat(),
+       lng: result[0].geometry.location.lng(),
+     };
 
-      // Update map
-      onLocationUpdate(location);
+     // Update map
+     onLocationUpdate(location);
 
-      // Navigate to results with necessary params
-      const searchParams = new URLSearchParams({
-        city,
-        state: selectedState,
-        lat: location.lat.toString(),
-        lng: location.lng.toString(),
-        ...(filters.minPrice && { minPrice: filters.minPrice }),
-        ...(filters.maxPrice && { maxPrice: filters.maxPrice }),
-        ...(filters.beds && { beds: filters.beds }),
-        ...(filters.baths && { baths: filters.baths })
-      });
+     // Check cache first
+     const cacheResponse = await fetch("/api/check-cache", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify({
+         city: city,
+         state: selectedState,
+       }),
+     });
+
+     const cacheData = await cacheResponse.json();
+     
+     // Build search parameters
+     const searchParams = new URLSearchParams({
+       city,
+       state: selectedState,
+       lat: location.lat.toString(),
+       lng: location.lng.toString(),
+       ...(filters.minPrice && { minPrice: filters.minPrice }),
+       ...(filters.maxPrice && { maxPrice: filters.maxPrice }),
+       ...(filters.beds && { beds: filters.beds }),
+       ...(filters.baths && { baths: filters.baths }),
+     });
+
+     if (cacheData.hasCache && cacheData.results) {
+       // If we have cache, use it
+       console.log('Using cached results');
+       searchParams.append('useCache', 'true');
+       searchParams.append('cacheTimestamp', cacheData.timestamp);
+     } else {
+       // If no cache, mark for fresh API call
+       console.log('No cache found, will make API call');
+       searchParams.append('useCache', 'false');
+       sessionStorage.setItem("isFreshSearch", "true");
+     }
 
       router.push(`/results?${searchParams.toString()}`);
     } catch (error) {
-      console.error('Search failed:', error);
+      console.error("Search failed:", error);
     }
   };
 
@@ -124,7 +202,7 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
                        focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          
+
           <div className="relative w-40">
             <button
               type="button"
@@ -132,13 +210,13 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
               className="w-full px-6 py-4 rounded-r-full bg-white/20 backdrop-blur-md 
                        text-white text-lg border border-white/10 flex items-center justify-between"
             >
-              {selectedState || 'State'}
+              {selectedState || "State"}
               <ChevronDown className="w-5 h-5" />
             </button>
-            
+
             {isStateOpen && (
               <div className="absolute z-50 w-full mt-2 max-h-60 overflow-auto bg-gray-800 rounded-lg shadow-lg">
-                {states.map(state => (
+                {states.map((state) => (
                   <button
                     key={state}
                     type="button"
@@ -163,8 +241,12 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
             onChange={(e) => handlePriceRangeChange(e.target.value)}
             className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
           >
-            {priceRanges.map(range => (
-              <option key={range.value} value={range.value} className="bg-gray-800">
+            {priceRanges.map((range) => (
+              <option
+                key={range.value}
+                value={range.value}
+                className="bg-gray-800"
+              >
                 {range.label}
               </option>
             ))}
@@ -172,11 +254,17 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
 
           <select
             value={filters.beds}
-            onChange={(e) => setFilters(prev => ({ ...prev, beds: e.target.value }))}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, beds: e.target.value }))
+            }
             className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
           >
-            {bedOptions.map(option => (
-              <option key={option.value} value={option.value} className="bg-gray-800">
+            {bedOptions.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="bg-gray-800"
+              >
                 {option.label} Beds
               </option>
             ))}
@@ -184,11 +272,17 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
 
           <select
             value={filters.baths}
-            onChange={(e) => setFilters(prev => ({ ...prev, baths: e.target.value }))}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, baths: e.target.value }))
+            }
             className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
           >
-            {bathOptions.map(option => (
-              <option key={option.value} value={option.value} className="bg-gray-800">
+            {bathOptions.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="bg-gray-800"
+              >
                 {option.label} Baths
               </option>
             ))}
