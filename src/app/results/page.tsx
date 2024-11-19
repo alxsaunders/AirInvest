@@ -79,6 +79,29 @@ export default function ResultsPage() {
         return;
       }
 
+      const useCache = searchParams.get('useCache') === 'true';
+      
+      if (useCache) {
+        // Fetch from cache
+        const cacheResponse = await fetch("/api/check-cache", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            city: searchParams.get('city'),
+            state: searchParams.get('state'),
+          }),
+        });
+        
+        const cacheData = await cacheResponse.json();
+        if (cacheData.results) {
+          setProperties(cacheData.results);
+          setIsLoading(false);
+          return;
+        }
+      }
+
       try {
         requestMade.current = true;
 
@@ -130,9 +153,21 @@ export default function ResultsPage() {
         const data = await response.json();
         setProperties(data);
 
+        await fetch('/api/check-cache', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              city: searchParams.get('city'),
+              state: searchParams.get('state'),
+              results: data
+          })
+      });
+
         sessionStorage.setItem('propertyResults', JSON.stringify(data));
         sessionStorage.setItem('searchParams', searchParams.toString());
-        
+
       } catch (error) {
         console.error("Error fetching results:", error);
         setError("Failed to fetch results");

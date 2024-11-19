@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { ApifyClient } from 'apify-client';
+import { getCachedResults, saveToCache } from '@/lib/csvCache';
 
 interface Property {
   zpid: string;
@@ -121,8 +122,26 @@ export async function POST(request: Request) {
         if (!searchUrl) {
             return NextResponse.json({ error: 'Search URL is required' }, { status: 400 });
         }
+        const urlParams = new URL(searchUrl).searchParams;
+        const searchQueryStateStr = urlParams.get('searchQueryState');
+        const searchQueryState = searchQueryStateStr ? JSON.parse(decodeURIComponent(searchQueryStateStr)) : {};
+        
+        // Get city and state from searchQueryState
+        const { city, state } = searchQueryState.usersSearchTerm?.split(', ') || {};
+
+        if (city && state) {
+            // Check cache first
+            const cachedResults = getCachedResults(city, state);
+            if (cachedResults) {
+                console.log('Returning cached results for', city, state);
+                return NextResponse.json(cachedResults);
+            }
+        }
 
         const results = await fetchProperties(searchUrl);
+        if (results.length > 0 && city && state) {
+            saveToCache(city, state, results);
+        }
         return NextResponse.json(results);
 
     } catch (error) {
