@@ -77,13 +77,14 @@ const fetchProperties = async (searchUrl: string): Promise<Property[]> => {
                 "maxPages": 1,
                 "proxyConfiguration": {
                     "useApifyProxy": true
-                }
+                },"memory": 4096
             };
 
             const radiusMeters = Math.round(offset * 111000);
             console.log(`Searching radius: ${radiusMeters}m (${(radiusMeters * 3.28084).toFixed(0)}ft), zoom: ${zoom}`);
             
-            const result = await client.actor("X46xKaa20oUA1fRiP").call(input);
+            const result = await client.actor("X46xKaa20oUA1fRiP").call(input, {
+                memory: 4096});
             const dataset = await client.dataset(result.defaultDatasetId).listItems();
             const results = dataset.items as Property[];
             

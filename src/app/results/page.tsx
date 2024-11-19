@@ -42,15 +42,23 @@ export default function ResultsPage() {
     return num?.toLocaleString() ?? "N/A";
   };
 
-  const formatPrice = (price: number | null | undefined) => {
-    if (!price) return "Price not available";
-    return `$${price.toLocaleString()}`;
-  };
 
   checkAuth()
  
   useEffect(() => {
     const fetchResults = async () => {
+      const isFreshSearch = sessionStorage.getItem('isFreshSearch') === 'true';
+      const cachedResults = sessionStorage.getItem('propertyResults');
+      const cachedParams = sessionStorage.getItem('searchParams');
+
+      if (cachedResults && cachedParams === searchParams.toString() && !isFreshSearch) {
+        console.log("Using cached results");
+        setProperties(JSON.parse(cachedResults));
+        setIsLoading(false);
+        return;
+      }
+      sessionStorage.removeItem('isFreshSearch');
+
       // Prevent duplicate requests in development mode
       if (requestMade.current) {
         console.log("Request already made, skipping...");
@@ -121,6 +129,10 @@ export default function ResultsPage() {
 
         const data = await response.json();
         setProperties(data);
+
+        sessionStorage.setItem('propertyResults', JSON.stringify(data));
+        sessionStorage.setItem('searchParams', searchParams.toString());
+        
       } catch (error) {
         console.error("Error fetching results:", error);
         setError("Failed to fetch results");

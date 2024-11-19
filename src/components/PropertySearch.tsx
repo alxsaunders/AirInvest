@@ -67,6 +67,11 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
+ // Set fresh search flag before navigating
+ sessionStorage.setItem('isFreshSearch', 'true');
+ // Clear any existing cached results
+ sessionStorage.removeItem('propertyResults');
+
     if (!city || !selectedState) return;
 
     try {
