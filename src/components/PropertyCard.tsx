@@ -1,9 +1,9 @@
 import React from 'react';
-import { Property } from '@/types/property';
+import { ZillowProperty } from '@/types/property';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface PropertyCardProps {
-  property: Property;
+  property: ZillowProperty;
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {

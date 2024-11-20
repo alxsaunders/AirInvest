@@ -9,10 +9,10 @@ import PropertySearch from "@/components/PropertySearch";
 import Map from "@/components/DashMap";
 import Script from "next/script";
 import { LocationUpdate } from "@/types/property";
+import VideoLoader from "@/components/VideoLoader";
 
 export default function Dashboard() {
   const router = useRouter();
-  const [initialLoad, setInitialLoad] = useState(false);
   const [firstName, setFirstName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -31,13 +31,20 @@ export default function Dashboard() {
 
   useEffect(() => {
     checkAuth();
-    if (!initialLoad) {
-      setInitialLoad(true);
-      if (!window.performance.navigation.type) {
-        window.location.reload();
-      }
-    }
   }, []);
+
+  // Effect to handle map refresh after loading
+  useEffect(() => {
+    if (!isLoading) {
+      // Reset map state when loading finishes
+      setMapLoaded(false);
+      // Small delay to ensure proper reinitialization
+      const timer = setTimeout(() => {
+        setMapLoaded(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   const checkAuth = async () => {
     try {
@@ -97,11 +104,11 @@ export default function Dashboard() {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
+    // Reset map state when entering loading
+    if (mapLoaded) {
+      setMapLoaded(false);
+    }
+    return <VideoLoader />;
   }
 
   if (!firstName) {
@@ -125,12 +132,17 @@ export default function Dashboard() {
     );
   }
 
+  const handleMapLoad = () => {
+    console.log("Map script loaded");
+    setMapLoaded(true);
+  };
 
   return (
     <>
       <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
-        onLoad={() => setMapLoaded(true)}
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&loading=async`}
+        onLoad={handleMapLoad}
+        strategy="afterInteractive"
       />
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
         {/* Greeting Section */}
@@ -187,12 +199,6 @@ export default function Dashboard() {
                 ) : (
                   <div className="flex items-center justify-center h-full">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                    {/* <button
-                      onClick={() => window.location.reload()}
-                      className="px-4 py-2 bg-blue-1200 text-white rounded hover:bg-blue-700 transition-colors"
-                    >
-                      Refresh Map
-                    </button> */}
                   </div>
                 )}
               </div>

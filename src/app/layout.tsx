@@ -7,17 +7,15 @@ import { getCurrentUser } from 'aws-amplify/auth';
 import '@/lib/auth-config';
 import { AuthProvider } from '@/context/AuthContext';
 import NavBar from '@/components/NavBar';
+import VideoLoader from '@/components/VideoLoader';
+import Script from 'next/script';
 import './globals.css';
 import { metadata } from './metadata';
-import './globals.css'
-
 
 const inter = Inter({ subsets: ['latin'] });
 
 // Define protected routes that require authentication
 const protectedRoutes = ['/dashboard', '/profile', '/settings'];
-
-
 
 function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -40,19 +38,19 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[#1E1E1E] flex items-center justify-center">
-        <div className="text-white text-lg">Loading...</div>
-      </div>
-    );
-  }
-
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <NavBar />
-      {children}
-    </>
+      {isLoading ? (
+        <div className="flex-1 flex items-center justify-center">
+          <VideoLoader />
+        </div>
+      ) : (
+        <main className="flex-1">
+          {children}
+        </main>
+      )}
+    </div>
   );
 }
 
@@ -63,19 +61,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-       <head>
-          <meta name="description" content={metadata.description} />
-          <title>{metadata.title}</title>
-        </head>
+      <head>
+        <meta name="description" content={metadata.description} />
+        <title>{metadata.title}</title>
+      </head>
       <body className={inter.className}>
         <AuthProvider>
           <RootLayoutContent>{children}</RootLayoutContent>
         </AuthProvider>
+        <Script
+          async
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
+        />
       </body>
     </html>
   );
 }
-<script 
-  async 
-  src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
-/>
