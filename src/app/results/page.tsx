@@ -192,7 +192,7 @@ export default function ResultsPage() {
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-white">Search Results</h1>
             <Link
-              href="/"
+              href="/dashboard"
               className="text-blue-400 hover:text-blue-300 transition-colors"
             >
               New Search
@@ -224,7 +224,7 @@ export default function ResultsPage() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">Search Results</h1>
           <Link
-            href="/"
+            href="/dashboard"
             className="text-blue-400 hover:text-blue-300 transition-colors"
           >
             New Search

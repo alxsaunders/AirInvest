@@ -1,6 +1,17 @@
 import Head from 'next/head';
+import { useEffect } from 'react';
 
 const VideoLoader = () => {
+  useEffect(() => {
+    // Lock scrolling
+    document.body.style.overflow = 'hidden';
+    
+    // Cleanup function to remove lock when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   return (
     <>
       <Head>
