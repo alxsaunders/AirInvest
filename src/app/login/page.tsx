@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import VideoLoader from '@/components/VideoLoader'
 
 export default function Login() {
   const router = useRouter();
@@ -50,14 +51,6 @@ export default function Login() {
     }
   };
 
-  // Show loading state while checking authentication
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[#1E1E1E] flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-[#1E1E1E] flex items-center justify-center px-4">
