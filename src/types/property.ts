@@ -52,9 +52,9 @@ export interface PropertyAddress {
   city: string;
   state: string;
   zipcode: string;
-  neighborhood: string | null;
-  community: string | null;
-  subdivision: string | null;
+  neighborhood?: string | null;
+  community?: string | null;
+  
 }
 
 export interface Property {
@@ -69,6 +69,8 @@ export interface Property {
   yearBuilt: number;
   streetAddress: string;
   zipcode: string;
+  latitude: number;  
+  longitude: number;
   priceHistory: PriceHistoryItem[];
   originalPhotos: PropertyPhoto[];
 }
