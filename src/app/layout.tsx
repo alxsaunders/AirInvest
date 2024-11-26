@@ -15,7 +15,7 @@ import { metadata } from './metadata';
 const inter = Inter({ subsets: ['latin'] });
 
 // Define protected routes that require authentication
-const protectedRoutes = ['/dashboard', '/profile', '/settings'];
+const protectedRoutes = ['/dashboard', '/profile', '/settings', '/results', '/singleresult'];
 
 function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
