@@ -259,40 +259,34 @@ export default function ResultsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {properties.map((property) => (
-              <div
+              <Link 
                 key={property.zpid}
-                className="bg-gray-800/50 rounded-lg overflow-hidden"
+                href={`/singleresult?url=${encodeURIComponent(property.detailUrl)}`}
+                className="block hover:opacity-90 transition-opacity"
               >
-                <img
-                  src={property.imgSrc || "/placeholder-house.jpg"}
-                  alt={property.address || "Property image"}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-white">
-                    {property.address || "Address not available"}
-                  </h3>
-                  <a
-                    href={property.detailUrl || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: "white", textDecoration: "none" }}
-                  >
-                    {property.detailUrl ? "View Details" : "Link not available"}
-                  </a>
-
-                  <p className="text-gray-300 mt-2">
-                    {formatNumber(property.price)}
-                  </p>
-                  <div className="text-gray-400 mt-2">
-                    {formatNumber(property.beds)} beds •{" "}
-                    {formatNumber(property.baths)} baths
-                    {property.livingArea
-                      ? ` • ${formatNumber(property.livingArea)} sqft`
-                      : ""}
+                <div className="bg-gray-800/50 rounded-lg overflow-hidden">
+                  <img
+                    src={property.imgSrc || "/placeholder-house.jpg"}
+                    alt={property.address || "Property image"}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold text-white">
+                      {property.address || "Address not available"}
+                    </h3>
+                    <p className="text-gray-300 mt-2">
+                      ${formatNumber(property.price)}
+                    </p>
+                    <div className="text-gray-400 mt-2">
+                      {formatNumber(property.beds)} beds •{" "}
+                      {formatNumber(property.baths)} baths
+                      {property.livingArea
+                        ? ` • ${formatNumber(property.livingArea)} sqft`
+                        : ""}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
