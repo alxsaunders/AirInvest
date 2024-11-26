@@ -113,7 +113,7 @@ const MarketAnalysis: React.FC<MarketAnalysisProps> = ({ onCityChange }) => {
           </CardTitle>
           <div className="relative w-64">
             <div 
-              className="flex items-center w-full p-2 border rounded-md bg-white cursor-pointer"
+              className="flex items-center w-full p-2 border rounded-md bg-white cursor-pointer text-black"
               onClick={() => setIsOpen(!isOpen)}
             >
               <input
@@ -130,7 +130,7 @@ const MarketAnalysis: React.FC<MarketAnalysisProps> = ({ onCityChange }) => {
               <ChevronDown className="h-4 w-4 text-gray-500 ml-2" />
             </div>
             {isOpen && (
-              <div className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-white border rounded-md shadow-lg">
+              <div className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-white border rounded-md shadow-lg text-black">
                 {cities
                   .filter(city => 
                     city.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -159,7 +159,7 @@ const MarketAnalysis: React.FC<MarketAnalysisProps> = ({ onCityChange }) => {
                 <Home className="w-5 h-5" />
                 <h3 className="font-semibold">Current Home Value</h3>
               </div>
-              <p className="text-2xl font-bold">
+              <p className="text-2xl font-bold text-black">
                 {formatCurrency(currentValue)}
               </p>
               <p className="text-sm text-blue-600 mt-1">
@@ -208,7 +208,8 @@ const MarketAnalysis: React.FC<MarketAnalysisProps> = ({ onCityChange }) => {
                 <div className="space-y-2">
                   {cityData.forecasts.map(forecast => (
                     <div key={forecast.date} className="flex justify-between items-center">
-                      <span>
+                      <span
+                       className="p-0 hover:bg-gray-100 cursor-pointer text-black">
                         {new Date(forecast.date).toLocaleDateString('en-US', {
                           month: 'long',
                           year: 'numeric'
