@@ -1,7 +1,7 @@
 // app/singleresult/page.tsx
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Property } from '@/types/property';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -12,9 +12,14 @@ export default function SingleResultPage() {
   const [propertyData, setPropertyData] = useState<Property | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const fetchInProgress = useRef(false);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchPropertyDetails = async () => {
+      if (fetchInProgress.current) return;
+      
       try {
         const url = searchParams.get('url');
         if (!url) {
@@ -23,12 +28,27 @@ export default function SingleResultPage() {
           return;
         }
 
+        // Check for cached data first
+        const cacheKey = `property-${url}`;
+        const cachedData = sessionStorage.getItem(cacheKey);
+        
+        if (cachedData) {
+          const parsedData = JSON.parse(cachedData);
+          setPropertyData(parsedData);
+          setLoading(false);
+          return;
+        }
+
+        // If no cached data, proceed with fetch
+        fetchInProgress.current = true;
+        
         const response = await fetch('/api/zillow/property', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ url }),
+          signal: controller.signal
         });
 
         if (!response.ok) {
@@ -37,49 +57,49 @@ export default function SingleResultPage() {
         }
 
         const rawData = await response.json();
-        
-        // Detailed logging of the first item if it's an array
-        if (Array.isArray(rawData) && rawData.length > 0) {
-          const firstItem = rawData[0];
-          console.log('Detailed Property Data:', {
-            address: firstItem.address,
-            price: firstItem.price,
-            beds: firstItem.bedrooms || firstItem.beds,
-            baths: firstItem.bathrooms || firstItem.baths,
-            yearBuilt: firstItem.yearBuilt,
-            homeStatus: firstItem.homeStatus,
-            photos: firstItem.originalPhotos || firstItem.photos,
-            priceHistory: firstItem.priceHistory,
-            livingArea: firstItem.livingArea,
-            lotSize: firstItem.lotSize,
-            homeType: firstItem.homeType
-          });
-        } else {
-          console.log('Raw Data (not an array):', rawData);
-        }
-
-        // If the response is an array, take the first item
         const data = Array.isArray(rawData) ? rawData[0] : rawData;
+        
+        // Cache the fetched data
+        sessionStorage.setItem(cacheKey, JSON.stringify(data));
+        
         setPropertyData(data);
       } catch (err) {
-        console.error('Error fetching property:', err);
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        if (err instanceof Error && err.name !== 'AbortError') {
+          console.error('Error fetching property:', err);
+          setError(err.message || 'An error occurred');
+        }
       } finally {
+        fetchInProgress.current = false;
         setLoading(false);
       }
     };
 
     fetchPropertyDetails();
+
+    return () => {
+      controller.abort();
+      fetchInProgress.current = false;
+    };
   }, [searchParams]);
 
-  // Also log whenever propertyData changes
+  // Clear all property caches when navigating away (optional)
   useEffect(() => {
-    if (propertyData) {
-      console.log('PropertyData State:', {
-        address: propertyData.address,
-        price: propertyData.price,
-        photos: propertyData.originalPhotos || 'No photos',
-        priceHistory: propertyData.priceHistory || 'No price history'
+    return () => {
+      // Uncomment the following to clear cache when leaving the page
+      // Object.keys(sessionStorage).forEach(key => {
+      //   if (key.startsWith('property-')) {
+      //     sessionStorage.removeItem(key);
+      //   }
+      // });
+    };
+  }, []);
+
+  // Optional: Preload images once data is available
+  useEffect(() => {
+    if (propertyData?.originalPhotos) {
+      propertyData.originalPhotos.forEach(photo => {
+        const img = new Image();
+        img.src = photo.mixedSources.jpeg[0].url;
       });
     }
   }, [propertyData]);
@@ -87,7 +107,7 @@ export default function SingleResultPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+        <div className="text-white">Loading property details...</div>
       </div>
     );
   }
@@ -97,7 +117,22 @@ export default function SingleResultPage() {
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 p-6">
         <Alert variant="destructive">
           <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription>
+            {error}
+            <button 
+              onClick={() => {
+                // Clear cache for this property and reload
+                const url = searchParams.get('url');
+                if (url) {
+                  sessionStorage.removeItem(`property-${url}`);
+                }
+                window.location.reload();
+              }}
+              className="block mt-4 text-sm underline hover:no-underline"
+            >
+              Retry
+            </button>
+          </AlertDescription>
         </Alert>
       </div>
     );
