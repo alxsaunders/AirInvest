@@ -1,25 +1,25 @@
 // components/property/PropertyDetail.tsx
-'use client'
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PropertyStats } from './PropertyStats';
-import { PriceHistory } from './PriceHistory';
-import { PhotoGallery } from './PhotoGallery';
-import { PropertyLocation } from './PropertyLocation';
-import Link from 'next/link';
-import { Property } from '@/types/property';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PropertyStats } from "./PropertyStats";
+import { PriceHistory } from "./PriceHistory";
+import { PhotoGallery } from "./PhotoGallery";
+import { PropertyLocation } from "./PropertyLocation";
+import Link from "next/link";
+import { Property } from "@/types/property";
 
 interface PropertyDetailProps {
   property: Property;
 }
 
 export function PropertyDetail({ property }: PropertyDetailProps) {
-  console.log('PropertyDetail Render:', {
+  console.log("PropertyDetail Render:", {
     hasPhotos: Boolean(property.originalPhotos),
     photoCount: property.originalPhotos?.length,
     hasPriceHistory: Boolean(property.priceHistory),
     priceHistoryCount: property.priceHistory?.length,
-    fullAddress: property.address
+    fullAddress: property.address,
   });
 
   if (!property) return null;
@@ -29,27 +29,29 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
       <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-8">
           <Link
-            href="/results"
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.back();
+            }}
             className="text-blue-400 hover:text-blue-300 transition-colors"
           >
             ← Back to Results
           </Link>
         </div>
-        
 
         {/* Main content grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
           {/* Left column - Property Details */}
           <div className="lg:col-span-7 space-y-7">
-
-          <Card className="bg-gray-800/50 border-gray-700">
+            <Card className="bg-gray-800/50 border-gray-700">
               <CardHeader>
                 <CardTitle className="text-2xl text-white">
                   {property.address.streetAddress}
                 </CardTitle>
                 <p className="text-gray-300">
-                  {property.address.city}, {property.address.state} {property.address.zipcode}
+                  {property.address.city}, {property.address.state}{" "}
+                  {property.address.zipcode}
                 </p>
               </CardHeader>
               <CardContent>
@@ -62,8 +64,6 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
                 <PhotoGallery photos={property.originalPhotos} />
               </div>
             )}
-
-          
 
             {property.priceHistory && property.priceHistory.length > 0 && (
               <Card className="bg-gray-800/50 border-gray-700">
