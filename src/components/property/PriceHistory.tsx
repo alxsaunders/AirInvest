@@ -38,7 +38,9 @@ export function PriceHistory({ priceHistory }: PriceHistoryProps) {
     return `${sign}${percentage}%`;
   };
 
+  // Filter out zero prices and sort by date
   const data = priceHistory
+    .filter(item => item.price > 0) // Remove entries with zero prices
     .sort((a, b) => a.time - b.time)
     .map(item => ({
       date: formatDate(item.date),
