@@ -82,19 +82,9 @@ export default function SingleResultPage() {
     };
   }, [searchParams]);
 
-  // Clear all property caches when navigating away (optional)
-  useEffect(() => {
-    return () => {
-      // Uncomment the following to clear cache when leaving the page
-      // Object.keys(sessionStorage).forEach(key => {
-      //   if (key.startsWith('property-')) {
-      //     sessionStorage.removeItem(key);
-      //   }
-      // });
-    };
-  }, []);
 
-  // Optional: Preload images once data is available
+
+ //Preload images once data is available
   useEffect(() => {
     if (propertyData?.originalPhotos) {
       propertyData.originalPhotos.forEach(photo => {
