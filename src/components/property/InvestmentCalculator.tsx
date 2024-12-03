@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Property } from '@/types/property';
@@ -37,30 +37,45 @@ const STATE_INSURANCE_RATES: { [key: string]: number } = {
 export function InvestmentCalculator({ property }: InvestmentCalculatorProps) {
     const [paymentType, setPaymentType] = useState('Mortgage');
     const [mortgageTerm, setMortgageTerm] = useState<MortgageTerm>('30 Year');
-    const [downPaymentPercent, setDownPaymentPercent] = useState(20);
+    const [downPaymentPercent, setDownPaymentPercent] = useState<number>(
+      STATE_DOWN_PAYMENTS[property.state as StateName].percentage
+    );
     const [renovationCost, setRenovationCost] = useState('0');
     const [customRate, setCustomRate] = useState<number>(MORTGAGE_RATES[mortgageTerm]);
-    const [yearlyRateIncrease, setYearlyRateIncrease] = useState(0.25);
-    const [insuranceAdjustment, setInsuranceAdjustment] = useState(0);
+    const [additionalFees, setAdditionalFees] = useState(100);
+    const [baseInsurance, setBaseInsurance] = useState(0);
+    const [monthlyInsurance, setMonthlyInsurance] = useState(0);
+
+  useEffect(() => {
+    const baseRate = STATE_INSURANCE_RATES[property.state] || 200;
+    let initialBaseInsurance = baseRate;
+
+    // Only scale up insurance for properties over $300,000
+    if (property.price > 300000) {
+      const excessValue = property.price - 300000;
+      const extraInsurance = Math.round((excessValue / 300000) * (baseRate * 0.2)); // 20% increase per $300k over
+      initialBaseInsurance += extraInsurance;
+    }
+
+    setBaseInsurance(initialBaseInsurance);
+    setMonthlyInsurance(initialBaseInsurance);
+  }, [property.state, property.price]);
 
   const calculateMortgage = () => {
     const downPayment = (property.price * downPaymentPercent) / 100;
     const loanAmount = property.price - downPayment;
-    const effectiveRate = (customRate + yearlyRateIncrease) / 100 / 12;
+    const effectiveRate = (customRate) / 100 / 12;
     const terms = parseInt(mortgageTerm) * 12;
     
     const monthlyPayment = 
       (loanAmount * effectiveRate * Math.pow(1 + effectiveRate, terms)) / 
       (Math.pow(1 + effectiveRate, terms) - 1);
     
-    return monthlyPayment;
+    return monthlyPayment + additionalFees;
   };
 
   const getMonthlyInsurance = () => {
-    const baseRate = STATE_INSURANCE_RATES[property.state] || 200;
-    const adjustmentFactor = property.price / 300000;
-    const adjustedRate = baseRate * adjustmentFactor;
-    return adjustedRate + insuranceAdjustment;
+    return monthlyInsurance;
   };
 
   const getTotalMonthlyPayment = () => {
@@ -90,15 +105,21 @@ export function InvestmentCalculator({ property }: InvestmentCalculatorProps) {
                 </div>
                 <div>Principal & Interest:</div>
                 <div className="text-right">${calculateMortgage().toFixed(2)}</div>
-                <div>Effective Rate:</div>
+                <div>Interest Rate:</div>
                 <div className="text-right">
-                  {(customRate + yearlyRateIncrease).toFixed(2)}%
+                  {customRate.toFixed(2)}%
                 </div>
+                {additionalFees > 0 && (
+                  <>
+                    <div>Additional Fees:</div>
+                    <div className="text-right">${additionalFees.toFixed(2)}</div>
+                  </>
+                )}
               </>
             )}
 
             <div>Est. Monthly Insurance:</div>
-            <div className="text-right">${getMonthlyInsurance().toFixed(2)}</div>
+            <div className="text-right">${Math.round(getMonthlyInsurance()).toLocaleString()}</div>
 
             <div className="font-semibold">Total Monthly Payment:</div>
             <div className="text-right font-semibold">
@@ -107,12 +128,12 @@ export function InvestmentCalculator({ property }: InvestmentCalculatorProps) {
 
             {parseInt(renovationCost) > 0 && (
               <>
-                <div className="text-black font-medium">Renovation Cost:</div>
-                <div className="text-right text-black font-medium">
+                <div className="text-gray-300 font-medium">Renovation Cost:</div>
+                <div className="text-right text-gray-300 font-medium">
                   ${parseInt(renovationCost).toLocaleString()}
                 </div>
-                <div className="text-black font-medium">Total Investment:</div>
-                <div className="text-right text-black font-medium">
+                <div className="text-gray-300 font-medium">Total Investment:</div>
+                <div className="text-right text-gray-300 font-medium">
                   ${(property.price + parseInt(renovationCost)).toLocaleString()}
                 </div>
               </>
@@ -182,60 +203,68 @@ export function InvestmentCalculator({ property }: InvestmentCalculatorProps) {
             </div>
 
             <div className="space-y-2">
-              <Label>Yearly Rate Increase (%)</Label>
+              <Label>Additional Monthly Fees ($)</Label>
               <Input
                 type="number"
-                value={yearlyRateIncrease}
-                onChange={(e) => setYearlyRateIncrease(Number(e.target.value))}
-                step="0.05"
+                value={additionalFees}
+                onChange={(e) => setAdditionalFees(Number(e.target.value))}
+                step="1"
+                min="0"
                 className="w-full bg-white text-black border border-gray-200"
               />
             </div>
 
             <div className="space-y-2">
-  <Label>Down Payment</Label>
-  <Select
-    value={downPaymentPercent.toString()}
-    onValueChange={(value) => setDownPaymentPercent(Number(value))}
-  >
-    <SelectTrigger className="w-full bg-white text-black border border-gray-200">
-      <SelectValue placeholder="Select Down Payment %" />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectItem className="text-black" value="3.5">
-        3.5% - FHA MINIMUM
-      </SelectItem>
-      <SelectItem className="text-black" value={STATE_DOWN_PAYMENTS[property.state as StateName].percentage.toString()}>
-        {STATE_DOWN_PAYMENTS[property.state as StateName].percentage}% - STATE AVERAGE
-      </SelectItem>
-      <SelectItem className="text-black" value="10">
-        10% - MINIMUM
-      </SelectItem>
-      <SelectItem className="text-black" value="20">
-        20% - CONVENTIONAL
-      </SelectItem>
-      <SelectItem className="text-black" value="25">
-        25% - LOWER RATE
-      </SelectItem>
-      <SelectItem className="text-black" value="30">
-        30% - BEST RATE
-      </SelectItem>
-    </SelectContent>
-  </Select>
-</div>
+              <Label>Down Payment</Label>
+              <Select
+                value={downPaymentPercent.toString()}
+                onValueChange={(value) => setDownPaymentPercent(parseFloat(value))}
+              >
+                <SelectTrigger className="w-full bg-white text-black border border-gray-200">
+                  <SelectValue placeholder="Select Down Payment %" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem className="text-black" value="3.5">
+                    3.5% - FHA MINIMUM
+                  </SelectItem>
+                  <SelectItem className="text-black" value={STATE_DOWN_PAYMENTS[property.state as StateName].percentage.toString()}>
+                    {STATE_DOWN_PAYMENTS[property.state as StateName].percentage}% - STATE AVERAGE
+                  </SelectItem>
+                  <SelectItem className="text-black" value="10">
+                    10% - MINIMUM
+                  </SelectItem>
+                  <SelectItem className="text-black" value="20">
+                    20% - CONVENTIONAL
+                  </SelectItem>
+                  <SelectItem className="text-black" value="25">
+                    25% - LOWER RATE
+                  </SelectItem>
+                  <SelectItem className="text-black" value="30">
+                    30% - BEST RATE
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </>
         )}
 
         <div className="space-y-2">
-          <Label>Additional Monthly Insurance ($)</Label>
-          <Input
-            type="number"
-            value={insuranceAdjustment}
-            onChange={(e) => setInsuranceAdjustment(Number(e.target.value))}
-            step="1"
-            placeholder="Enter additional amount"
-            className="w-full bg-white text-black border border-gray-200"
-          />
+          <Label>Est. Monthly Insurance</Label>
+          <div className="flex items-center space-x-2">
+            <Input
+              type="number"
+              value={Math.round(monthlyInsurance)}
+              onChange={(e) => setMonthlyInsurance(Math.round(Number(e.target.value)))}
+              step="1"
+              className="w-full bg-white text-black border border-gray-200"
+            />
+            <button
+              onClick={() => setMonthlyInsurance(Math.round(baseInsurance))}
+              className="px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Reset
+            </button>
+          </div>
         </div>
 
         <div className="space-y-2">
