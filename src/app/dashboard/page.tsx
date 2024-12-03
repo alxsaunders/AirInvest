@@ -204,7 +204,7 @@ export default function Dashboard() {
               </div>
 
               <h2 className="text-2xl font-bold text-white mb-4">
-                Saved Location
+                Saved Properties
               </h2>
               <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6">
                 <div className="flex justify-end">
