@@ -82,7 +82,7 @@ export function SelectValue({ placeholder }: SelectValueProps) {
   const context = React.useContext(SelectContext);
   if (!context) throw new Error('SelectValue must be used within Select');
 
-  return <span className="text-gray-300">{context.value || placeholder}</span>;
+  return <span className="text-black">{context.value || placeholder}</span>;
 }
 
 interface SelectItemProps {
