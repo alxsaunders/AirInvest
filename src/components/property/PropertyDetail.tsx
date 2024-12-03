@@ -8,6 +8,7 @@ import { PhotoGallery } from "./PhotoGallery";
 import { PropertyLocation } from "./PropertyLocation";
 import Link from "next/link";
 import { Property } from "@/types/property";
+import { InvestmentCalculator } from "./InvestmentCalculator";
 
 interface PropertyDetailProps {
   property: Property;
@@ -95,7 +96,7 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
               <CardContent>
                 {/* Add your InvestmentDetails component here */}
                 <div className="text-gray-300">
-                  Investment calculator and details will go here
+                <InvestmentCalculator property={property} />
                 </div>
               </CardContent>
             </Card>
