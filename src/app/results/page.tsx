@@ -275,7 +275,7 @@ export default function ResultsPage() {
                       {property.address || "Address not available"}
                     </h3>
                     <p className="text-gray-300 mt-2">
-                      ${property.price}
+                      {property.price}
                     </p>
                     <div className="text-gray-400 mt-2">
                       {formatNumber(property.beds)} beds •{" "}
