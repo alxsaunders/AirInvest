@@ -71,6 +71,8 @@ export interface Property {
   zipcode: string;
   latitude: number;  
   longitude: number;
+  homeType: string;
+  livingArea: number;
   priceHistory: PriceHistoryItem[];
   originalPhotos: PropertyPhoto[];
 }

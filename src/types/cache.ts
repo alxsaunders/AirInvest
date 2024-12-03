@@ -12,4 +12,4 @@ export interface SearchParams {
   lat?: string;
   lng?: string;
   filters?: SearchFilters;
-}
+}   

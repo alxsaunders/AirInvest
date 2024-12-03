@@ -45,7 +45,7 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
           {/* Left column - Property Details */}
           <div className="lg:col-span-7 space-y-7">
             <Card className="bg-gray-800/50 border-gray-700">
-              <CardHeader>
+              <CardHeader className="text-center">
                 <CardTitle className="text-2xl text-white">
                   {property.address.streetAddress}
                 </CardTitle>
