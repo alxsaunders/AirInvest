@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { STATE_DOWN_PAYMENTS, type StateName } from '@/lib/constants/downPayments';
+import { STATE_DATA, type StateName } from '@/lib/constants/stateData';
 import { MORTGAGE_RATES, type MortgageTerm } from '@/lib/constants/mortgageRates';
 import { Property } from '@/types/property';
 
@@ -17,10 +17,9 @@ export function InvestmentCalculator({ property }: InvestmentCalculatorProps) {
   const [downPaymentOption, setDownPaymentOption] = useState('percentage');
   const [mortgageTerm, setMortgageTerm] = useState<MortgageTerm>('30 Year');
   const [renovationCost, setRenovationCost] = useState('0');
-  // Change the type to regular number instead of literal types
   const [downPaymentPercent, setDownPaymentPercent] = useState<number>(() => {
-    const stateDownPayment = STATE_DOWN_PAYMENTS[property.state as StateName]?.percentage;
-    return stateDownPayment || 20;
+    const stateData = STATE_DATA[property.state as StateName]?.downPayment.percentage;
+    return stateData || 20;
   });
 
   const calculateMortgage = () => {
@@ -34,6 +33,19 @@ export function InvestmentCalculator({ property }: InvestmentCalculatorProps) {
       (Math.pow(1 + rate, terms) - 1);
     
     return monthlyPayment;
+  };
+
+  const getMonthlyInsurance = () => {
+    const stateInsurance = STATE_DATA[property.state as StateName]?.insurance.averageMonthly || 0;
+    // Adjust insurance based on home value compared to state median
+    const adjustmentFactor = property.price / STATE_DATA[property.state as StateName]?.downPayment.median;
+    return stateInsurance * adjustmentFactor;
+  };
+
+  const getTotalMonthlyPayment = () => {
+    const mortgagePayment = calculateMortgage();
+    const insurancePayment = getMonthlyInsurance();
+    return mortgagePayment + insurancePayment;
   };
 
   return (
@@ -74,7 +86,7 @@ export function InvestmentCalculator({ property }: InvestmentCalculatorProps) {
               <SelectContent>
                 <SelectItem value="percentage">Percentage Based</SelectItem>
                 <SelectItem value="state">
-                  State Average ({STATE_DOWN_PAYMENTS[property.state as StateName]?.percentage}%)
+                  State Average ({STATE_DATA[property.state as StateName]?.downPayment.percentage}%)
                 </SelectItem>
                 <SelectItem value="custom">Custom Amount</SelectItem>
               </SelectContent>
@@ -124,8 +136,12 @@ export function InvestmentCalculator({ property }: InvestmentCalculatorProps) {
               <div className="text-right">
                 ${((property.price * downPaymentPercent) / 100).toLocaleString()} ({downPaymentPercent}%)
               </div>
-              <div>Monthly Payment:</div>
+              <div>Principal & Interest:</div>
               <div className="text-right">${calculateMortgage().toFixed(2)}</div>
+              <div>Est. Insurance:</div>
+              <div className="text-right">${getMonthlyInsurance().toFixed(2)}</div>
+              <div className="font-semibold">Total Monthly Payment:</div>
+              <div className="text-right font-semibold">${getTotalMonthlyPayment().toFixed(2)}</div>
             </>
           )}
           
