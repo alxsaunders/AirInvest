@@ -40,7 +40,7 @@ export function PriceHistory({ priceHistory }: PriceHistoryProps) {
 
   // Filter out zero prices and sort by date
   const data = priceHistory
-    .filter(item => item.price > 0) // Remove entries with zero prices
+    .filter(item => item.price > 6000) // Remove entries with zero prices
     .sort((a, b) => a.time - b.time)
     .map(item => ({
       date: formatDate(item.date),
