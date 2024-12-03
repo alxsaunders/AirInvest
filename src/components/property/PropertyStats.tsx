@@ -33,7 +33,7 @@ export function PropertyStats({ property }: PropertyStatsProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="space-y-2">
+      <div className="space-y-2 text-left">
         <div className="text-2xl font-bold text-white">
           {formatPrice(property.price)}
         </div>
@@ -47,7 +47,7 @@ export function PropertyStats({ property }: PropertyStatsProps) {
           </div>
         )}
       </div>
-      <div className="space-y-2 text-gray-300">
+      <div className="space-y-2 text-gray-300 text-right">
         {property.livingArea && (
           <div>{formatArea(property.livingArea)} sqft • {getPricePerSqFt()}/sqft</div>
         )}
