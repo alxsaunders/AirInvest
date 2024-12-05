@@ -77742,5 +77742,1379 @@
       "city": "boca raton",
       "state": "FL"
     }
+  },
+  {
+    "timestamp": "2024-12-03T11:15:06.262Z",
+    "results": [
+      {
+        "zpid": "47718697",
+        "id": "47718697",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/7356dca2c60fe9b9a1a629a9fd975861-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/673-E-Church-Ave-Longwood-FL-32750/47718697_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$349,900",
+        "unformattedPrice": 349900,
+        "address": "673 E Church Ave, Longwood, FL 32750",
+        "addressStreet": "673 E Church Ave",
+        "addressCity": "Longwood",
+        "addressState": "FL",
+        "addressZipcode": "32750",
+        "isUndisclosedAddress": false,
+        "beds": 4,
+        "baths": 2,
+        "area": 1183,
+        "latLong": {
+          "latitude": 28.70112,
+          "longitude": -81.334206
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "New roof",
+        "flexFieldType": "homeInsight",
+        "contentType": "homeInsight",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 47718697,
+            "streetAddress": "673 E Church Ave",
+            "zipcode": "32750",
+            "city": "Longwood",
+            "state": "FL",
+            "latitude": 28.70112,
+            "longitude": -81.334206,
+            "price": 349900,
+            "bathrooms": 2,
+            "bedrooms": 4,
+            "livingArea": 1183,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 22,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "zestimate": 344000,
+            "rentZestimate": 2207,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 349900,
+            "timeOnZillow": 1985658000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 174631,
+            "lotAreaValue": 6100,
+            "lotAreaUnit": "sqft",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "zestimate": 344000,
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "info3String": "https://photos.zillowstatic.com/fp/e39375731b4bce0deb161dcc85f92017-zillow_web_48_23.jpg",
+        "brokerName": "PRISAC 4 YOU REALTY CORP",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/7356dca2c60fe9b9a1a629a9fd975861-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0c1bf197aab6a5838a52b6f3e7c7c0bd-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/39a61e28e8245f429c844aeb6529143b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/57aa4cbafc594785fe69f351a24fdd54-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0ec6e79af144ce9278ed13aff5e57627-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ddb32b0d6dec53b0ac800a31b940beea-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ec90a83a7ffaf93ad9b4c24f4a75a6fd-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/1cbf564486fcf372457b18f7f8f9b4c6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/481e60a6e7208706041f56e65932cc0e-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c479999223103f43000e2356ed023430-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f20de417f41d7c91913c24427eaeb0db-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e46b2101c86dee44d84a4fca64ec7127-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/3b835ff090ec1f5b81770e3f8f851458-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/23adbba0ed91c3e18309e4a9dbd15511-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f86228a48f130170ed1ebef1d066fc2c-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/6086e1537c63115d01e011d1446014c3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c447650db25651fc8567e2621ca34ee1-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b246b306e4585c6d15b75bc2713c9ff0-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f245224caa47c34182dfa270252cf4de-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d8a817179eb7511642afaf491f7b6de8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8bc2d8d10eeb8393392c571a2b44b287-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/1c71663b782c6bc220468a7441b599a4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/17ad3bc7641525c260a49fcb4094af4c-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/9c48f838eac17db23a22248d20700ea6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/984d984c5809bf0ddf8621770a1bbb13-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/09483bbc22e383327296ea2c60b81a05-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d4e5ed0b2888562613471f855f0af342-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c328e58c6171ba62d78989e3d2bfb7d1-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/30afd7a667bccb589ef28f0a0b6e65ab-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b8b07f8d36afcad8af985f6110ba5d9d-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/98a6d63f1c98a44edc47f7b1728e5abc-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/94987a240fa960915ca15a5f1fb1850f-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2c07684fd8af227e70a2b3c099254eb9-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Longwood%2C%20FL%22%2C%22mapBounds%22%3A%7B%22west%22%3A-81.3434011%2C%22east%22%3A-81.3334011%2C%22south%22%3A28.6980519%2C%22north%22%3A28.708051899999997%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "47718537",
+        "id": "47718537",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/7df67ee264e60d03d74956acb36e5fe9-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/410-Georgia-Ave-Longwood-FL-32750/47718537_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$435,000",
+        "unformattedPrice": 435000,
+        "address": "410 Georgia Avenue, Longwood, FL 32750",
+        "addressStreet": "410 Georgia Avenue",
+        "addressCity": "Longwood",
+        "addressState": "FL",
+        "addressZipcode": "32750",
+        "isUndisclosedAddress": false,
+        "beds": 3,
+        "baths": 3,
+        "area": 1588,
+        "latLong": {
+          "latitude": 28.705416,
+          "longitude": -81.340294
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "61 days on Zillow",
+        "flexFieldType": "daysOnZillow",
+        "contentType": "daysOnZillow",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 47718537,
+            "streetAddress": "410 Georgia Avenue",
+            "zipcode": "32750",
+            "city": "Longwood",
+            "state": "FL",
+            "latitude": 28.705416,
+            "longitude": -81.340294,
+            "price": 435000,
+            "bathrooms": 3,
+            "bedrooms": 3,
+            "livingArea": 1588,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 61,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "rentZestimate": 2097,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 435000,
+            "timeOnZillow": 5321764000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 299713,
+            "lotAreaValue": 0,
+            "lotAreaUnit": "sqft",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "info3String": "https://photos.zillowstatic.com/fp/11470fbfca6bd246a8708da0ff0e5603-zillow_web_48_23.jpg",
+        "brokerName": "Summit Realty & Property Manag",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/7df67ee264e60d03d74956acb36e5fe9-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2ac02de27f30564f1621b471290a49a4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8be305a1b4c2ad1449ea71f9166f5a22-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/63ec9499f78dc9ac0e18331c773cb5a2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/969606ae4cfa6f38b910336d7fd330eb-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d270e19aa88d9a157b6769b01960c1ce-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f7400303c646689f0b8560c89e1c5232-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/751e6c079ed83561cefb3b027984f6d1-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2896b69922e506b40c62563e7146ce66-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/6374033c78df481e6d9e268dcfd16180-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2f227195cb3810c62915de1a2224fc04-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/fba716b8fa3058d48e41b27e02b170bf-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Longwood%2C%20FL%22%2C%22mapBounds%22%3A%7B%22west%22%3A-81.3434011%2C%22east%22%3A-81.3334011%2C%22south%22%3A28.6980519%2C%22north%22%3A28.708051899999997%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "352349264",
+        "id": "352349264",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/ce8e3f7a2ccb9b53a0e4e0489bcfd758-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/261-E-Church-Ave-199-Longwood-FL-32750/352349264_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "Lot / Land for sale",
+        "countryCurrency": "$",
+        "price": "$399,000",
+        "unformattedPrice": 399000,
+        "address": "261 E Church Ave #199, Longwood, FL 32750",
+        "addressStreet": "261 E Church Ave #199",
+        "addressCity": "Longwood",
+        "addressState": "FL",
+        "addressZipcode": "32750",
+        "isUndisclosedAddress": false,
+        "baths": 0,
+        "lotAreaString": "10,000 sqft",
+        "latLong": {
+          "latitude": 28.701216,
+          "longitude": -81.34315
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "Vacant lot",
+        "flexFieldType": "homeInsight",
+        "contentType": "homeInsight",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 352349264,
+            "streetAddress": "261 E Church Ave #199",
+            "zipcode": "32750",
+            "city": "Longwood",
+            "state": "FL",
+            "latitude": 28.701216,
+            "longitude": -81.34315,
+            "price": 399000,
+            "bathrooms": 0,
+            "homeType": "LOT",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 167,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "rentZestimate": 1882,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 399000,
+            "timeOnZillow": 14510660000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "unit": "# 199",
+            "lotAreaValue": 10000,
+            "lotAreaUnit": "sqft",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "info3String": "https://photos.zillowstatic.com/fp/e39375731b4bce0deb161dcc85f92017-zillow_web_48_23.jpg",
+        "brokerName": "CALVARY REAL ESTATE GROUP LLC",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/ce8e3f7a2ccb9b53a0e4e0489bcfd758-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ca7b453b31b2a721a9cafaa3c5db7a63-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/a9f995f061d89ae56a6e4ba4486b59df-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8f36b45403ae3af0228bc5d4e770342e-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2606556b0b9e9695dee2a5a568e8b029-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e5df3891e0eb4316bdbba451ac0c8fd5-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/563d47adec38fdf88116987b02bff602-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b776fe9ed9f57cbf219517927b8acac1-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2317b6b940b0cf086633d0dc8bbf36b3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d4a67665329317b6bebad452a0951338-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Longwood%2C%20FL%22%2C%22mapBounds%22%3A%7B%22west%22%3A-81.3434011%2C%22east%22%3A-81.3334011%2C%22south%22%3A28.6980519%2C%22north%22%3A28.708051899999997%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "66204129",
+        "id": "66204129",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/65244717dcadc0d8a447d7ea854df1f8-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/966-N-Ronald-Reagan-Blvd-Longwood-FL-32750/66204129_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$595,000",
+        "unformattedPrice": 595000,
+        "address": "966 N Ronald Reagan Blvd, Longwood, FL 32750",
+        "addressStreet": "966 N Ronald Reagan Blvd",
+        "addressCity": "Longwood",
+        "addressState": "FL",
+        "addressZipcode": "32750",
+        "isUndisclosedAddress": false,
+        "beds": 5,
+        "baths": 3,
+        "area": 2490,
+        "latLong": {
+          "latitude": 28.707905,
+          "longitude": -81.342896
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "3D Tour",
+        "flexFieldType": "threeDHome",
+        "contentType": "threeDHome",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 66204129,
+            "streetAddress": "966 N Ronald Reagan Blvd",
+            "zipcode": "32750",
+            "city": "Longwood",
+            "state": "FL",
+            "latitude": 28.707905,
+            "longitude": -81.342896,
+            "price": 595000,
+            "datePriceChanged": 1727852400000,
+            "bathrooms": 3,
+            "bedrooms": 5,
+            "livingArea": 2490,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 591,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "rentZestimate": 2750,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "priceReduction": "$105,000 (Oct 2)",
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 595000,
+            "priceChange": -105000,
+            "timeOnZillow": 51130673000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 453109,
+            "lotAreaValue": 1.1263,
+            "lotAreaUnit": "acres",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "info3String": "https://photos.zillowstatic.com/fp/e39375731b4bce0deb161dcc85f92017-zillow_web_48_23.jpg",
+        "brokerName": "RE/MAX TOWN & COUNTRY REALTY",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/65244717dcadc0d8a447d7ea854df1f8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/59120d8050155eadbcdbba975f596a40-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8b2abb9de8faa187325a3790ee71ab98-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/df174f95ce93f7c9a7666af56da53f3d-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/cf3f1dc7c110a09466be049bc7d7344d-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b67085e8fc9972ba2c5da6370902f126-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ef031349db70fb0b07e3dda31298d373-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0ecbf2ef7b3c6f771d27f0a9754a9d78-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/08d5c6399c25df6c495856d3e857e5a4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/82b8ab6e5b3d8fb1d39251d9ed942f86-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/339e3a509464d132e34c1eaf5079cfd5-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e62737a3d7f59f46eede9918e335c7ad-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/692fa3b06359d8bcafa3f4eb1c179df0-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/07d7c3a0f5eb0629ae40f9a58b0acbf0-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/622afc96d70e4c07a91baa3c2eb560e8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f74313f25f1f3ebecf47b0e9f54f2534-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f66b5621279857f442bf0e6314690952-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f88ac0f814da5b1e26cbe90d3b95057a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8c53436a946b39c5d49d722fd3d34e87-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/4c21102432d831219ba5d13f7efc690a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c82a43f7a924e824ef7a3e31e80af2cf-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/acb716d0a86d7bb223bac6e81b7469d8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f4305c154009b5cc4c63966fd82e96d6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/a00b48e4d7d849a07b405a534bb811d7-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/cdd2b9ca9470b545877c1ec9b7e56cd2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/35f954be793a62b5c432473c1d98b4d7-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/21da6ca6257088a08a88730982776271-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e6cff284a8dfc5dbea12e73f16248eba-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0df996519ec494a2e54185c654ada66b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8f15f0e3a6edea14f1d8b810827ae423-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/3893beb5465d8c5e5baaee1f192857b3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/893e2c4112e3e849fb52de6184e5cac7-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d9db03ac68d758fe3f4fd65701508c04-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d977fb30b893166c5b9587b9ca83737c-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/807098da99301e71ba759ca4813f36e4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/554885252c524f6521ae72409828578a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0ee753651b4655bb342bb9cdbd38b3b2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/50952f3992514860c3357f5905a9549a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/336161ead734d1426741eae1bc5f83ef-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0371f5b7d1edaca832d0c68ba78c2947-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/4127829d9ab7712f7006ccff859b24c7-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/eee445d277d127d34e5fa30439904048-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/6f37715197fca0d1b47bf5a17427ac60-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/dcac4da1287a655d98335ab0195af79b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d225290bb696f8ae9e16333fd492303f-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2565a3c538f86deeb177c57b8fade139-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/59b79b66583ed6f7788bf85ec85bb944-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/1d0e36e74c74bebb2bf01da0c8465a9d-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c22727541c5f321c44195b26f01ac3ac-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Longwood%2C%20FL%22%2C%22mapBounds%22%3A%7B%22west%22%3A-81.3434011%2C%22east%22%3A-81.3334011%2C%22south%22%3A28.6980519%2C%22north%22%3A28.708051899999997%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      }
+    ],
+    "searchParams": {
+      "city": "Longwood",
+      "state": "FL",
+      "filters": {
+        "minPrice": "",
+        "maxPrice": "",
+        "beds": "",
+        "baths": ""
+      },
+      "lat": "28.7030519",
+      "lng": "-81.3384011"
+    }
+  },
+  {
+    "timestamp": "2024-12-03T11:15:06.403Z",
+    "results": [
+      {
+        "zpid": "47718697",
+        "id": "47718697",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/7356dca2c60fe9b9a1a629a9fd975861-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/673-E-Church-Ave-Longwood-FL-32750/47718697_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$349,900",
+        "unformattedPrice": 349900,
+        "address": "673 E Church Ave, Longwood, FL 32750",
+        "addressStreet": "673 E Church Ave",
+        "addressCity": "Longwood",
+        "addressState": "FL",
+        "addressZipcode": "32750",
+        "isUndisclosedAddress": false,
+        "beds": 4,
+        "baths": 2,
+        "area": 1183,
+        "latLong": {
+          "latitude": 28.70112,
+          "longitude": -81.334206
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "New roof",
+        "flexFieldType": "homeInsight",
+        "contentType": "homeInsight",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 47718697,
+            "streetAddress": "673 E Church Ave",
+            "zipcode": "32750",
+            "city": "Longwood",
+            "state": "FL",
+            "latitude": 28.70112,
+            "longitude": -81.334206,
+            "price": 349900,
+            "bathrooms": 2,
+            "bedrooms": 4,
+            "livingArea": 1183,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 22,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "zestimate": 344000,
+            "rentZestimate": 2207,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 349900,
+            "timeOnZillow": 1985658000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 174631,
+            "lotAreaValue": 6100,
+            "lotAreaUnit": "sqft",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "zestimate": 344000,
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "info3String": "https://photos.zillowstatic.com/fp/e39375731b4bce0deb161dcc85f92017-zillow_web_48_23.jpg",
+        "brokerName": "PRISAC 4 YOU REALTY CORP",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/7356dca2c60fe9b9a1a629a9fd975861-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0c1bf197aab6a5838a52b6f3e7c7c0bd-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/39a61e28e8245f429c844aeb6529143b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/57aa4cbafc594785fe69f351a24fdd54-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0ec6e79af144ce9278ed13aff5e57627-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ddb32b0d6dec53b0ac800a31b940beea-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ec90a83a7ffaf93ad9b4c24f4a75a6fd-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/1cbf564486fcf372457b18f7f8f9b4c6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/481e60a6e7208706041f56e65932cc0e-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c479999223103f43000e2356ed023430-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f20de417f41d7c91913c24427eaeb0db-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e46b2101c86dee44d84a4fca64ec7127-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/3b835ff090ec1f5b81770e3f8f851458-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/23adbba0ed91c3e18309e4a9dbd15511-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f86228a48f130170ed1ebef1d066fc2c-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/6086e1537c63115d01e011d1446014c3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c447650db25651fc8567e2621ca34ee1-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b246b306e4585c6d15b75bc2713c9ff0-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f245224caa47c34182dfa270252cf4de-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d8a817179eb7511642afaf491f7b6de8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8bc2d8d10eeb8393392c571a2b44b287-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/1c71663b782c6bc220468a7441b599a4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/17ad3bc7641525c260a49fcb4094af4c-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/9c48f838eac17db23a22248d20700ea6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/984d984c5809bf0ddf8621770a1bbb13-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/09483bbc22e383327296ea2c60b81a05-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d4e5ed0b2888562613471f855f0af342-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c328e58c6171ba62d78989e3d2bfb7d1-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/30afd7a667bccb589ef28f0a0b6e65ab-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b8b07f8d36afcad8af985f6110ba5d9d-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/98a6d63f1c98a44edc47f7b1728e5abc-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/94987a240fa960915ca15a5f1fb1850f-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2c07684fd8af227e70a2b3c099254eb9-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Longwood%2C%20FL%22%2C%22mapBounds%22%3A%7B%22west%22%3A-81.3434011%2C%22east%22%3A-81.3334011%2C%22south%22%3A28.6980519%2C%22north%22%3A28.708051899999997%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "47718537",
+        "id": "47718537",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/7df67ee264e60d03d74956acb36e5fe9-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/410-Georgia-Ave-Longwood-FL-32750/47718537_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$435,000",
+        "unformattedPrice": 435000,
+        "address": "410 Georgia Avenue, Longwood, FL 32750",
+        "addressStreet": "410 Georgia Avenue",
+        "addressCity": "Longwood",
+        "addressState": "FL",
+        "addressZipcode": "32750",
+        "isUndisclosedAddress": false,
+        "beds": 3,
+        "baths": 3,
+        "area": 1588,
+        "latLong": {
+          "latitude": 28.705416,
+          "longitude": -81.340294
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "61 days on Zillow",
+        "flexFieldType": "daysOnZillow",
+        "contentType": "daysOnZillow",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 47718537,
+            "streetAddress": "410 Georgia Avenue",
+            "zipcode": "32750",
+            "city": "Longwood",
+            "state": "FL",
+            "latitude": 28.705416,
+            "longitude": -81.340294,
+            "price": 435000,
+            "bathrooms": 3,
+            "bedrooms": 3,
+            "livingArea": 1588,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 61,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "rentZestimate": 2097,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 435000,
+            "timeOnZillow": 5321764000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 299713,
+            "lotAreaValue": 0,
+            "lotAreaUnit": "sqft",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "info3String": "https://photos.zillowstatic.com/fp/11470fbfca6bd246a8708da0ff0e5603-zillow_web_48_23.jpg",
+        "brokerName": "Summit Realty & Property Manag",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/7df67ee264e60d03d74956acb36e5fe9-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2ac02de27f30564f1621b471290a49a4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8be305a1b4c2ad1449ea71f9166f5a22-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/63ec9499f78dc9ac0e18331c773cb5a2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/969606ae4cfa6f38b910336d7fd330eb-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d270e19aa88d9a157b6769b01960c1ce-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f7400303c646689f0b8560c89e1c5232-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/751e6c079ed83561cefb3b027984f6d1-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2896b69922e506b40c62563e7146ce66-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/6374033c78df481e6d9e268dcfd16180-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2f227195cb3810c62915de1a2224fc04-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/fba716b8fa3058d48e41b27e02b170bf-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Longwood%2C%20FL%22%2C%22mapBounds%22%3A%7B%22west%22%3A-81.3434011%2C%22east%22%3A-81.3334011%2C%22south%22%3A28.6980519%2C%22north%22%3A28.708051899999997%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "352349264",
+        "id": "352349264",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/ce8e3f7a2ccb9b53a0e4e0489bcfd758-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/261-E-Church-Ave-199-Longwood-FL-32750/352349264_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "Lot / Land for sale",
+        "countryCurrency": "$",
+        "price": "$399,000",
+        "unformattedPrice": 399000,
+        "address": "261 E Church Ave #199, Longwood, FL 32750",
+        "addressStreet": "261 E Church Ave #199",
+        "addressCity": "Longwood",
+        "addressState": "FL",
+        "addressZipcode": "32750",
+        "isUndisclosedAddress": false,
+        "baths": 0,
+        "lotAreaString": "10,000 sqft",
+        "latLong": {
+          "latitude": 28.701216,
+          "longitude": -81.34315
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "Vacant lot",
+        "flexFieldType": "homeInsight",
+        "contentType": "homeInsight",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 352349264,
+            "streetAddress": "261 E Church Ave #199",
+            "zipcode": "32750",
+            "city": "Longwood",
+            "state": "FL",
+            "latitude": 28.701216,
+            "longitude": -81.34315,
+            "price": 399000,
+            "bathrooms": 0,
+            "homeType": "LOT",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 167,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "rentZestimate": 1882,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 399000,
+            "timeOnZillow": 14510660000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "unit": "# 199",
+            "lotAreaValue": 10000,
+            "lotAreaUnit": "sqft",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "info3String": "https://photos.zillowstatic.com/fp/e39375731b4bce0deb161dcc85f92017-zillow_web_48_23.jpg",
+        "brokerName": "CALVARY REAL ESTATE GROUP LLC",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/ce8e3f7a2ccb9b53a0e4e0489bcfd758-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ca7b453b31b2a721a9cafaa3c5db7a63-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/a9f995f061d89ae56a6e4ba4486b59df-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8f36b45403ae3af0228bc5d4e770342e-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2606556b0b9e9695dee2a5a568e8b029-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e5df3891e0eb4316bdbba451ac0c8fd5-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/563d47adec38fdf88116987b02bff602-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b776fe9ed9f57cbf219517927b8acac1-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2317b6b940b0cf086633d0dc8bbf36b3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d4a67665329317b6bebad452a0951338-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Longwood%2C%20FL%22%2C%22mapBounds%22%3A%7B%22west%22%3A-81.3434011%2C%22east%22%3A-81.3334011%2C%22south%22%3A28.6980519%2C%22north%22%3A28.708051899999997%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "66204129",
+        "id": "66204129",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/65244717dcadc0d8a447d7ea854df1f8-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/966-N-Ronald-Reagan-Blvd-Longwood-FL-32750/66204129_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$595,000",
+        "unformattedPrice": 595000,
+        "address": "966 N Ronald Reagan Blvd, Longwood, FL 32750",
+        "addressStreet": "966 N Ronald Reagan Blvd",
+        "addressCity": "Longwood",
+        "addressState": "FL",
+        "addressZipcode": "32750",
+        "isUndisclosedAddress": false,
+        "beds": 5,
+        "baths": 3,
+        "area": 2490,
+        "latLong": {
+          "latitude": 28.707905,
+          "longitude": -81.342896
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "3D Tour",
+        "flexFieldType": "threeDHome",
+        "contentType": "threeDHome",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 66204129,
+            "streetAddress": "966 N Ronald Reagan Blvd",
+            "zipcode": "32750",
+            "city": "Longwood",
+            "state": "FL",
+            "latitude": 28.707905,
+            "longitude": -81.342896,
+            "price": 595000,
+            "datePriceChanged": 1727852400000,
+            "bathrooms": 3,
+            "bedrooms": 5,
+            "livingArea": 2490,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 591,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "rentZestimate": 2750,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "priceReduction": "$105,000 (Oct 2)",
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 595000,
+            "priceChange": -105000,
+            "timeOnZillow": 51130673000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 453109,
+            "lotAreaValue": 1.1263,
+            "lotAreaUnit": "acres",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "info3String": "https://photos.zillowstatic.com/fp/e39375731b4bce0deb161dcc85f92017-zillow_web_48_23.jpg",
+        "brokerName": "RE/MAX TOWN & COUNTRY REALTY",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/65244717dcadc0d8a447d7ea854df1f8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/59120d8050155eadbcdbba975f596a40-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8b2abb9de8faa187325a3790ee71ab98-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/df174f95ce93f7c9a7666af56da53f3d-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/cf3f1dc7c110a09466be049bc7d7344d-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b67085e8fc9972ba2c5da6370902f126-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ef031349db70fb0b07e3dda31298d373-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0ecbf2ef7b3c6f771d27f0a9754a9d78-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/08d5c6399c25df6c495856d3e857e5a4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/82b8ab6e5b3d8fb1d39251d9ed942f86-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/339e3a509464d132e34c1eaf5079cfd5-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e62737a3d7f59f46eede9918e335c7ad-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/692fa3b06359d8bcafa3f4eb1c179df0-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/07d7c3a0f5eb0629ae40f9a58b0acbf0-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/622afc96d70e4c07a91baa3c2eb560e8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f74313f25f1f3ebecf47b0e9f54f2534-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f66b5621279857f442bf0e6314690952-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f88ac0f814da5b1e26cbe90d3b95057a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8c53436a946b39c5d49d722fd3d34e87-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/4c21102432d831219ba5d13f7efc690a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c82a43f7a924e824ef7a3e31e80af2cf-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/acb716d0a86d7bb223bac6e81b7469d8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f4305c154009b5cc4c63966fd82e96d6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/a00b48e4d7d849a07b405a534bb811d7-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/cdd2b9ca9470b545877c1ec9b7e56cd2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/35f954be793a62b5c432473c1d98b4d7-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/21da6ca6257088a08a88730982776271-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e6cff284a8dfc5dbea12e73f16248eba-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0df996519ec494a2e54185c654ada66b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8f15f0e3a6edea14f1d8b810827ae423-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/3893beb5465d8c5e5baaee1f192857b3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/893e2c4112e3e849fb52de6184e5cac7-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d9db03ac68d758fe3f4fd65701508c04-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d977fb30b893166c5b9587b9ca83737c-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/807098da99301e71ba759ca4813f36e4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/554885252c524f6521ae72409828578a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0ee753651b4655bb342bb9cdbd38b3b2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/50952f3992514860c3357f5905a9549a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/336161ead734d1426741eae1bc5f83ef-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0371f5b7d1edaca832d0c68ba78c2947-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/4127829d9ab7712f7006ccff859b24c7-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/eee445d277d127d34e5fa30439904048-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/6f37715197fca0d1b47bf5a17427ac60-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/dcac4da1287a655d98335ab0195af79b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d225290bb696f8ae9e16333fd492303f-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2565a3c538f86deeb177c57b8fade139-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/59b79b66583ed6f7788bf85ec85bb944-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/1d0e36e74c74bebb2bf01da0c8465a9d-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/c22727541c5f321c44195b26f01ac3ac-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Longwood%2C%20FL%22%2C%22mapBounds%22%3A%7B%22west%22%3A-81.3434011%2C%22east%22%3A-81.3334011%2C%22south%22%3A28.6980519%2C%22north%22%3A28.708051899999997%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      }
+    ],
+    "searchParams": {
+      "city": "Longwood",
+      "state": "FL"
+    }
   }
 ]

@@ -41,7 +41,7 @@ export default function Dashboard() {
       // Small delay to ensure proper reinitialization
       const timer = setTimeout(() => {
         setMapLoaded(true);
-      }, 100);
+      }, 1800);
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
