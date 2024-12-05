@@ -17,7 +17,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onLocationUpdate }) => {
   };
 
   return (
-    <div className="h-[290px]"> {/* Fixed height container */}
+    <div className="h-[275px] relative z-50"> {/* Added z-50 for highest priority */}
       <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
         {/* Front Side */}
         <div className="text-center">
