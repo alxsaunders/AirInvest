@@ -1,5 +1,6 @@
 // components/SearchSection.tsx
 import React, { useState } from 'react';
+import ReactCardFlip from 'react-card-flip';
 import Icon from './Icon/Icon';
 import PropertySearch from './PropertySearch';
 import ZillowDetailSearch from './ZillowDetailSearch';
@@ -9,30 +10,45 @@ interface SearchSectionProps {
 }
 
 const SearchSection: React.FC<SearchSectionProps> = ({ onLocationUpdate }) => {
-  const [isZillowSearch, setIsZillowSearch] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
 
   const handleFlip = () => {
-    setIsZillowSearch(!isZillowSearch);
+    setIsFlipped(!isFlipped);
   };
 
   return (
-    <div className="text-center">
-      <Icon
-        name="flip"
-        size={94}
-        color="#000000"
-        onClick={handleFlip}
-        className="cursor-pointer hover:scale-105 transition-transform"
-      />
-      <h1 className="text-4xl font-bold text-white mb-8">
-        {isZillowSearch ? 'Search by Zillow ID' : 'Search Properties'}
-      </h1>
+    <div className="h-[290px]"> {/* Fixed height container */}
+      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+        {/* Front Side */}
+        <div className="text-center">
+          <Icon
+            name="flip"
+            size={94}
+            color="#000000"
+            onClick={handleFlip}
+            className="cursor-pointer hover:scale-105 transition-transform"
+          />
+          <h1 className="text-4xl font-bold text-white mb-8">
+            Search Properties
+          </h1>
+          <PropertySearch onLocationUpdate={onLocationUpdate} />
+        </div>
 
-      {isZillowSearch ? (
-        <ZillowDetailSearch />
-      ) : (
-        <PropertySearch onLocationUpdate={onLocationUpdate} />
-      )}
+        {/* Back Side */}
+        <div className="text-center">
+          <Icon
+            name="flip"
+            size={94}
+            color="#000000"
+            onClick={handleFlip}
+            className="cursor-pointer hover:scale-105 transition-transform"
+          />
+          <h1 className="text-4xl font-bold text-white mb-8">
+            Search by Zillow URL
+          </h1>
+          <ZillowDetailSearch />
+        </div>
+      </ReactCardFlip>
     </div>
   );
 };
