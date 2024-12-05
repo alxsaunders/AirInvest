@@ -157,12 +157,12 @@ export default function Dashboard() {
         </div>
 
         {/* Property Search Section */}
-        <div className="relative pt-20">
+        <div className="relative pt-5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <Icon
                 name="flip"
-                size={24}
+                size={94}
                 color="#000000"
                 onClick={() => console.log("Icon clicked!")}
               />
