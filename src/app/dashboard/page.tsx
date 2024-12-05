@@ -11,6 +11,8 @@ import Script from "next/script";
 import { LocationUpdate } from "@/types/property";
 import VideoLoader from "@/components/VideoLoader";
 import Icon from '@/components/Icon';
+import React from 'react';
+import SearchSection from '@/components/SearchSection';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -160,17 +162,7 @@ export default function Dashboard() {
         <div className="relative pt-5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <Icon
-                name="flip"
-                size={94}
-                color="#000000"
-                onClick={() => console.log("Icon clicked!")}
-              />
-              <h1 className="text-4xl font-bold text-white mb-8">
-                Search Properties
-              </h1>
-
-              <PropertySearch onLocationUpdate={handleLocationUpdate} />
+            <SearchSection onLocationUpdate={handleLocationUpdate} />
             </div>
           </div>
         </div>
