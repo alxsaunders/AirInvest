@@ -1,4 +1,4 @@
-// src/components/PropertySearch.tsx
+// components/PropertySearch.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { SearchFilters, LocationUpdate } from "@/types/property";
 import VideoLoader from "@/components/VideoLoader";
+import { createPortal } from 'react-dom';
 
 interface PropertySearchProps {
   onLocationUpdate: (location: LocationUpdate) => void;
@@ -59,6 +60,16 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchResults, setSearchResults] = useState<any>(null);
+
+  const LoadingOverlay = () => {
+    return createPortal(
+      <div className="fixed inset-0 bg-[#1E1E1E] z-[9999] flex items-center justify-center">
+        <VideoLoader />
+      </div>,
+      document.body
+    );
+  };
 
   const handlePriceRangeChange = (range: string) => {
     if (!range) {
@@ -101,24 +112,29 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
 
       onLocationUpdate(location);
 
-      // Check cache with complete search params
+      // Store search parameters in session storage
+      const searchParams = {
+        city,
+        state: selectedState,
+        lat: location.lat.toString(),
+        lng: location.lng.toString(),
+        filters: {
+          minPrice: filters.minPrice || undefined,
+          maxPrice: filters.maxPrice || undefined,
+          beds: filters.beds || undefined,
+          baths: filters.baths || undefined,
+        },
+      };
+
+      sessionStorage.setItem('lastSearchParams', JSON.stringify(searchParams));
+
+      // Check cache
       const cacheResponse = await fetch("/api/check-cache", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          city,
-          state: selectedState,
-          lat: location.lat.toString(),
-          lng: location.lng.toString(),
-          filters: {
-            minPrice: filters.minPrice || undefined,
-            maxPrice: filters.maxPrice || undefined,
-            beds: filters.beds || undefined,
-            baths: filters.baths || undefined,
-          },
-        }),
+        body: JSON.stringify(searchParams),
       });
 
       const cacheData = await cacheResponse.json();
@@ -127,37 +143,41 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
         throw new Error(cacheData.error || 'Failed to check cache');
       }
 
-      // Prepare search URL params
-      const searchQueryState = {
-        usersSearchTerm: `${city}, ${selectedState}`,
-        mapBounds: {
-          west: location.lng - 0.1,
-          east: location.lng + 0.1,
-          south: location.lat - 0.1,
-          north: location.lat + 0.1,
-          centerLat: location.lat,
-          centerLng: location.lng,
-        },
-        filterState: {
-          sort: { value: "days" },
-          ah: { value: true },
-          ...(filters.minPrice && {
-            price: { min: parseInt(filters.minPrice) },
-          }),
-          ...(filters.maxPrice && {
-            price: { max: parseInt(filters.maxPrice) },
-          }),
-          ...(filters.beds && {
-            beds: { min: parseInt(filters.beds) },
-          }),
-          ...(filters.baths && {
-            baths: { min: parseInt(filters.baths) },
-          }),
-        },
-      };
+      // If cache exists and is valid, use it
+      if (cacheData.hasCache) {
+        setSearchResults(cacheData.results);
+        sessionStorage.setItem('searchResults', JSON.stringify(cacheData.results));
+        sessionStorage.setItem('cacheTimestamp', cacheData.timestamp);
+      } else {
+        // Prepare search URL params for Zillow
+        const searchQueryState = {
+          usersSearchTerm: `${city}, ${selectedState}`,
+          mapBounds: {
+            west: location.lng - 0.1,
+            east: location.lng + 0.1,
+            south: location.lat - 0.1,
+            north: location.lat + 0.1,
+            centerLat: location.lat,
+            centerLng: location.lng,
+          },
+          filterState: {
+            sort: { value: "days" },
+            ah: { value: true },
+            ...(filters.minPrice && {
+              price: { min: parseInt(filters.minPrice) },
+            }),
+            ...(filters.maxPrice && {
+              price: { max: parseInt(filters.maxPrice) },
+            }),
+            ...(filters.beds && {
+              beds: { min: parseInt(filters.beds) },
+            }),
+            ...(filters.baths && {
+              baths: { min: parseInt(filters.baths) },
+            }),
+          },
+        };
 
-      // If no cache or cache expired, fetch new results
-      if (!cacheData.hasCache) {
         const zillowUrl = `https://www.zillow.com/homes/for_sale/?searchQueryState=${encodeURIComponent(
           JSON.stringify(searchQueryState)
         )}`;
@@ -179,9 +199,13 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
           const errorData = await searchResponse.json();
           throw new Error(errorData.error || 'Failed to fetch properties');
         }
+
+        const results = await searchResponse.json();
+        setSearchResults(results);
+        sessionStorage.setItem('searchResults', JSON.stringify(results));
       }
 
-      // Build final URL parameters for results page
+      // Navigate to results page with search parameters
       const urlParams = new URLSearchParams({
         city,
         state: selectedState,
@@ -191,22 +215,17 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
         ...(filters.maxPrice && { maxPrice: filters.maxPrice }),
         ...(filters.beds && { beds: filters.beds }),
         ...(filters.baths && { baths: filters.baths }),
-        useCache: cacheData.hasCache.toString(),
       });
-
-      if (cacheData.hasCache) {
-        urlParams.append('cacheTimestamp', cacheData.timestamp);
-      } else {
-        sessionStorage.setItem("isFreshSearch", "true");
-      }
 
       router.push(`/results?${urlParams.toString()}`);
     } catch (error) {
       console.error("Search failed:", error);
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
-      setIsLoading(false); // Reset loading only on error
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
     <div className="flex-1 flex flex-col w-full">
       {error && (
@@ -214,122 +233,118 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
           {error}
         </div>
       )}
+
+      {isLoading && <LoadingOverlay />}
       
-      {isLoading ? (
-        <div className="flex-1 flex items-center justify-center">
-          <VideoLoader />
-        </div>
-      ) : (
-        <form onSubmit={handleSearch} className="space-y-4">
-          {/* City and State Search */}
-          <div className="flex gap-4">
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="Enter city..."
-                className="w-full px-6 py-4 rounded-l-full bg-white/20 backdrop-blur-md 
-                         text-white placeholder-white/70 text-lg border border-white/10
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-  
-            <div className="relative w-40">
-              <button
-                type="button"
-                onClick={() => setIsStateOpen(!isStateOpen)}
-                className="w-full px-6 py-4 rounded-r-full bg-white/20 backdrop-blur-md 
-                         text-white text-lg border border-white/10 flex items-center justify-between"
-              >
-                {selectedState || "State"}
-                <ChevronDown className="w-5 h-5" />
-              </button>
-  
-              {isStateOpen && (
-                <div className="absolute z-50 w-full mt-2 max-h-60 overflow-auto bg-gray-800 rounded-lg shadow-lg">
-                  {states.map((state) => (
-                    <button
-                      key={state}
-                      type="button"
-                      onClick={() => {
-                        setSelectedState(state);
-                        setIsStateOpen(false);
-                      }}
-                      className="w-full px-4 py-2 text-left text-white hover:bg-gray-700"
-                    >
-                      {state}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+      <form onSubmit={handleSearch} className="space-y-4">
+        {/* City and State Search */}
+        <div className="flex gap-4">
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="Enter city..."
+              className="w-full px-6 py-4 rounded-l-full bg-white/20 backdrop-blur-md 
+                       text-white placeholder-white/70 text-lg border border-white/10
+                       focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-  
-          {/* Filters */}
-          <div className="flex gap-4 flex-wrap">
-            <select
-              value={`${filters.minPrice}-${filters.maxPrice}`}
-              onChange={(e) => handlePriceRangeChange(e.target.value)}
-              className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
-            >
-              {priceRanges.map((range) => (
-                <option
-                  key={range.value}
-                  value={range.value}
-                  className="bg-gray-800"
-                >
-                  {range.label}
-                </option>
-              ))}
-            </select>
-  
-            <select
-              value={filters.beds}
-              onChange={(e) =>
-                setFilters((prev) => ({ ...prev, beds: e.target.value }))
-              }
-              className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
-            >
-              {bedOptions.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  className="bg-gray-800"
-                >
-                  {option.label} Beds
-                </option>
-              ))}
-            </select>
-  
-            <select
-              value={filters.baths}
-              onChange={(e) =>
-                setFilters((prev) => ({ ...prev, baths: e.target.value }))
-              }
-              className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
-            >
-              {bathOptions.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  className="bg-gray-800"
-                >
-                  {option.label} Baths
-                </option>
-              ))}
-            </select>
-  
+
+          <div className="relative w-40">
             <button
-              type="submit"
-              className="px-8 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
-                       transition-colors flex-shrink-0"
+              type="button"
+              onClick={() => setIsStateOpen(!isStateOpen)}
+              className="w-full px-6 py-4 rounded-r-full bg-white/20 backdrop-blur-md 
+                       text-white text-lg border border-white/10 flex items-center justify-between"
             >
-              Search
+              {selectedState || "State"}
+              <ChevronDown className="w-5 h-5" />
             </button>
+
+            {isStateOpen && (
+              <div className="absolute z-50 w-full mt-2 max-h-60 overflow-auto bg-gray-800 rounded-lg shadow-lg">
+                {states.map((state) => (
+                  <button
+                    key={state}
+                    type="button"
+                    onClick={() => {
+                      setSelectedState(state);
+                      setIsStateOpen(false);
+                    }}
+                    className="w-full px-4 py-2 text-left text-white hover:bg-gray-700"
+                  >
+                    {state}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-        </form>
-      )}
+        </div>
+
+        {/* Filters */}
+        <div className="flex gap-4 flex-wrap">
+          <select
+            value={`${filters.minPrice}-${filters.maxPrice}`}
+            onChange={(e) => handlePriceRangeChange(e.target.value)}
+            className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
+          >
+            {priceRanges.map((range) => (
+              <option
+                key={range.value}
+                value={range.value}
+                className="bg-gray-800"
+              >
+                {range.label}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={filters.beds}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, beds: e.target.value }))
+            }
+            className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
+          >
+            {bedOptions.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="bg-gray-800"
+              >
+                {option.label} Beds
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={filters.baths}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, baths: e.target.value }))
+            }
+            className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-md text-white border border-white/10"
+          >
+            {bathOptions.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="bg-gray-800"
+              >
+                {option.label} Baths
+              </option>
+            ))}
+          </select>
+
+          <button
+            type="submit"
+            className="px-8 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                     transition-colors flex-shrink-0"
+          >
+            Search
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

@@ -18,17 +18,17 @@ interface ZillowProperty {
   detailUrl: string;
   [key: string]: any;
 }
+
 export const checkAuth = async () => {
-    const router = useRouter();
-    try {
-      const user = await getCurrentUser();
-      return { success: true, user };
-    } catch (error) {
-      router.push("/login");
-      return { success: false };
-    }
-   };
-   
+  const router = useRouter();
+  try {
+    const user = await getCurrentUser();
+    return { success: true, user };
+  } catch (error) {
+    router.push("/login");
+    return { success: false };
+  }
+};
 
 export default function ResultsPage() {
   const searchParams = useSearchParams();
@@ -37,74 +37,62 @@ export default function ResultsPage() {
   const [error, setError] = useState<string | null>(null);
   const requestMade = useRef(false);
 
-  // Format helpers
   const formatNumber = (num: number | null | undefined) => {
     return num?.toLocaleString() ?? "N/A";
   };
 
+  checkAuth();
 
-  checkAuth()
- 
   useEffect(() => {
     const fetchResults = async () => {
-      const isFreshSearch = sessionStorage.getItem('isFreshSearch') === 'true';
-      const cachedResults = sessionStorage.getItem('propertyResults');
-      const cachedParams = sessionStorage.getItem('searchParams');
-
-      if (cachedResults && cachedParams === searchParams.toString() && !isFreshSearch) {
-        console.log("Using cached results");
-        setProperties(JSON.parse(cachedResults));
-        setIsLoading(false);
-        return;
-      }
-      sessionStorage.removeItem('isFreshSearch');
-
-      // Prevent duplicate requests in development mode
-      if (requestMade.current) {
-        console.log("Request already made, skipping...");
-        return;
-      }
-
+      if (requestMade.current) return;
+    
       setIsLoading(true);
       setError(null);
-
+    
       const city = searchParams.get("city");
       const state = searchParams.get("state");
-      const lat = parseFloat(searchParams.get("lat") || "0");
-      const lng = parseFloat(searchParams.get("lng") || "0");
-
+      
       if (!city || !state) {
         setError("City and state are required");
         setIsLoading(false);
         return;
       }
-
-      const useCache = searchParams.get('useCache') === 'true';
-      
-      if (useCache) {
-        // Fetch from cache
+    
+      try {
+        requestMade.current = true;
+    
+        // Check cache first
         const cacheResponse = await fetch("/api/check-cache", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            city: searchParams.get('city'),
-            state: searchParams.get('state'),
+            city,
+            state,
+            filters: {
+              minPrice: searchParams.get("minPrice") || undefined,
+              maxPrice: searchParams.get("maxPrice") || undefined,
+              beds: searchParams.get("beds") || undefined,
+              baths: searchParams.get("baths") || undefined,
+            }
           }),
         });
-        
+    
         const cacheData = await cacheResponse.json();
-        if (cacheData.results) {
+    
+        // If we have valid cache data, use it
+        if (cacheData.hasCache && cacheData.results) {
           setProperties(cacheData.results);
           setIsLoading(false);
           return;
         }
-      }
-
-      try {
-        requestMade.current = true;
-
+    
+        // If no cache, proceed with API call
+        const lat = parseFloat(searchParams.get("lat") || "0");
+        const lng = parseFloat(searchParams.get("lng") || "0");
+    
         const searchQueryState = {
           isMapVisible: true,
           mapBounds: {
@@ -132,12 +120,11 @@ export default function ResultsPage() {
           isListVisible: true,
           regionSelection: [{ regionId: 0, regionType: 6 }],
         };
-
+    
         const zillowUrl = `https://www.zillow.com/homes/for_sale/?searchQueryState=${encodeURIComponent(
           JSON.stringify(searchQueryState)
         )}`;
-
-        console.log("Making API request...");
+    
         const response = await fetch("/api/zillow/search", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -145,29 +132,27 @@ export default function ResultsPage() {
             searchUrls: [{ url: zillowUrl }],
           }),
         });
-
+    
         if (!response.ok) {
           throw new Error("Failed to fetch properties");
         }
-
+    
         const data = await response.json();
         setProperties(data);
-
+    
+        // Store in cache
         await fetch('/api/check-cache', {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-              city: searchParams.get('city'),
-              state: searchParams.get('state'),
-              results: data
+            city,
+            state,
+            results: data
           })
-      });
-
-        sessionStorage.setItem('propertyResults', JSON.stringify(data));
-        sessionStorage.setItem('searchParams', searchParams.toString());
-
+        });
+    
       } catch (error) {
         console.error("Error fetching results:", error);
         setError("Failed to fetch results");
@@ -175,16 +160,14 @@ export default function ResultsPage() {
         setIsLoading(false);
       }
     };
-
     fetchResults();
 
-    // Cleanup function to reset the ref on unmount
     return () => {
       requestMade.current = false;
     };
   }, [searchParams]);
 
-  // Loading skeleton
+  // Rest of your component remains the same...
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
