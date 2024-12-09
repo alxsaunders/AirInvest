@@ -9,6 +9,7 @@ import { PropertyLocation } from "./PropertyLocation";
 import Link from "next/link";
 import { Property } from "@/types/property";
 import { InvestmentCalculator } from "./InvestmentCalculator";
+import  AirBnbCal  from './AirBnbCal';
 
 interface PropertyDetailProps {
   property: Property;
@@ -95,6 +96,9 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
               </CardHeader>
               <CardContent>
                 <InvestmentCalculator property={property} />
+                <div className="mt-6">
+                  <AirBnbCal property={property} />
+                </div>
               </CardContent>
             </Card>
           </div>
