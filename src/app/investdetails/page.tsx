@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { Property } from '@/types/property';
+import { useUser } from '@/hooks/useUser';
+import { useRouter } from 'next/navigation';
 
 interface AirbnbListing {
   pricing: {
@@ -9,9 +11,18 @@ interface AirbnbListing {
   };
 }
 
+interface SaveStatus {
+  type: 'idle' | 'success' | 'error';
+  message?: string;
+}
+
 export default function InvestDetails() {
+  const { user, isAuthenticated } = useUser();
+  const router = useRouter();
   const [listing, setListing] = useState<AirbnbListing | null>(null);
   const [property, setProperty] = useState<Property | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>({ type: 'idle' });
 
   useEffect(() => {
     // Get data from localStorage instead of URL
@@ -29,6 +40,75 @@ export default function InvestDetails() {
       }
     }
   }, []);
+
+  const handleSave = async () => {
+    if (!isAuthenticated || !user) {
+      router.push('/login');
+      return;
+    }
+
+    if (!property || !listing) {
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Missing property or listing data' 
+      });
+      return;
+    }
+
+    setSaving(true);
+    setSaveStatus({ type: 'idle' });
+
+    try {
+      const nightlyRate = parseFloat(listing.pricing.price.replace('$', ''));
+      const annualRevenue = nightlyRate * 365 * 0.75;
+      const roi = ((annualRevenue - (property.price * 0.1)) / property.price) * 100;
+
+      const analysis = {
+        propertyId: property.zpid,
+        airbnbRate: nightlyRate,
+        purchasePrice: property.price,
+        annualRevenue,
+        roi,
+        monthlyRevenue: nightlyRate * 30 * 0.75,
+        propertyDetails: {
+          address: property.address.streetAddress,
+          bedrooms: property.bedrooms,
+          bathrooms: property.bathrooms,
+          sqft: property.livingArea
+        }
+      };
+
+      const response = await fetch('/api/investment-analysis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          analysis,
+          userId: user.userId
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save analysis');
+      }
+
+      setSaveStatus({ type: 'success', message: 'Analysis saved successfully!' });
+      
+      // Redirect after successful save
+      setTimeout(() => {
+        router.push('/saved-analyses');
+      }, 1500);
+    } catch (error) {
+      console.error('Error saving analysis:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: error instanceof Error ? error.message : 'Failed to save analysis' 
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
 
   if (!listing || !property) {
     return (
@@ -51,9 +131,31 @@ export default function InvestDetails() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Property Overview */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white mb-2">{property.address.streetAddress}</h1>
-          <p className="text-gray-400">Purchase Price: ${property.price.toLocaleString()}</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-white mb-2">{property.address.streetAddress}</h1>
+            <p className="text-gray-400">Purchase Price: ${property.price.toLocaleString()}</p>
+          </div>
+          <div className="flex items-center gap-4">
+            {saveStatus.type !== 'idle' && (
+              <span className={`${
+                saveStatus.type === 'success' ? 'text-green-500' : 'text-red-500'
+              }`}>
+                {saveStatus.message}
+              </span>
+            )}
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className={`px-6 py-3 rounded-lg transition-all ${
+                saving 
+                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                  : 'bg-blue-500 hover:bg-blue-600 text-white cursor-pointer'
+              }`}
+            >
+              {saving ? 'Saving...' : 'Save Analysis'}
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
