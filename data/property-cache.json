@@ -29974,5 +29974,851 @@
       "city": "hollywood",
       "state": "FL"
     }
+  },
+  {
+    "timestamp": "2024-12-10T18:16:42.180Z",
+    "results": [
+      {
+        "zpid": "338258674",
+        "id": "338258674",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/4836b0623dd016ac58a449fed18b3017-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/2880-SE-200th-Andrews-TX-79714/338258674_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$485,000",
+        "unformattedPrice": 485000,
+        "address": "2880 SE 200th, Andrews, TX 79714",
+        "addressStreet": "2880 SE 200th",
+        "addressCity": "Andrews",
+        "addressState": "TX",
+        "addressZipcode": "79714",
+        "isUndisclosedAddress": false,
+        "beds": 4,
+        "baths": 3,
+        "area": 2495,
+        "latLong": {
+          "latitude": 32.320343,
+          "longitude": -102.54685
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "Well-maintained yard",
+        "flexFieldType": "homeInsight",
+        "contentType": "homeInsight",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 338258674,
+            "streetAddress": "2880 SE 200th",
+            "zipcode": "79714",
+            "city": "Andrews",
+            "state": "TX",
+            "latitude": 32.320343,
+            "longitude": -102.54685,
+            "price": 485000,
+            "datePriceChanged": 1723446000000,
+            "bathrooms": 3,
+            "bedrooms": 4,
+            "livingArea": 2495,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 147,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "priceReduction": "",
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 485000,
+            "priceChange": -14999,
+            "timeOnZillow": 12771794000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 386191,
+            "lotAreaValue": 1,
+            "lotAreaUnit": "acres",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "brokerName": "Monument Realty",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/4836b0623dd016ac58a449fed18b3017-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/af195599082e1441cfe1c99f641a36d4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/63edcc1076858738efccd0338d01cc23-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e6e1204283b472477d360e61889d3df2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8dd13dd39834064a2e1c1942a2443116-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/98785ad665ae4be58be0f0d72d8e9d99-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/13a969da7a687c2b499013fddf142df4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/7a0a2b53d88b41acd35044a3ca7ce8b3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d7377c878ee62dc71d5a3d773547ef4a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/82e2f5c3db2730c5e5540a33292fa1d2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/beba754c9e561d8915574340f2e0a141-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0e986b730918b37fea8161dc768f7b12-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/5d1d4b4ce42593ad2474ceac5ba896b5-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/bd26449118f10771b9fa4c9b81407a29-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/edc6cef05ab061b84cfef9641c9af952-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b14a7332088fe5b781e8694b709b5818-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8366a2e2ecc5657c61096404ccb79955-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/13d762b0673ea18cf4984349c8a35478-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/55ded66f8575e477df25aa4e661dccc6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/1c8da5446dc03846dbd91ff6fed1cd45-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/bfc422103410d4b1c1ad2373fc83b61b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/5c873763914af1515c7e1b25811e0136-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b571d8015c5107e83b31160c8dea3daa-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ab465d7195d49352ee5e3d9772abd4fb-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e424cc04e20747908838de2bf686966e-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d86af4a357b1b2c197cc44396e62e316-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/5fc258f62579d3125056a9058bb5aad0-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/fae906eb28cf23abeb5f7bebeb149bbe-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/9759f167f2a80f745f47fc7dd1c34b65-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/63111ab8ab200016beb5259a0abac593-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/dcdc60b9d1b46a6507247ce4feea01e4-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Andrews%2C%20TX%22%2C%22mapBounds%22%3A%7B%22west%22%3A-102.5484155%2C%22east%22%3A-102.5430155%2C%22south%22%3A32.31601580000001%2C%22north%22%3A32.321415800000004%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "122677501",
+        "id": "122677501",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/0ece51255ab19ebce93990c3bc5df03b-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/209-SW-2nd-St-Andrews-TX-79714/122677501_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$215,000",
+        "unformattedPrice": 215000,
+        "address": "209 SW 2nd St, Andrews, TX 79714",
+        "addressStreet": "209 SW 2nd St",
+        "addressCity": "Andrews",
+        "addressState": "TX",
+        "addressZipcode": "79714",
+        "isUndisclosedAddress": false,
+        "beds": 4,
+        "baths": 3,
+        "area": 1736,
+        "latLong": {
+          "latitude": 32.31655,
+          "longitude": -102.548065
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "Price cut: $25,000 (11/25)",
+        "flexFieldType": "priceCut",
+        "contentType": "priceCut",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 122677501,
+            "streetAddress": "209 SW 2nd St",
+            "zipcode": "79714",
+            "city": "Andrews",
+            "state": "TX",
+            "latitude": 32.31655,
+            "longitude": -102.548065,
+            "price": 215000,
+            "datePriceChanged": 1732521600000,
+            "bathrooms": 3,
+            "bedrooms": 4,
+            "livingArea": 1736,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 237,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "priceReduction": "$25,000 (Nov 25)",
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 215000,
+            "priceChange": -25000,
+            "timeOnZillow": 20480637000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 98561,
+            "lotAreaValue": 7000.092,
+            "lotAreaUnit": "sqft",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "brokerName": "Monument Realty",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/0ece51255ab19ebce93990c3bc5df03b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f2e5e586c62a7a1141795ede32d4c457-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/eac8be706782debddccfc24ec51fd1a6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2fb1a3570441e769d3fd5bdf8f5185af-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/7539055b0f5296c8146c5c79c04fa00f-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/80b8a53a99f0442a76e44c4e1d4d0bb5-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/3739f2e4b54135966c93ebcb917ddad9-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/cc7c6bff86ded7474f71d036d5537434-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/cd59940166c866551f7c315af51a74b3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/af7d20f3999104675b977365b32c04b4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/faed81b04656924276edc95130fb5da8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2c09d7561999c3346406c817b23c8dee-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/fdd8a8da6ca8b4496cf33c5cbd3e1299-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Andrews%2C%20TX%22%2C%22mapBounds%22%3A%7B%22west%22%3A-102.5484155%2C%22east%22%3A-102.5430155%2C%22south%22%3A32.31601580000001%2C%22north%22%3A32.321415800000004%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "2054961771",
+        "id": "2054961771",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/df6b3336a13bd82a39a647bec960d609-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/300-Legends-Dr-Andrews-TX-79714/2054961771_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "Lot / Land for sale",
+        "countryCurrency": "$",
+        "price": "$291,850",
+        "unformattedPrice": 291850,
+        "address": "300 Legends Dr, Andrews, TX 79714",
+        "addressStreet": "300 Legends Dr",
+        "addressCity": "Andrews",
+        "addressState": "TX",
+        "addressZipcode": "79714",
+        "isUndisclosedAddress": false,
+        "lotAreaString": "4.49 acres",
+        "latLong": {
+          "latitude": 32.32134,
+          "longitude": -102.54701
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "304 days on Zillow",
+        "flexFieldType": "daysOnZillow",
+        "contentType": "daysOnZillow",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 2054961771,
+            "streetAddress": "300 Legends Dr",
+            "zipcode": "79714",
+            "city": "Andrews",
+            "state": "TX",
+            "latitude": 32.32134,
+            "longitude": -102.54701,
+            "price": 291850,
+            "homeType": "LOT",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 304,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "rentZestimate": 1041,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 291850,
+            "timeOnZillow": 26348304000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 40410,
+            "lotAreaValue": 4.49,
+            "lotAreaUnit": "acres",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "brokerName": "Real Broker, LLC",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/df6b3336a13bd82a39a647bec960d609-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/906d2c1f855e2942864dbac6190423bf-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/12319ee99d29359a77a9e6b90b9bff7b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0d2e439fa04665ad52ee9a36b6889783-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22usersSearchTerm%22%3A%22Andrews%2C%20TX%22%2C%22mapBounds%22%3A%7B%22west%22%3A-102.5484155%2C%22east%22%3A-102.5430155%2C%22south%22%3A32.31601580000001%2C%22north%22%3A32.321415800000004%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isMapVisible%22%3Atrue%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      }
+    ],
+    "searchParams": {
+      "city": "Andrews",
+      "state": "TX",
+      "filters": {
+        "minPrice": "",
+        "maxPrice": "",
+        "beds": "",
+        "baths": ""
+      },
+      "lat": "32.31871580000001",
+      "lng": "-102.5457155"
+    }
+  },
+  {
+    "timestamp": "2024-12-10T18:16:58.406Z",
+    "results": [
+      {
+        "zpid": "338258674",
+        "id": "338258674",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/4836b0623dd016ac58a449fed18b3017-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/2880-SE-200th-Andrews-TX-79714/338258674_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$485,000",
+        "unformattedPrice": 485000,
+        "address": "2880 SE 200th, Andrews, TX 79714",
+        "addressStreet": "2880 SE 200th",
+        "addressCity": "Andrews",
+        "addressState": "TX",
+        "addressZipcode": "79714",
+        "isUndisclosedAddress": false,
+        "beds": 4,
+        "baths": 3,
+        "area": 2495,
+        "latLong": {
+          "latitude": 32.320343,
+          "longitude": -102.54685
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "Well-maintained yard",
+        "flexFieldType": "homeInsight",
+        "contentType": "homeInsight",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 338258674,
+            "streetAddress": "2880 SE 200th",
+            "zipcode": "79714",
+            "city": "Andrews",
+            "state": "TX",
+            "latitude": 32.320343,
+            "longitude": -102.54685,
+            "price": 485000,
+            "datePriceChanged": 1723446000000,
+            "bathrooms": 3,
+            "bedrooms": 4,
+            "livingArea": 2495,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 147,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "priceReduction": "",
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 485000,
+            "priceChange": -14999,
+            "timeOnZillow": 12771810000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 386191,
+            "lotAreaValue": 1,
+            "lotAreaUnit": "acres",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "brokerName": "Monument Realty",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/4836b0623dd016ac58a449fed18b3017-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/af195599082e1441cfe1c99f641a36d4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/63edcc1076858738efccd0338d01cc23-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e6e1204283b472477d360e61889d3df2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8dd13dd39834064a2e1c1942a2443116-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/98785ad665ae4be58be0f0d72d8e9d99-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/13a969da7a687c2b499013fddf142df4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/7a0a2b53d88b41acd35044a3ca7ce8b3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d7377c878ee62dc71d5a3d773547ef4a-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/82e2f5c3db2730c5e5540a33292fa1d2-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/beba754c9e561d8915574340f2e0a141-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0e986b730918b37fea8161dc768f7b12-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/5d1d4b4ce42593ad2474ceac5ba896b5-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/bd26449118f10771b9fa4c9b81407a29-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/edc6cef05ab061b84cfef9641c9af952-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b14a7332088fe5b781e8694b709b5818-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/8366a2e2ecc5657c61096404ccb79955-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/13d762b0673ea18cf4984349c8a35478-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/55ded66f8575e477df25aa4e661dccc6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/1c8da5446dc03846dbd91ff6fed1cd45-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/bfc422103410d4b1c1ad2373fc83b61b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/5c873763914af1515c7e1b25811e0136-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/b571d8015c5107e83b31160c8dea3daa-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/ab465d7195d49352ee5e3d9772abd4fb-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/e424cc04e20747908838de2bf686966e-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/d86af4a357b1b2c197cc44396e62e316-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/5fc258f62579d3125056a9058bb5aad0-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/fae906eb28cf23abeb5f7bebeb149bbe-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/9759f167f2a80f745f47fc7dd1c34b65-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/63111ab8ab200016beb5259a0abac593-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/dcdc60b9d1b46a6507247ce4feea01e4-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22isMapVisible%22%3Atrue%2C%22mapBounds%22%3A%7B%22west%22%3A-102.5484155%2C%22east%22%3A-102.5430155%2C%22south%22%3A32.31601580000001%2C%22north%22%3A32.321415800000004%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isListVisible%22%3Atrue%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A0%2C%22regionType%22%3A6%7D%5D%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "122677501",
+        "id": "122677501",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/0ece51255ab19ebce93990c3bc5df03b-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/209-SW-2nd-St-Andrews-TX-79714/122677501_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "House for sale",
+        "countryCurrency": "$",
+        "price": "$215,000",
+        "unformattedPrice": 215000,
+        "address": "209 SW 2nd St, Andrews, TX 79714",
+        "addressStreet": "209 SW 2nd St",
+        "addressCity": "Andrews",
+        "addressState": "TX",
+        "addressZipcode": "79714",
+        "isUndisclosedAddress": false,
+        "beds": 4,
+        "baths": 3,
+        "area": 1736,
+        "latLong": {
+          "latitude": 32.31655,
+          "longitude": -102.548065
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "Price cut: $25,000 (11/25)",
+        "flexFieldType": "priceCut",
+        "contentType": "priceCut",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 122677501,
+            "streetAddress": "209 SW 2nd St",
+            "zipcode": "79714",
+            "city": "Andrews",
+            "state": "TX",
+            "latitude": 32.31655,
+            "longitude": -102.548065,
+            "price": 215000,
+            "datePriceChanged": 1732521600000,
+            "bathrooms": 3,
+            "bedrooms": 4,
+            "livingArea": 1736,
+            "homeType": "SINGLE_FAMILY",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 237,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "priceReduction": "$25,000 (Nov 25)",
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 215000,
+            "priceChange": -25000,
+            "timeOnZillow": 20480653000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 98561,
+            "lotAreaValue": 7000.092,
+            "lotAreaUnit": "sqft",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "brokerName": "Monument Realty",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/0ece51255ab19ebce93990c3bc5df03b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/f2e5e586c62a7a1141795ede32d4c457-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/eac8be706782debddccfc24ec51fd1a6-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2fb1a3570441e769d3fd5bdf8f5185af-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/7539055b0f5296c8146c5c79c04fa00f-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/80b8a53a99f0442a76e44c4e1d4d0bb5-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/3739f2e4b54135966c93ebcb917ddad9-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/cc7c6bff86ded7474f71d036d5537434-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/cd59940166c866551f7c315af51a74b3-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/af7d20f3999104675b977365b32c04b4-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/faed81b04656924276edc95130fb5da8-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/2c09d7561999c3346406c817b23c8dee-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/fdd8a8da6ca8b4496cf33c5cbd3e1299-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22isMapVisible%22%3Atrue%2C%22mapBounds%22%3A%7B%22west%22%3A-102.5484155%2C%22east%22%3A-102.5430155%2C%22south%22%3A32.31601580000001%2C%22north%22%3A32.321415800000004%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isListVisible%22%3Atrue%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A0%2C%22regionType%22%3A6%7D%5D%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      },
+      {
+        "zpid": "2054961771",
+        "id": "2054961771",
+        "rawHomeStatusCd": "ForSale",
+        "marketingStatusSimplifiedCd": "For Sale by Agent",
+        "imgSrc": "https://photos.zillowstatic.com/fp/df6b3336a13bd82a39a647bec960d609-p_e.jpg",
+        "hasImage": true,
+        "detailUrl": "https://www.zillow.com/homedetails/300-Legends-Dr-Andrews-TX-79714/2054961771_zpid/",
+        "statusType": "FOR_SALE",
+        "statusText": "Lot / Land for sale",
+        "countryCurrency": "$",
+        "price": "$291,850",
+        "unformattedPrice": 291850,
+        "address": "300 Legends Dr, Andrews, TX 79714",
+        "addressStreet": "300 Legends Dr",
+        "addressCity": "Andrews",
+        "addressState": "TX",
+        "addressZipcode": "79714",
+        "isUndisclosedAddress": false,
+        "lotAreaString": "4.49 acres",
+        "latLong": {
+          "latitude": 32.32134,
+          "longitude": -102.54701
+        },
+        "isZillowOwned": false,
+        "flexFieldText": "304 days on Zillow",
+        "flexFieldType": "daysOnZillow",
+        "contentType": "daysOnZillow",
+        "hdpData": {
+          "homeInfo": {
+            "zpid": 2054961771,
+            "streetAddress": "300 Legends Dr",
+            "zipcode": "79714",
+            "city": "Andrews",
+            "state": "TX",
+            "latitude": 32.32134,
+            "longitude": -102.54701,
+            "price": 291850,
+            "homeType": "LOT",
+            "homeStatus": "FOR_SALE",
+            "daysOnZillow": 304,
+            "isFeatured": false,
+            "shouldHighlight": false,
+            "rentZestimate": 1041,
+            "listing_sub_type": {
+              "is_FSBA": true
+            },
+            "isUnmappable": false,
+            "isPreforeclosureAuction": false,
+            "homeStatusForHDP": "FOR_SALE",
+            "priceForHDP": 291850,
+            "timeOnZillow": 26348320000,
+            "isNonOwnerOccupied": true,
+            "isPremierBuilder": false,
+            "isZillowOwned": false,
+            "currency": "USD",
+            "country": "USA",
+            "taxAssessedValue": 40410,
+            "lotAreaValue": 4.49,
+            "lotAreaUnit": "acres",
+            "isShowcaseListing": false
+          }
+        },
+        "isSaved": false,
+        "isUserClaimingOwner": false,
+        "isUserConfirmedClaim": false,
+        "pgapt": "ForSale",
+        "sgapt": "For Sale (Broker)",
+        "shouldShowZestimateAsPrice": false,
+        "has3DModel": false,
+        "hasVideo": false,
+        "isHomeRec": false,
+        "hasAdditionalAttributions": true,
+        "isFeaturedListing": false,
+        "isShowcaseListing": false,
+        "list": true,
+        "relaxed": false,
+        "brokerName": "Real Broker, LLC",
+        "carouselPhotos": [
+          {
+            "url": "https://photos.zillowstatic.com/fp/df6b3336a13bd82a39a647bec960d609-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/906d2c1f855e2942864dbac6190423bf-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/12319ee99d29359a77a9e6b90b9bff7b-p_e.jpg"
+          },
+          {
+            "url": "https://photos.zillowstatic.com/fp/0d2e439fa04665ad52ee9a36b6889783-p_e.jpg"
+          }
+        ],
+        "foundOnSearchPage": 1,
+        "foundFromSearchUrl": "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22isMapVisible%22%3Atrue%2C%22mapBounds%22%3A%7B%22west%22%3A-102.5484155%2C%22east%22%3A-102.5430155%2C%22south%22%3A32.31601580000001%2C%22north%22%3A32.321415800000004%7D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22days%22%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isListVisible%22%3Atrue%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A0%2C%22regionType%22%3A6%7D%5D%2C%22zoom%22%3A16%7D",
+        "zoomQuadrantSequence": []
+      }
+    ],
+    "searchParams": {
+      "city": "Andrews",
+      "state": "TX"
+    }
   }
 ]

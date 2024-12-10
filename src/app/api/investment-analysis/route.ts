@@ -10,7 +10,7 @@ const client = new DynamoDBClient({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
   }
 });
-
+ 
 const docClient = DynamoDBDocumentClient.from(client);
 
 export async function POST(request: Request) {
