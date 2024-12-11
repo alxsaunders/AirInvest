@@ -16,6 +16,8 @@
 # production
 /build
 
+#cache 
+property-cache.json
 # misc
 .DS_Store
 *.pem
