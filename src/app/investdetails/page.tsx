@@ -16,6 +16,23 @@ interface SaveStatus {
   message?: string;
 }
 
+interface SavedAnalysis {
+  id: string;
+  propertyId: string;
+  airbnbRate: number;
+  purchasePrice: number;
+  annualRevenue: number;
+  roi: number;
+  monthlyRevenue: number;
+  propertyDetails: {
+    address: string;
+    bedrooms: number;
+    bathrooms: number;
+    sqft: number;
+  };
+  createdAt: string;
+}
+
 export default function InvestDetails() {
   const { user, isAuthenticated } = useUser();
   const router = useRouter();
@@ -23,23 +40,71 @@ export default function InvestDetails() {
   const [property, setProperty] = useState<Property | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>({ type: 'idle' });
+  const [isViewingMode, setIsViewingMode] = useState(false);
 
   useEffect(() => {
-    // Get data from localStorage instead of URL
-    const airbnbData = localStorage.getItem('selectedAirbnb');
-    const propertyData = localStorage.getItem('zillowProperty');
-    
-    if (airbnbData && propertyData) {
-      try {
-        const parsedListing = JSON.parse(airbnbData);
-        const parsedProperty = JSON.parse(propertyData);
-        setListing(parsedListing);
-        setProperty(parsedProperty);
-      } catch (error) {
-        console.error('Error parsing data:', error);
+    const searchParams = new URLSearchParams(window.location.search);
+    const mode = searchParams.get('mode');
+
+    if (mode === 'view') {
+      setIsViewingMode(true);
+      const savedAnalysisData = localStorage.getItem('savedAnalysis');
+      if (savedAnalysisData) {
+        try {
+          const savedAnalysis: SavedAnalysis = JSON.parse(savedAnalysisData);
+          setProperty({
+            zpid: parseInt(savedAnalysis.propertyId), 
+            price: savedAnalysis.purchasePrice,
+            bedrooms: savedAnalysis.propertyDetails.bedrooms,
+            bathrooms: savedAnalysis.propertyDetails.bathrooms,
+            livingArea: savedAnalysis.propertyDetails.sqft,
+            address: {
+              streetAddress: savedAnalysis.propertyDetails.address,
+              city: '',
+              state: '',
+              zipcode: '',
+              neighborhood: null,
+              community: null
+            },
+            city: '',
+            state: '',
+            homeStatus: '',
+            streetAddress: savedAnalysis.propertyDetails.address,
+            zipcode: '',
+            latitude: 0,
+            longitude: 0,
+            homeType: '',
+            yearBuilt: 0,
+            priceHistory: [],
+            originalPhotos: []
+          } as Property);
+
+          setListing({
+            pricing: {
+              price: `$${savedAnalysis.airbnbRate}`
+            }
+          });
+        } catch (error) {
+          console.error('Error parsing saved analysis:', error);
+          router.push('/saved-analyses');
+        }
+      }
+    } else {
+      const airbnbData = localStorage.getItem('selectedAirbnb');
+      const propertyData = localStorage.getItem('zillowProperty');
+      
+      if (airbnbData && propertyData) {
+        try {
+          const parsedListing = JSON.parse(airbnbData);
+          const parsedProperty = JSON.parse(propertyData);
+          setListing(parsedListing);
+          setProperty(parsedProperty);
+        } catch (error) {
+          console.error('Error parsing data:', error);
+        }
       }
     }
-  }, []);
+  }, [router]);
 
   const handleSave = async () => {
     if (!isAuthenticated || !user) {
@@ -95,7 +160,6 @@ export default function InvestDetails() {
 
       setSaveStatus({ type: 'success', message: 'Analysis saved successfully!' });
       
-      // Redirect after successful save
       setTimeout(() => {
         router.push('/saved-analyses');
       }, 1500);
@@ -118,44 +182,52 @@ export default function InvestDetails() {
     );
   }
 
-  // Get the nightly rate from Airbnb listing
   const nightlyRate = parseFloat(listing.pricing.price.replace('$', ''));
-  
-  // Calculate potential annual revenue
-  const annualRevenue = nightlyRate * 365 * 0.75; // 75% occupancy
-  
-  // Calculate ROI
-  const roi = ((annualRevenue - (property.price * 0.1)) / property.price) * 100; // Assuming 10% annual costs
+  const annualRevenue = nightlyRate * 365 * 0.75;
+  const roi = ((annualRevenue - (property.price * 0.1)) / property.price) * 100;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Property Overview */}
+        {isViewingMode && (
+          <button
+            onClick={() => router.push('/saved-analyses')}
+            className="mb-6 text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Saved Analyses
+          </button>
+        )}
+
         <div className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold text-white mb-2">{property.address.streetAddress}</h1>
             <p className="text-gray-400">Purchase Price: ${property.price.toLocaleString()}</p>
           </div>
-          <div className="flex items-center gap-4">
-            {saveStatus.type !== 'idle' && (
-              <span className={`${
-                saveStatus.type === 'success' ? 'text-green-500' : 'text-red-500'
-              }`}>
-                {saveStatus.message}
-              </span>
-            )}
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className={`px-6 py-3 rounded-lg transition-all ${
-                saving 
-                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-blue-500 hover:bg-blue-600 text-white cursor-pointer'
-              }`}
-            >
-              {saving ? 'Saving...' : 'Save Analysis'}
-            </button>
-          </div>
+          {!isViewingMode && (
+            <div className="flex items-center gap-4">
+              {saveStatus.type !== 'idle' && (
+                <span className={`${
+                  saveStatus.type === 'success' ? 'text-green-500' : 'text-red-500'
+                }`}>
+                  {saveStatus.message}
+                </span>
+              )}
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className={`px-6 py-3 rounded-lg transition-all ${
+                  saving 
+                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                    : 'bg-blue-500 hover:bg-blue-600 text-white cursor-pointer'
+                }`}
+              >
+                {saving ? 'Saving...' : 'Save Analysis'}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
