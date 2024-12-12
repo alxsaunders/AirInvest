@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import { getCurrentUser } from 'aws-amplify/auth';
+import Image from 'next/image';
 
 const NavBar = () => {
   const pathname = usePathname();
@@ -59,9 +60,7 @@ const NavBar = () => {
             <div className="flex items-center">
               <span className="text-white text-2xl font-bold">AirInvst</span>
               <span className="text-blue-400 ml-2">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 4C7 4 3 7 3 12H7C7 9 9 7 12 7C15 7 17 9 17 12H21C21 7 17 4 12 4Z" fill="currentColor"/>
-                </svg>
+              <Image src="/assets/icons/NAVLOGO2.png" alt="Navigation Logo" width={40} height={40} />
               </span>
             </div>
           </Link>

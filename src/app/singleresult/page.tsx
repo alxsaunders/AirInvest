@@ -16,10 +16,10 @@ export default function SingleResultPage() {
 
   useEffect(() => {
     const controller = new AbortController();
-
+  
     const fetchPropertyDetails = async () => {
       if (fetchInProgress.current) return;
-      
+  
       try {
         const url = searchParams.get('url');
         if (!url) {
@@ -27,9 +27,10 @@ export default function SingleResultPage() {
           setLoading(false);
           return;
         }
-
-        // Check for cached data first
+  
+        // Cache key and cache management
         const cacheKey = `property-${url}`;
+        const cacheListKey = 'property-cache-list'; // Key to track cached keys
         const cachedData = sessionStorage.getItem(cacheKey);
         
         if (cachedData) {
@@ -38,30 +39,42 @@ export default function SingleResultPage() {
           setLoading(false);
           return;
         }
-
+  
         // If no cached data, proceed with fetch
         fetchInProgress.current = true;
-        
+  
         const response = await fetch('/api/zillow/property', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ url }),
-          signal: controller.signal
+          signal: controller.signal,
         });
-
+  
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.error || 'Failed to fetch property details');
         }
-
+  
         const rawData = await response.json();
         const data = Array.isArray(rawData) ? rawData[0] : rawData;
-        
+  
         // Cache the fetched data
         sessionStorage.setItem(cacheKey, JSON.stringify(data));
-        
+  
+        // Manage cache size
+        let cacheList = JSON.parse(sessionStorage.getItem(cacheListKey) || '[]');
+  
+        if (!cacheList.includes(cacheKey)) {
+          cacheList.push(cacheKey);
+          if (cacheList.length > 3) {
+            const oldestKey = cacheList.shift(); // Remove oldest entry
+            sessionStorage.removeItem(oldestKey);
+          }
+          sessionStorage.setItem(cacheListKey, JSON.stringify(cacheList));
+        }
+  
         setPropertyData(data);
       } catch (err) {
         if (err instanceof Error && err.name !== 'AbortError') {
@@ -73,9 +86,9 @@ export default function SingleResultPage() {
         setLoading(false);
       }
     };
-
+  
     fetchPropertyDetails();
-
+  
     return () => {
       controller.abort();
       fetchInProgress.current = false;
