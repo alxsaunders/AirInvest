@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Property } from '@/types/property';
 import { useUser } from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
+import InvestLoader from '@/components/loaders/InvestLoader';
 
 interface AirbnbListing {
   pricing: {
@@ -41,69 +42,82 @@ export default function InvestDetails() {
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>({ type: 'idle' });
   const [isViewingMode, setIsViewingMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // New loading state
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const mode = searchParams.get('mode');
+    // Start loading
+    setIsLoading(true);
 
-    if (mode === 'view') {
-      setIsViewingMode(true);
-      const savedAnalysisData = localStorage.getItem('savedAnalysis');
-      if (savedAnalysisData) {
-        try {
-          const savedAnalysis: SavedAnalysis = JSON.parse(savedAnalysisData);
-          setProperty({
-            zpid: parseInt(savedAnalysis.propertyId), 
-            price: savedAnalysis.purchasePrice,
-            bedrooms: savedAnalysis.propertyDetails.bedrooms,
-            bathrooms: savedAnalysis.propertyDetails.bathrooms,
-            livingArea: savedAnalysis.propertyDetails.sqft,
-            address: {
-              streetAddress: savedAnalysis.propertyDetails.address,
+    // Simulate loading for 1.5 seconds
+    const loadingTimer = setTimeout(() => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const mode = searchParams.get('mode');
+
+      if (mode === 'view') {
+        setIsViewingMode(true);
+        const savedAnalysisData = localStorage.getItem('savedAnalysis');
+        if (savedAnalysisData) {
+          try {
+            const savedAnalysis: SavedAnalysis = JSON.parse(savedAnalysisData);
+            setProperty({
+              zpid: parseInt(savedAnalysis.propertyId), 
+              price: savedAnalysis.purchasePrice,
+              bedrooms: savedAnalysis.propertyDetails.bedrooms,
+              bathrooms: savedAnalysis.propertyDetails.bathrooms,
+              livingArea: savedAnalysis.propertyDetails.sqft,
+              address: {
+                streetAddress: savedAnalysis.propertyDetails.address,
+                city: '',
+                state: '',
+                zipcode: '',
+                neighborhood: null,
+                community: null
+              },
               city: '',
               state: '',
+              homeStatus: '',
+              streetAddress: savedAnalysis.propertyDetails.address,
               zipcode: '',
-              neighborhood: null,
-              community: null
-            },
-            city: '',
-            state: '',
-            homeStatus: '',
-            streetAddress: savedAnalysis.propertyDetails.address,
-            zipcode: '',
-            latitude: 0,
-            longitude: 0,
-            homeType: '',
-            yearBuilt: 0,
-            priceHistory: [],
-            originalPhotos: []
-          } as Property);
+              latitude: 0,
+              longitude: 0,
+              homeType: '',
+              yearBuilt: 0,
+              priceHistory: [],
+              originalPhotos: []
+            } as Property);
 
-          setListing({
-            pricing: {
-              price: `$${savedAnalysis.airbnbRate}`
-            }
-          });
-        } catch (error) {
-          console.error('Error parsing saved analysis:', error);
-          router.push('/saved-analyses');
+            setListing({
+              pricing: {
+                price: `$${savedAnalysis.airbnbRate}`
+              }
+            });
+          } catch (error) {
+            console.error('Error parsing saved analysis:', error);
+            router.push('/saved-analyses');
+          }
+        }
+      } else {
+        const airbnbData = localStorage.getItem('selectedAirbnb');
+        const propertyData = localStorage.getItem('zillowProperty');
+        
+        if (airbnbData && propertyData) {
+          try {
+            const parsedListing = JSON.parse(airbnbData);
+            const parsedProperty = JSON.parse(propertyData);
+            setListing(parsedListing);
+            setProperty(parsedProperty);
+          } catch (error) {
+            console.error('Error parsing data:', error);
+          }
         }
       }
-    } else {
-      const airbnbData = localStorage.getItem('selectedAirbnb');
-      const propertyData = localStorage.getItem('zillowProperty');
-      
-      if (airbnbData && propertyData) {
-        try {
-          const parsedListing = JSON.parse(airbnbData);
-          const parsedProperty = JSON.parse(propertyData);
-          setListing(parsedListing);
-          setProperty(parsedProperty);
-        } catch (error) {
-          console.error('Error parsing data:', error);
-        }
-      }
-    }
+
+      // End loading after data is processed
+      setIsLoading(false);
+    }, 1500); // 1.5 seconds loading time
+
+    // Cleanup function to clear the timer
+    return () => clearTimeout(loadingTimer);
   }, [router]);
 
   const handleSave = async () => {
@@ -174,6 +188,12 @@ export default function InvestDetails() {
     }
   };
 
+  // If loading, show InvestLoader
+  if (isLoading) {
+    return <InvestLoader />;
+  }
+
+  // If no listing or property after loading, show error state
   if (!listing || !property) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
