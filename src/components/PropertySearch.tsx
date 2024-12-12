@@ -60,15 +60,18 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<any>(null);
+  
+  const [loadingMessages, setLoadingMessages] = useState<string[]>([]);
 
   const LoadingOverlay = () => {
     return createPortal(
-      <div className="fixed top-[64px] left-0 right-0 bottom-0 bg-[#1E1E1E] z-[9999] flex items-center justify-center">
+      <div className="fixed top-[64px] left-0 right-0 bottom-0 bg-[#1E1E1E] z-[30] flex items-center justify-center">
         <VideoLoader />
       </div>,
       document.body
     );
   };
+  
 
   const handlePriceRangeChange = (range: string) => {
     if (!range) {
@@ -261,7 +264,7 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
             </button>
 
             {isStateOpen && (
-              <div className="absolute z-50 w-full mt-2 max-h-60 overflow-auto bg-gray-800 rounded-lg shadow-lg">
+              <div className="absolute z-2 w-full mt-2 max-h-60 overflow-auto bg-gray-800 rounded-lg shadow-lg">
                 {states.map((state) => (
                   <button
                     key={state}

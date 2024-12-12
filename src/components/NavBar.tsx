@@ -52,10 +52,10 @@ const NavBar = () => {
   }, [pathname]);
 
   return (
-    <nav className="bg-[#1E1E1E] p-4">
+    <nav className="bg-[#1E1E1E] p-4 relative z-50">
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
-        <Link href={firstName ? "/dashboard" : "/"} className="flex items-center space-x-2">
+          <Link href={firstName ? "/dashboard" : "/"} className="flex items-center space-x-2">
             <div className="flex items-center">
               <span className="text-white text-2xl font-bold">AirInvst</span>
               <span className="text-blue-400 ml-2">
@@ -66,9 +66,8 @@ const NavBar = () => {
             </div>
           </Link>
 
-          
           <div className="flex items-center space-x-8">
-          <Link 
+            <Link 
               href={firstName ? "/dashboard" : "/"} 
               className={`text-white hover:text-blue-400 font-medium ${isActive('/')}`}
             >
@@ -111,7 +110,7 @@ const NavBar = () => {
                   </button>
 
                   {showDropdown && (
-                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-[9999]">
                       <Link
                         href="/dashboard"
                         className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"

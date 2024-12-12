@@ -42,7 +42,7 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       {isLoading ? (
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 relative">
           <VideoLoader />
         </div>
       ) : (
