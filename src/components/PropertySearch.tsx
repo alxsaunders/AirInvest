@@ -1,11 +1,10 @@
-// components/PropertySearch.tsx
 "use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { SearchFilters, LocationUpdate } from "@/types/property";
-import VideoLoader from "@/components/VideoLoader";
+import VideoLoader from "@/components/loaders/DefaultLoader";
 import { createPortal } from 'react-dom';
 
 interface PropertySearchProps {
@@ -64,7 +63,7 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
 
   const LoadingOverlay = () => {
     return createPortal(
-      <div className="fixed inset-0 bg-[#1E1E1E] z-[9999] flex items-center justify-center">
+      <div className="fixed top-[64px] left-0 right-0 bottom-0 bg-[#1E1E1E] z-[9999] flex items-center justify-center">
         <VideoLoader />
       </div>,
       document.body
@@ -78,6 +77,69 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
     }
     const [min, max] = range.split("-");
     setFilters((prev) => ({ ...prev, minPrice: min, maxPrice: max }));
+  };
+
+  const performSearch = async (searchParams: any) => {
+    const cacheResponse = await fetch("/api/check-cache", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(searchParams),
+    });
+
+    const cacheData = await cacheResponse.json();
+
+    if (!cacheResponse.ok) {
+      throw new Error(cacheData.error || 'Failed to check cache');
+    }
+
+    if (cacheData.hasCache) {
+      return { results: cacheData.results, timestamp: cacheData.timestamp };
+    }
+
+    const searchQueryState = {
+      usersSearchTerm: `${city}, ${selectedState}`,
+      mapBounds: {
+        west: searchParams.location.lng - 0.1,
+        east: searchParams.location.lng + 0.1,
+        south: searchParams.location.lat - 0.1,
+        north: searchParams.location.lat + 0.1,
+        centerLat: searchParams.location.lat,
+        centerLng: searchParams.location.lng,
+      },
+      filterState: {
+        sort: { value: "days" },
+        ah: { value: true },
+        ...(filters.minPrice && { price: { min: parseInt(filters.minPrice) } }),
+        ...(filters.maxPrice && { price: { max: parseInt(filters.maxPrice) } }),
+        ...(filters.beds && { beds: { min: parseInt(filters.beds) } }),
+        ...(filters.baths && { baths: { min: parseInt(filters.baths) } }),
+      },
+    };
+
+    const zillowUrl = `https://www.zillow.com/homes/for_sale/?searchQueryState=${encodeURIComponent(
+      JSON.stringify(searchQueryState)
+    )}`;
+
+    const searchResponse = await fetch("/api/zillow/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-City": city,
+        "X-State": selectedState,
+        "X-Filters": JSON.stringify(filters),
+      },
+      body: JSON.stringify({
+        searchUrls: [{ url: zillowUrl }],
+      }),
+    });
+
+    if (!searchResponse.ok) {
+      const errorData = await searchResponse.json();
+      throw new Error(errorData.error || 'Failed to fetch properties');
+    }
+
+    const results = await searchResponse.json();
+    return { results, timestamp: Date.now() };
   };
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -112,12 +174,11 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
 
       onLocationUpdate(location);
 
-      // Store search parameters in session storage
+      // Store search parameters
       const searchParams = {
         city,
         state: selectedState,
-        lat: location.lat.toString(),
-        lng: location.lng.toString(),
+        location,
         filters: {
           minPrice: filters.minPrice || undefined,
           maxPrice: filters.maxPrice || undefined,
@@ -128,84 +189,20 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
 
       sessionStorage.setItem('lastSearchParams', JSON.stringify(searchParams));
 
-      // Check cache
-      const cacheResponse = await fetch("/api/check-cache", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(searchParams),
-      });
+      // Add minimum loading time
+      const [searchResult] = await Promise.all([
+        performSearch(searchParams),
+        new Promise(resolve => setTimeout(resolve, 2000)) // Minimum 2s loading time
+      ]);
 
-      const cacheData = await cacheResponse.json();
+      setSearchResults(searchResult.results);
+      sessionStorage.setItem('searchResults', JSON.stringify(searchResult.results));
+      sessionStorage.setItem('cacheTimestamp', searchResult.timestamp.toString());
 
-      if (!cacheResponse.ok) {
-        throw new Error(cacheData.error || 'Failed to check cache');
-      }
+      // Add small delay before navigation
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      // If cache exists and is valid, use it
-      if (cacheData.hasCache) {
-        setSearchResults(cacheData.results);
-        sessionStorage.setItem('searchResults', JSON.stringify(cacheData.results));
-        sessionStorage.setItem('cacheTimestamp', cacheData.timestamp);
-      } else {
-        // Prepare search URL params for Zillow
-        const searchQueryState = {
-          usersSearchTerm: `${city}, ${selectedState}`,
-          mapBounds: {
-            west: location.lng - 0.1,
-            east: location.lng + 0.1,
-            south: location.lat - 0.1,
-            north: location.lat + 0.1,
-            centerLat: location.lat,
-            centerLng: location.lng,
-          },
-          filterState: {
-            sort: { value: "days" },
-            ah: { value: true },
-            ...(filters.minPrice && {
-              price: { min: parseInt(filters.minPrice) },
-            }),
-            ...(filters.maxPrice && {
-              price: { max: parseInt(filters.maxPrice) },
-            }),
-            ...(filters.beds && {
-              beds: { min: parseInt(filters.beds) },
-            }),
-            ...(filters.baths && {
-              baths: { min: parseInt(filters.baths) },
-            }),
-          },
-        };
-
-        const zillowUrl = `https://www.zillow.com/homes/for_sale/?searchQueryState=${encodeURIComponent(
-          JSON.stringify(searchQueryState)
-        )}`;
-
-        const searchResponse = await fetch("/api/zillow/search", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-City": city,
-            "X-State": selectedState,
-            "X-Filters": JSON.stringify(filters),
-          },
-          body: JSON.stringify({
-            searchUrls: [{ url: zillowUrl }],
-          }),
-        });
-
-        if (!searchResponse.ok) {
-          const errorData = await searchResponse.json();
-          throw new Error(errorData.error || 'Failed to fetch properties');
-        }
-
-        const results = await searchResponse.json();
-        setSearchResults(results);
-        sessionStorage.setItem('searchResults', JSON.stringify(results));
-      }
-
-      // Navigate to results page with search parameters
+      // Navigate to results
       const urlParams = new URLSearchParams({
         city,
         state: selectedState,
@@ -221,8 +218,7 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
     } catch (error) {
       console.error("Search failed:", error);
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
-    } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Only set loading false on error
     }
   };
 
@@ -235,6 +231,8 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
       )}
 
       {isLoading && <LoadingOverlay />}
+      
+
       
       <form onSubmit={handleSearch} className="space-y-4">
         {/* City and State Search */}

@@ -9,7 +9,7 @@ import PropertySearch from "@/components/PropertySearch";
 import Map from "@/components/DashMap";
 import Script from "next/script";
 import { LocationUpdate } from "@/types/property";
-import VideoLoader from "@/components/VideoLoader";
+import VideoLoader from "@/components/loaders/DefaultLoader";
 import Icon from '@/components/Icon';
 import React from 'react';
 import SearchSection from '@/components/SearchSection';

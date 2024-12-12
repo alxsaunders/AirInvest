@@ -23,7 +23,7 @@ const VideoLoader = () => {
           loop
           muted
           playsInline
-          className="w-40 h-40"
+          className="w-60 h-60"
         >
           <source src="/assets/videos/loader.webm" type="video/webm" />
           <source src="/assets/videos/loader.mp4" type="video/mp4" />

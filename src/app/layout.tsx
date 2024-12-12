@@ -7,7 +7,7 @@ import { getCurrentUser } from 'aws-amplify/auth';
 import '@/lib/auth-config';
 import { AuthProvider } from '@/context/AuthContext';
 import NavBar from '@/components/NavBar';
-import VideoLoader from '@/components/VideoLoader';
+import VideoLoader from '@/components/loaders/DefaultLoader';
 import Script from 'next/script';
 import './globals.css';
 import { metadata } from './metadata';

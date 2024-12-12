@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import VideoLoader from '@/components/VideoLoader'
+import VideoLoader from '@/components/loaders/DefaultlLader'
 
 export default function Login() {
   const router = useRouter();

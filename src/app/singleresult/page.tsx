@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Property } from '@/types/property';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { PropertyDetail } from '@/components/property/PropertyDetail';
+import  DetailLoader  from "@/components/loaders/DetailLoader"
 
 export default function SingleResultPage() {
   const searchParams = useSearchParams();
@@ -95,9 +96,7 @@ export default function SingleResultPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
-        <div className="text-white">Loading property details...</div>
-      </div>
+      <DetailLoader />
     );
   }
 
