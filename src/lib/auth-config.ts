@@ -7,6 +7,7 @@ Amplify.configure({
       userPoolId: process.env.NEXT_PUBLIC_AWS_USER_POOL_ID!,
       userPoolClientId: process.env.NEXT_PUBLIC_AWS_CLIENT_ID!,
       signUpVerificationMethod: 'code'
+      
     }
   }
 });

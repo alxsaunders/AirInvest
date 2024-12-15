@@ -168,7 +168,7 @@ const MarketAnalysis: React.FC<MarketAnalysisProps> = ({ onCityChange }) => {
             </div>
 
             <div className="h-64">
-              <h3 className="text-sm font-semibold mb-2">Price Trend</h3>
+              <h3 className="text-sm font-semibold mb-2 text-white">Price Trend</h3>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={cityData.values.slice(-12)}>
                   <XAxis 
