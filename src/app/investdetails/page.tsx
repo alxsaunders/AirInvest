@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { Property } from '@/types/property';
+import Image from 'next/image';
+import { Property, PropertyPhoto } from '@/types/property';
 import { useUser } from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
 import InvestLoader from '@/components/loaders/InvestLoader';
@@ -30,6 +31,7 @@ interface SavedAnalysis {
     bedrooms: number;
     bathrooms: number;
     sqft: number;
+    images: string[];
   };
   createdAt: string;
 }
@@ -42,13 +44,12 @@ export default function InvestDetails() {
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>({ type: 'idle' });
   const [isViewingMode, setIsViewingMode] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // New loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   useEffect(() => {
-    // Start loading
     setIsLoading(true);
 
-    // Simulate loading for 1.5 seconds
     const loadingTimer = setTimeout(() => {
       const searchParams = new URLSearchParams(window.location.search);
       const mode = searchParams.get('mode');
@@ -60,7 +61,7 @@ export default function InvestDetails() {
           try {
             const savedAnalysis: SavedAnalysis = JSON.parse(savedAnalysisData);
             setProperty({
-              zpid: parseInt(savedAnalysis.propertyId), 
+              zpid: parseInt(savedAnalysis.propertyId),
               price: savedAnalysis.purchasePrice,
               bedrooms: savedAnalysis.propertyDetails.bedrooms,
               bathrooms: savedAnalysis.propertyDetails.bathrooms,
@@ -83,8 +84,17 @@ export default function InvestDetails() {
               homeType: '',
               yearBuilt: 0,
               priceHistory: [],
-              originalPhotos: []
-            } as Property);
+              originalPhotos: savedAnalysis.propertyDetails.images.map(url => ({
+                caption: '', // Add the required caption field
+                mixedSources: {
+                  jpeg: [{
+                    url,
+                    width: 0 // Add any required fields from PhotoSource interface
+                  }],
+                  webp: [] // Add empty webp array if required
+                }
+              })) as PropertyPhoto[] // Type assertion here
+            });
 
             setListing({
               pricing: {
@@ -112,11 +122,9 @@ export default function InvestDetails() {
         }
       }
 
-      // End loading after data is processed
       setIsLoading(false);
-    }, 1500); // 1.5 seconds loading time
+    }, 1500);
 
-    // Cleanup function to clear the timer
     return () => clearTimeout(loadingTimer);
   }, [router]);
 
@@ -142,6 +150,8 @@ export default function InvestDetails() {
       const annualRevenue = nightlyRate * 365 * 0.75;
       const roi = ((annualRevenue - (property.price * 0.1)) / property.price) * 100;
 
+      const images = property.originalPhotos?.map(photo => photo.mixedSources.jpeg[0].url) || [];
+
       const analysis = {
         propertyId: property.zpid,
         airbnbRate: nightlyRate,
@@ -153,7 +163,8 @@ export default function InvestDetails() {
           address: property.address.streetAddress,
           bedrooms: property.bedrooms,
           bathrooms: property.bathrooms,
-          sqft: property.livingArea
+          sqft: property.livingArea,
+          images
         }
       };
 
@@ -188,12 +199,10 @@ export default function InvestDetails() {
     }
   };
 
-  // If loading, show InvestLoader
   if (isLoading) {
     return <InvestLoader />;
   }
 
-  // If no listing or property after loading, show error state
   if (!listing || !property) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
@@ -290,10 +299,41 @@ export default function InvestDetails() {
             </div>
           </div>
 
-          {/* Property Details */}
+          {/* Property Details with Image Gallery */}
           <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
             <h2 className="text-xl font-semibold text-white mb-4">Property Details</h2>
             <div className="space-y-4">
+              {/* Image Gallery */}
+              <div className="bg-gray-700/50 p-4 rounded-lg">
+                <p className="text-sm text-gray-400 mb-3">Property Images</p>
+                <div className="relative aspect-video mb-2">
+                  <Image
+                    src={property.originalPhotos?.[selectedImageIndex]?.mixedSources.jpeg[0].url || '/placeholder-house.jpg'}
+                    alt="Property"
+                    fill
+                    className="object-cover rounded"
+                  />
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {property.originalPhotos?.slice(0, 4).map((photo, index) => (
+                    <div 
+                      key={index}
+                      className={`relative aspect-square cursor-pointer ${
+                        selectedImageIndex === index ? 'ring-2 ring-blue-500' : ''
+                      }`}
+                      onClick={() => setSelectedImageIndex(index)}
+                    >
+                      <Image
+                        src={photo.mixedSources.jpeg[0].url}
+                        alt={`Thumbnail ${index + 1}`}
+                        fill
+                        className="object-cover rounded"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div className="bg-gray-700/50 p-4 rounded-lg">
                 <p className="text-sm text-gray-400">Property Info</p>
                 <p className="text-white mt-1">{property.bedrooms} beds • {property.bathrooms} baths</p>
