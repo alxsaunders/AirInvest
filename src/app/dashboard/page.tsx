@@ -13,12 +13,23 @@ import VideoLoader from "@/components/loaders/DefaultLoader";
 import Icon from '@/components/Icon';
 import React from 'react';
 import SearchSection from '@/components/SearchSection';
+import Image from 'next/image';
+
+interface SavedAnalysis {
+  id: string;
+  propertyId: string;
+  propertyDetails: {
+    address: string;
+    images: string[];
+  };
+}
 
 export default function Dashboard() {
   const router = useRouter();
   const [firstName, setFirstName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [savedAnalyses, setSavedAnalyses] = useState<SavedAnalysis[]>([]);
   const [selectedLocation, setSelectedLocation] =
     useState<google.maps.LatLngLiteral>({
       lat: 28.5999998,
@@ -32,16 +43,25 @@ export default function Dashboard() {
     return "Good Evening";
   };
 
+  const fetchSavedAnalyses = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      const response = await fetch(`/api/investment-analysis?userId=${currentUser.userId}`);
+      const data = await response.json();
+      setSavedAnalyses(data.slice(0, 6)); // Limit to 6 items
+    } catch (error) {
+      console.error('Error fetching saved analyses:', error);
+    }
+  };
+
   useEffect(() => {
     checkAuth();
+    fetchSavedAnalyses();
   }, []);
 
-  // Effect to handle map refresh after loading
   useEffect(() => {
     if (!isLoading) {
-      // Reset map state when loading finishes
       setMapLoaded(false);
-      // Small delay to ensure proper reinitialization
       const timer = setTimeout(() => {
         setMapLoaded(true);
       }, 1800);
@@ -73,12 +93,10 @@ export default function Dashboard() {
     }
   };
 
-  // Handle location updates from PropertySearch
   const handleLocationUpdate = (location: LocationUpdate) => {
     setSelectedLocation(location);
   };
 
-  // Handle location updates from MarketAnalysis
   const handleCityChange = useCallback(async (cityName: string) => {
     if (!window.google || !cityName) return;
 
@@ -107,7 +125,6 @@ export default function Dashboard() {
   }, []);
 
   if (isLoading) {
-    // Reset map state when entering loading
     if (mapLoaded) {
       setMapLoaded(false);
     }
@@ -115,7 +132,6 @@ export default function Dashboard() {
       <>
         <div className="w-full bg-gray-800/50 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* Keep navbar/greeting visible */}
           </div>
         </div>
         <VideoLoader />
@@ -171,7 +187,7 @@ export default function Dashboard() {
         <div className="relative pt-5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-            <SearchSection onLocationUpdate={handleLocationUpdate} />
+              <SearchSection onLocationUpdate={handleLocationUpdate} />
             </div>
           </div>
         </div>
@@ -212,20 +228,56 @@ export default function Dashboard() {
                 )}
               </div>
 
-              <h2 className="text-2xl font-bold text-white mb-4">
-                Saved Properties
-              </h2>
-              <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6">
-                <div className="flex justify-end">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-                    View
-                  </button>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-bold text-white">
+                    Saved Analyses
+                  </h2>
+                  <Link 
+                    href="/saved-analyses"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    View All
+                  </Link>
+                </div>
+                
+                <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6">
+                  {savedAnalyses.length === 0 ? (
+                    <p className="text-gray-400 text-center">No saved analyses yet</p>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-4">
+                      {savedAnalyses.map((analysis) => (
+                        <div
+                          key={analysis.id}
+                          onClick={() => router.push(`/investdetails?mode=view&id=${analysis.id}`)}
+                          className="relative cursor-pointer group"
+                        >
+                          <div className="relative h-24 w-full rounded-lg overflow-hidden">
+                            <Image
+                              src={analysis.propertyDetails.images[0]}
+                              alt={analysis.propertyDetails.address}
+                              fill
+                              className="object-cover transition-transform group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/50 flex items-end p-2">
+                              <p className="text-sm text-white truncate">
+                                {analysis.propertyDetails.address}
+                              </p>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
+   
     </>
   );
 }

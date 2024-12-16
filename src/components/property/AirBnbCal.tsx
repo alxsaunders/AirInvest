@@ -39,6 +39,7 @@ interface AirbnbListing {
 
 const AirBnbCal = ({ property }: AirBnbCalProps) => {
  const [loading, setLoading] = useState(false);
+ const [loadingProgress, setLoadingProgress] = useState(0);
  const [results, setResults] = useState<AirbnbListing[]>([]);
  const [selectedListingId, setSelectedListingId] = useState<string | null>(null);
  const [error, setError] = useState<string | null>(null);
@@ -62,27 +63,46 @@ const AirBnbCal = ({ property }: AirBnbCalProps) => {
  const fetchEstimates = async () => {
    setLoading(true);
    setError(null);
+   setResults([]);
+   
+   // Progress interval to simulate 15-second loading
+   const progressInterval = setInterval(() => {
+     setLoadingProgress(prev => {
+       if (prev >= 100) {
+         clearInterval(progressInterval);
+         return 100;
+       }
+       return prev + (100 / 150); // Increment to reach 100 in ~15 seconds (assuming 10ms interval)
+     });
+   }, 100);
+
+   // Create a minimum loading time promise
+   const minimumLoadingTime = new Promise(resolve => setTimeout(resolve, 15000));
 
    try {
-     const response = await fetch('/api/airbnb/estimates', {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify({
-         city: property.address.city,
-         state: property.address.state,
-         bedrooms: property.bedrooms,
-         bathrooms: property.bathrooms,
+     // Race between API call and minimum loading time
+     const [data] = await Promise.all([
+       fetch('/api/airbnb/estimates', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({
+           city: property.address.city,
+           state: property.address.state,
+           bedrooms: property.bedrooms,
+           bathrooms: property.bathrooms,
+         }),
+       }).then(response => {
+         if (!response.ok) {
+           throw new Error('Failed to fetch estimates');
+         }
+         return response.json();
        }),
-     });
+       minimumLoadingTime
+     ]);
 
-     const data = await response.json();
      console.log('Raw API response:', data);
-
-     if (!response.ok) {
-       throw new Error(data.error || 'Failed to fetch estimates');
-     }
 
      if (!data || data.length === 0) {
        setError("No similar properties found in your area.");
@@ -94,7 +114,9 @@ const AirBnbCal = ({ property }: AirBnbCalProps) => {
      console.error('Error fetching Airbnb estimates:', error);
      setError(error instanceof Error ? error.message : "Failed to fetch Airbnb estimates. Please try again later.");
    } finally {
+     clearInterval(progressInterval);
      setLoading(false);
+     setLoadingProgress(100);
    }
  };
 
@@ -116,7 +138,8 @@ const AirBnbCal = ({ property }: AirBnbCalProps) => {
        >
          {loading ? (
            <CircularProgressbar
-             value={70}
+             value={loadingProgress}
+             text={`${Math.round(loadingProgress)}%`}
              styles={buildStyles({
                pathColor: "#3b82f6",
                trailColor: "#1f2937",

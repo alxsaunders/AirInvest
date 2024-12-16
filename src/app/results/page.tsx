@@ -241,7 +241,7 @@ export default function ResultsPage() {
               <Link 
                 key={property.zpid}
                 href={`/singleresult?url=${encodeURIComponent(property.detailUrl)}`}
-                className="block hover:opacity-90 transition-opacity"
+                className="block hover:opacity-50 transition-opacity"
               >
                 <div className="bg-gray-800/50 rounded-lg overflow-hidden">
                   <img
@@ -270,6 +270,10 @@ export default function ResultsPage() {
           </div>
         )}
       </div>
+      <footer className="text-center py-4 text-gray-400">
+        <p>AirInvst 2024</p>
+      </footer>
     </div>
+    
   );
 }

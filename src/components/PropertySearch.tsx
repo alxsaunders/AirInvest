@@ -46,6 +46,15 @@ const bathOptions = [
   { label: "4+", value: "4" },
 ];
 
+const LoadingOverlay = () => {
+  return createPortal(
+    <div className="fixed top-[64px] left-0 right-0 bottom-0 bg-[#1E1E1E] z-[9999] flex items-center justify-center">
+      <VideoLoader />
+    </div>,
+    document.body
+  );
+};
+
 export default function PropertySearch({ onLocationUpdate }: PropertySearchProps) {
   const router = useRouter();
   const [city, setCity] = useState("");
@@ -60,18 +69,6 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<any>(null);
-  
-  const [loadingMessages, setLoadingMessages] = useState<string[]>([]);
-
-  const LoadingOverlay = () => {
-    return createPortal(
-      <div className="fixed top-[64px] left-0 right-0 bottom-0 bg-[#1E1E1E] z-[30] flex items-center justify-center">
-        <VideoLoader />
-      </div>,
-      document.body
-    );
-  };
-  
 
   const handlePriceRangeChange = (range: string) => {
     if (!range) {
@@ -149,6 +146,8 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
     e.preventDefault();
     if (!city || !selectedState) return;
 
+    // Reset scroll position and set loading state
+    window.scrollTo(0, 0);
     setIsLoading(true);
     setError(null);
 
@@ -234,9 +233,7 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
       )}
 
       {isLoading && <LoadingOverlay />}
-      
 
-      
       <form onSubmit={handleSearch} className="space-y-4">
         {/* City and State Search */}
         <div className="flex gap-4">

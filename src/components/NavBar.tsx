@@ -56,37 +56,51 @@ const NavBar = () => {
     <nav className="bg-[#1E1E1E] p-4 relative z-50">
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
-          <Link href={firstName ? "/dashboard" : "/"} className="flex items-center space-x-2">
+          <Link
+            href={firstName ? "/dashboard" : "/"}
+            className="flex items-center space-x-2"
+          >
             <div className="flex items-center">
-              <span className="text-white text-2xl font-bold">AirInvst</span>
+              <span className="text-white text-2xl font-bold">AirInvest</span>
               <span className="text-blue-400 ml-2">
-              <Image src="/assets/icons/NAVLOGO2.png" alt="Navigation Logo" width={40} height={40} />
+                <Image
+                  src="/assets/icons/NAVLOGO2.png"
+                  alt="Navigation Logo"
+                  width={40}
+                  height={40}
+                />
               </span>
             </div>
           </Link>
 
           <div className="flex items-center space-x-8">
-            <Link 
-              href={firstName ? "/dashboard" : "/"} 
-              className={`text-white hover:text-blue-400 font-medium ${isActive('/')}`}
+            <Link
+              href={firstName ? "/dashboard" : "/"}
+              className={`text-white hover:text-blue-400 font-medium ${isActive(
+                "/"
+              )}`}
             >
               Home
             </Link>
-            <Link 
-              href="/features" 
-              className={`text-white hover:text-blue-400 font-medium ${isActive('/features')}`}
+            <Link
+              href="/features"
+              className={`text-white hover:text-blue-400 font-medium ${isActive(
+                "/features"
+              )}`}
             >
               Features
             </Link>
-            <Link 
-              href="/about" 
-              className={`text-white hover:text-blue-400 font-medium ${isActive('/about')}`}
+            <Link
+              href="/about"
+              className={`text-white hover:text-blue-400 font-medium ${isActive(
+                "/about"
+              )}`}
             >
               About
             </Link>
 
-            {!isLoading && (
-              firstName ? (
+            {!isLoading &&
+              (firstName ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowDropdown(!showDropdown)}
@@ -94,7 +108,9 @@ const NavBar = () => {
                   >
                     <span>Hello, {firstName}</span>
                     <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        showDropdown ? "rotate-180" : ""
+                      }`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -117,6 +133,13 @@ const NavBar = () => {
                       >
                         Dashboard
                       </Link>
+                      <Link
+                        href="/saved-analyses"
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        Saves
+                      </Link>
                       <button
                         onClick={handleSignOut}
                         className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
@@ -127,14 +150,13 @@ const NavBar = () => {
                   )}
                 </div>
               ) : (
-                <Link 
-                  href="/login"  
+                <Link
+                  href="/login"
                   className="text-white hover:text-blue-400 font-medium"
                 >
                   Login/SignUp
                 </Link>
-              )
-            )}
+              ))}
           </div>
         </div>
       </div>
