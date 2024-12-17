@@ -251,11 +251,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="text-center py-4 text-gray-400">
+      <footer className="text-center py-4 text-gray-400 bg-transparent">
         <p>AirInvest 2024</p>
       </footer>
+      
     </div>
   );
 }

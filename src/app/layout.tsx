@@ -48,8 +48,10 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
       ) : (
         <main className="flex-1">
           {children}
+         
         </main>
       )}
+      
     </div>
   );
 }
@@ -74,8 +76,6 @@ export default function RootLayout({
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
         />
       </body>
-     
-       
     </html>
   );
 }

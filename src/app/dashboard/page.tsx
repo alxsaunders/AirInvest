@@ -275,6 +275,9 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        <footer className="text-center py-4 text-gray-400 bg-transparent">
+        <p>AirInvest 2024</p>
+      </footer>
       </div>
       
    
