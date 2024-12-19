@@ -73,7 +73,6 @@ export default function Home() {
       router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
     } catch (err) {
       console.error('Error during sign up:', err);
-      // Handle specific AWS Cognito errors
       if (err instanceof Error) {
         switch (err.name) {
           case 'UsernameExistsException':
@@ -102,167 +101,182 @@ export default function Home() {
     }
   };
 
+  // Common styles
+  const cardClasses = "backdrop-blur-md bg-black/40 border border-white/10 shadow-2xl rounded-2xl";
+  const inputClasses = "w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20";
+  const labelClasses = "block text-sm font-medium mb-2 text-white/80";
+
   return (
     <div className="relative min-h-screen">
-      {/* Background image with blur */}
-      <div
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: "url('/assets/photos/homeBg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        {/* Blur overlay - medium blur */}
-        <div className="absolute inset-0 backdrop-blur-md bg-black/50"></div>
+      {/* Background with blur */}
+      <div className="fixed inset-0 z-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/assets/photos/homeBg.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 backdrop-blur-xl bg-gradient-to-br from-black/60 via-black/50 to-black/60" />
       </div>
 
-      {/* Content container */}
+      {/* Main content */}
       <div className="relative z-10">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Form */}
-            <div className="space-y-8">
-              <h1 className="text-5xl font-light text-white">
+        <div className="container mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
+            {/* Form Column */}
+            <div className={`${cardClasses} p-8`}>
+              <h1 className="text-2xl font-light text-white/90 tracking-wide mb-8">
                 Watch Your Investments Soar
               </h1>
 
-<form onSubmit={handleSubmit} className="space-y-6">
-  {error && (
-    <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded-lg backdrop-blur-md">
-      {error}
-    </div>
-  )}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="bg-red-500/10 border-2 border-red-500/50 text-red-400 px-4 py-3 rounded-xl backdrop-blur-md">
+                    {error}
+                  </div>
+                )}
 
-  <div>
-    <label htmlFor="firstName" className="block text-sm font-medium mb-2 text-white">
-      First Name
-    </label>
-    <input
-      type="text"
-      id="firstName"
-      required
-      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
-      placeholder="John"
-      value={formData.firstName}
-      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-    />
-  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="firstName" className={labelClasses}>
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      required
+                      className={inputClasses}
+                      placeholder="John"
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                    />
+                  </div>
 
-  <div>
-    <label htmlFor="lastName" className="block text-sm font-medium mb-2 text-white">
-      Last Name
-    </label>
-    <input
-      type="text"
-      id="lastName"
-      required
-      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
-      placeholder="Doe"
-      value={formData.lastName}
-      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-    />
-  </div>
+                  <div>
+                    <label htmlFor="lastName" className={labelClasses}>
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      required
+                      className={inputClasses}
+                      placeholder="Doe"
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                    />
+                  </div>
+                </div>
 
-  <div>
-    <label htmlFor="email" className="block text-sm font-medium mb-2 text-white">
-      Email
-    </label>
-    <input
-      type="email"
-      id="email"
-      required
-      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
-      placeholder="johndoe@gmail.com"
-      value={formData.email}
-      onChange={(e) => setFormData({...formData, email: e.target.value})}
-    />
-  </div>
+                <div>
+                  <label htmlFor="email" className={labelClasses}>
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    className={inputClasses}
+                    placeholder="johndoe@gmail.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  />
+                </div>
 
-  <div>
-    <label htmlFor="password" className="block text-sm font-medium mb-2 text-white">
-      Password
-    </label>
-    <input
-      type="password"
-      id="password"
-      required
-      minLength={8}
-      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
-      placeholder="********"
-      value={formData.password}
-      onChange={(e) => setFormData({...formData, password: e.target.value})}
-    />
-    <p className="text-sm text-white/70 mt-1">
-      Must be at least 8 characters with uppercase, lowercase, numbers, and special characters
-    </p>
-  </div>
+                <div>
+                  <label htmlFor="password" className={labelClasses}>
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    required
+                    minLength={8}
+                    className={inputClasses}
+                    placeholder="********"
+                    value={formData.password}
+                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  />
+                  <p className="text-sm text-white/60 mt-2">
+                    Must be at least 8 characters with uppercase, lowercase, numbers, and special characters
+                  </p>
+                </div>
 
-  <div>
-    <label htmlFor="phone" className="block text-sm font-medium mb-2 text-white">
-      Phone
-    </label>
-    <input
-      type="tel"
-      id="phone"
-      required
-      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
-      placeholder="+1 (555) 555-5555"
-      value={formData.phone}
-      onChange={(e) => setFormData({...formData, phone: e.target.value})}
-    />
-    <p className="text-sm text-white/70 mt-1">
-      Format: +1 followed by your number
-    </p>
-  </div>
+                <div>
+                  <label htmlFor="phone" className={labelClasses}>
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    required
+                    className={inputClasses}
+                    placeholder="+1 (555) 555-5555"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  />
+                  <p className="text-sm text-white/60 mt-2">
+                    Format: +1 followed by your number
+                  </p>
+                </div>
 
-  <button
-    type="submit"
-    disabled={isLoading}
-    className={`w-full bg-blue-600/90 backdrop-blur-md hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200
-      ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:transform hover:scale-[1.02]'}`}
-  >
-    {isLoading ? 'Creating Account...' : 'SIGN UP'}
-  </button>
-</form>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`
+                    w-full bg-gradient-to-r from-blue-600 to-blue-700
+                    text-white font-bold py-4 px-6 rounded-xl
+                    transition-all duration-300 shadow-lg shadow-blue-500/20
+                    hover:shadow-xl hover:shadow-blue-500/30
+                    backdrop-blur-md border border-blue-400/20
+                    ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-[1.02]'}
+                  `}
+                >
+                  {isLoading ? 'Creating Account...' : 'SIGN UP'}
+                </button>
+              </form>
+            </div>
 
-              {/* Data Sources */}
-              <div className="pt-8">
-                <p className="text-gray-300 mb-4">With Data From</p>
-                <div className="flex items-center space-x-6">
+            {/* Image Column with Data Sources */}
+            <div className="flex flex-col h-full">
+              <div className="relative flex-grow">
+                <Image
+                  src="/house-3d.png"
+                  alt="3D House"
+                  width={600}
+                  height={600}
+                  className="object-contain mx-auto"
+                  priority
+                />
+              </div>
+              
+              {/* Data Sources with matching dark background */}
+              <div className={`${cardClasses} p-6`}>
+                <p className="text-gray-300 mb-4 font-light">With Data From</p>
+                <div className="flex items-center justify-center space-x-8">
                   <Image
-                    src="/airbnb-logo.png"
+                    src="/assets/photos/airbnblogo.png"
                     alt="Airbnb"
-                    width={100}
-                    height={50}
+                    width={120}
+                    height={60}
                     className="object-contain"
                   />
                   <Image
-                    src="/zillow-logo.png"
+                    src="/assets/photos/zillowlogo.png"
                     alt="Zillow"
-                    width={100}
-                    height={50}
+                    width={120}
+                    height={60}
                     className="object-contain"
                   />
                 </div>
               </div>
             </div>
-
-            {/* Right Column - House Image */}
-            <div className="hidden lg:block">
-              <Image
-                src="/house-3d.png"
-                alt="3D House"
-                width={600}
-                height={600}
-                className="object-contain"
-                priority
-              />
-            </div>
           </div>
         </div>
-        <footer className="text-center py-4 text-white bg-transparent">
+
+        <footer className="text-center py-6 text-white/70 bg-transparent">
           <p>AirInvest 2024</p>
         </footer>
       </div>

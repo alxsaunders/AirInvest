@@ -53,114 +53,118 @@ const NavBar = () => {
   }, [pathname]);
 
   return (
-    <nav className="bg-[#1E1E1E] p-4 relative z-50">
-      <div className="container mx-auto">
-        <div className="flex items-center justify-between">
-          <Link
-            href={firstName ? "/dashboard" : "/"}
-            className="flex items-center space-x-2"
-          >
-            <div className="flex items-center">
-              <span className="text-white text-2xl font-bold">AirInvest</span>
-              <span className="text-blue-400 ml-2">
-                <Image
-                  src="/assets/icons/NAVLOGO2.png"
-                  alt="Navigation Logo"
-                  width={40}
-                  height={40}
-                />
-              </span>
-            </div>
-          </Link>
-
-          <div className="flex items-center space-x-8">
+    <div className="relative">
+      <nav className="bg-[#1E1E1E] shadow-lg relative z-50">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
             <Link
               href={firstName ? "/dashboard" : "/"}
-              className={`text-white hover:text-blue-400 font-medium ${isActive(
-                "/"
-              )}`}
+              className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105"
             >
-              Home
-            </Link>
-            <Link
-              href="/features"
-              className={`text-white hover:text-blue-400 font-medium ${isActive(
-                "/features"
-              )}`}
-            >
-              Features
-            </Link>
-            <Link
-              href="/about"
-              className={`text-white hover:text-blue-400 font-medium ${isActive(
-                "/about"
-              )}`}
-            >
-              About
+              <div className="flex items-center">
+                <span className="text-white text-2xl font-bold tracking-tight">AirInvest</span>
+                <span className="text-blue-400 ml-2">
+                  <Image
+                    src="/assets/icons/NAVLOGO2.png"
+                    alt="Navigation Logo"
+                    width={40}
+                    height={40}
+                    className="transform hover:-rotate-12 transition-transform duration-300"
+                  />
+                </span>
+              </div>
             </Link>
 
-            {!isLoading &&
-              (firstName ? (
-                <div className="relative">
-                  <button
-                    onClick={() => setShowDropdown(!showDropdown)}
-                    className="flex items-center space-x-1 text-white hover:text-blue-400 font-medium focus:outline-none"
-                  >
-                    <span>Hello, {firstName}</span>
-                    <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        showDropdown ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+            <div className="flex items-center space-x-6">
+              <Link
+                href={firstName ? "/dashboard" : "/"}
+                className={`text-white hover:text-blue-400 font-medium transition-colors duration-200 px-3 py-2 border-b-2 ${
+                  pathname === '/' ? 'border-blue-400 text-blue-400' : 'border-transparent'
+                }`}
+              >
+                Home
+              </Link>
+              <Link
+                href="/features"
+                className={`text-white hover:text-blue-400 font-medium transition-colors duration-200 px-3 py-2 border-b-2 ${
+                  pathname === '/features' ? 'border-blue-400 text-blue-400' : 'border-transparent'
+                }`}
+              >
+                Features
+              </Link>
+              <Link
+                href="/about"
+                className={`text-white hover:text-blue-400 font-medium transition-colors duration-200 px-3 py-2 border-b-2 ${
+                  pathname === '/about' ? 'border-blue-400 text-blue-400' : 'border-transparent'
+                }`}
+              >
+                About
+              </Link>
+
+              {!isLoading &&
+                (firstName ? (
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowDropdown(!showDropdown)}
+                      className="flex items-center space-x-2 text-white hover:text-blue-400 font-medium focus:outline-none transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-gray-800"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
+                      <span>Hello, {firstName}</span>
+                      <svg
+                        className={`w-4 h-4 transition-transform duration-300 ease-in-out ${
+                          showDropdown ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
 
-                  {showDropdown && (
-                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-[9999]">
-                      <Link
-                        href="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                        onClick={() => setShowDropdown(false)}
-                      >
-                        Dashboard
-                      </Link>
-                      <Link
-                        href="/saved-analyses"
-                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                        onClick={() => setShowDropdown(false)}
-                      >
-                        Saves
-                      </Link>
-                      <button
-                        onClick={handleSignOut}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                      >
-                        Sign Out
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  href="/login"
-                  className="text-white hover:text-blue-400 font-medium"
-                >
-                  Login/SignUp
-                </Link>
-              ))}
+                    {showDropdown && (
+                      <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg py-1 z-[9999] border border-gray-700 transform origin-top transition-all duration-200 ease-out">
+                        <Link
+                          href="/dashboard"
+                          className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors duration-200 first:rounded-t-lg"
+                          onClick={() => setShowDropdown(false)}
+                        >
+                          Dashboard
+                        </Link>
+                        <Link
+                          href="/saved-analyses"
+                          className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors duration-200"
+                          onClick={() => setShowDropdown(false)}
+                        >
+                          Saves
+                        </Link>
+                        <button
+                          onClick={handleSignOut}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors duration-200 last:rounded-b-lg"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="text-white hover:text-blue-400 font-medium transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-gray-800"
+                  >
+                    Login/SignUp
+                  </Link>
+                ))}
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+      <div className="absolute w-full h-8 bg-gradient-to-b from-[#1E1E1E] to-transparent"></div>
+    </div>
   );
 };
 
