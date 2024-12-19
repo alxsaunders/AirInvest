@@ -8,16 +8,12 @@ import { Amplify } from 'aws-amplify';
 import { getCurrentUser } from 'aws-amplify/auth';
 import Head from 'next/head';
 
-
-
-
 // Configure Amplify with env.local values
 Amplify.configure({
   Auth: {
     Cognito: {
       userPoolId: process.env.NEXT_PUBLIC_AWS_USER_POOL_ID!,
       userPoolClientId: process.env.NEXT_PUBLIC_AWS_CLIENT_ID!,
-      
     }
   }
 });
@@ -107,154 +103,169 @@ export default function Home() {
   };
 
   return (
-    
-    <div className="min-h-screen bg-[#1E1E1E] text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Form */}
-          <div className="space-y-8">
-            <h1 className="text-5xl font-light text-gray-300">
-              Watch Your Investments Soar
-            </h1>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {error && (
-                <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded">
-                  {error}
+    <div className="relative min-h-screen">
+      {/* Background image with blur */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: "url('/assets/photos/homeBg.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* Blur overlay - medium blur */}
+        <div className="absolute inset-0 backdrop-blur-md bg-black/50"></div>
+      </div>
+
+      {/* Content container */}
+      <div className="relative z-10">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Form */}
+            <div className="space-y-8">
+              <h1 className="text-5xl font-light text-white">
+                Watch Your Investments Soar
+              </h1>
+
+<form onSubmit={handleSubmit} className="space-y-6">
+  {error && (
+    <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded-lg backdrop-blur-md">
+      {error}
+    </div>
+  )}
+
+  <div>
+    <label htmlFor="firstName" className="block text-sm font-medium mb-2 text-white">
+      First Name
+    </label>
+    <input
+      type="text"
+      id="firstName"
+      required
+      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
+      placeholder="John"
+      value={formData.firstName}
+      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+    />
+  </div>
+
+  <div>
+    <label htmlFor="lastName" className="block text-sm font-medium mb-2 text-white">
+      Last Name
+    </label>
+    <input
+      type="text"
+      id="lastName"
+      required
+      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
+      placeholder="Doe"
+      value={formData.lastName}
+      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+    />
+  </div>
+
+  <div>
+    <label htmlFor="email" className="block text-sm font-medium mb-2 text-white">
+      Email
+    </label>
+    <input
+      type="email"
+      id="email"
+      required
+      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
+      placeholder="johndoe@gmail.com"
+      value={formData.email}
+      onChange={(e) => setFormData({...formData, email: e.target.value})}
+    />
+  </div>
+
+  <div>
+    <label htmlFor="password" className="block text-sm font-medium mb-2 text-white">
+      Password
+    </label>
+    <input
+      type="password"
+      id="password"
+      required
+      minLength={8}
+      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
+      placeholder="********"
+      value={formData.password}
+      onChange={(e) => setFormData({...formData, password: e.target.value})}
+    />
+    <p className="text-sm text-white/70 mt-1">
+      Must be at least 8 characters with uppercase, lowercase, numbers, and special characters
+    </p>
+  </div>
+
+  <div>
+    <label htmlFor="phone" className="block text-sm font-medium mb-2 text-white">
+      Phone
+    </label>
+    <input
+      type="tel"
+      id="phone"
+      required
+      className="w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20"
+      placeholder="+1 (555) 555-5555"
+      value={formData.phone}
+      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+    />
+    <p className="text-sm text-white/70 mt-1">
+      Format: +1 followed by your number
+    </p>
+  </div>
+
+  <button
+    type="submit"
+    disabled={isLoading}
+    className={`w-full bg-blue-600/90 backdrop-blur-md hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200
+      ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:transform hover:scale-[1.02]'}`}
+  >
+    {isLoading ? 'Creating Account...' : 'SIGN UP'}
+  </button>
+</form>
+
+              {/* Data Sources */}
+              <div className="pt-8">
+                <p className="text-gray-300 mb-4">With Data From</p>
+                <div className="flex items-center space-x-6">
+                  <Image
+                    src="/airbnb-logo.png"
+                    alt="Airbnb"
+                    width={100}
+                    height={50}
+                    className="object-contain"
+                  />
+                  <Image
+                    src="/zillow-logo.png"
+                    alt="Zillow"
+                    width={100}
+                    height={50}
+                    className="object-contain"
+                  />
                 </div>
-              )}
-
-              <div>
-                <label htmlFor="firstName" className="block text-sm font-medium mb-2">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  required
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="John"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="lastName" className="block text-sm font-medium mb-2">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  required
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Doe"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  required
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="johndoe@gmail.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium mb-2">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  required
-                  minLength={8}
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="********"
-                  value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
-                />
-                <p className="text-sm text-gray-400 mt-1">
-                  Must be at least 8 characters with uppercase, lowercase, numbers, and special characters
-                </p>
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  required
-                  className="w-full p-3 rounded-lg bg-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="+1 (555) 555-5555"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                />
-                <p className="text-sm text-gray-400 mt-1">
-                  Format: +1 followed by your number
-                </p>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200
-                  ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {isLoading ? 'Creating Account...' : 'SIGN UP'}
-              </button>
-            </form>
-
-            {/* Data Sources */}
-            <div className="pt-8">
-              <p className="text-gray-400 mb-4">With Data From</p>
-              <div className="flex items-center space-x-6">
-                <Image
-                  src="/airbnb-logo.png"
-                  alt="Airbnb"
-                  width={100}
-                  height={50}
-                  className="object-contain"
-                />
-                <Image
-                  src="/zillow-logo.png"
-                  alt="Zillow"
-                  width={100}
-                  height={50}
-                  className="object-contain"
-                />
               </div>
             </div>
-          </div>
 
-          {/* Right Column - House Image */}
-          <div className="hidden lg:block">
-            <Image
-              src="/house-3d.png"
-              alt="3D House"
-              width={600}
-              height={600}
-              className="object-contain"
-              priority
-            />
+            {/* Right Column - House Image */}
+            <div className="hidden lg:block">
+              <Image
+                src="/house-3d.png"
+                alt="3D House"
+                width={600}
+                height={600}
+                className="object-contain"
+                priority
+              />
+            </div>
           </div>
         </div>
+        <footer className="text-center py-4 text-white bg-transparent">
+          <p>AirInvest 2024</p>
+        </footer>
       </div>
-      <footer className="text-center py-4 text-gray-400 bg-transparent">
-        <p>AirInvest 2024</p>
-      </footer>
-      
     </div>
   );
 }
