@@ -1,6 +1,5 @@
 'use client';
 
-import { Inter } from 'next/font/google';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getCurrentUser } from 'aws-amplify/auth';
@@ -11,8 +10,34 @@ import VideoLoader from '@/components/loaders/DefaultLoader';
 import Script from 'next/script';
 import './globals.css';
 import { metadata } from './metadata';
+import localFont from 'next/font/local';
 
-const inter = Inter({ subsets: ['latin'] });
+// Define your custom fonts
+const titleFont = localFont({
+  src: [
+    {
+      path: './fonts/title.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/title.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-title'
+});
+
+const bodyFont = localFont({
+  src: './fonts/body.ttf',
+  variable: '--font-body'
+});
+
+const footerFont = localFont({
+  src: './fonts/footer.otf',
+  variable: '--font-footer'
+});
 
 // Define protected routes that require authentication
 const protectedRoutes = ['/dashboard', '/profile', '/settings', '/results', '/singleresult'];
@@ -39,7 +64,7 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col font-body">
       <NavBar />
       {isLoading ? (
         <div className="flex-1 relative">
@@ -48,10 +73,8 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
       ) : (
         <main className="flex-1">
           {children}
-         
         </main>
       )}
-      
     </div>
   );
 }
@@ -62,12 +85,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${titleFont.variable} ${bodyFont.variable} ${footerFont.variable}`}>
       <head>
         <meta name="description" content={metadata.description} />
         <title>{metadata.title}</title>
       </head>
-      <body className={inter.className}>
+      <body className="font-body">
         <AuthProvider>
           <RootLayoutContent>{children}</RootLayoutContent>
         </AuthProvider>
