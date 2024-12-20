@@ -1,0 +1,12 @@
+/* src/components/three/Scene3D/Scene3D.module.css */
+.container {
+    height: 600px;
+    width: 100%;
+    position: relative;
+    background: transparent;
+  }
+  
+  .container canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }

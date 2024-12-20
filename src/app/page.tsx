@@ -1,14 +1,104 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { signUp } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import { getCurrentUser } from 'aws-amplify/auth';
 import Head from 'next/head';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { Environment, OrbitControls } from '@react-three/drei';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import * as THREE from 'three';
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
-// Configure Amplify with env.local values
+// Model Component
+interface ModelProps {
+  url: string;
+  position: [number, number, number];
+  scale?: [number, number, number];
+}
+
+function Model({ url, position }: ModelProps) {
+  const modelRef = useRef<THREE.Group>();
+  const gltf = useLoader(GLTFLoader, url);
+  
+  useEffect(() => {
+    if (gltf.scene) {
+      gltf.scene.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          // Keep original material but ensure it can receive shadows
+          child.material.needsUpdate = true;
+          child.castShadow = true;
+          child.receiveShadow = true;
+          
+          // If it's using MeshStandardMaterial, we can enhance it
+          if (child.material instanceof THREE.MeshStandardMaterial) {
+            child.material.envMapIntensity = 1;
+            child.material.roughness = 0.5;
+            child.material.metalness = 0.5;
+          }
+        }
+      });
+    }
+  }, [gltf]);
+  
+  useFrame((state) => {
+    if (modelRef.current) {
+      modelRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.1;
+      modelRef.current.rotation.y += 0.01;
+    }
+  });
+
+  return (
+    <primitive
+      ref={modelRef}
+      object={gltf.scene}
+      position={position}
+      scale={[1.3, 1.3, 1.3]}
+    />
+  );
+}
+
+// Scene Component
+function Scene3D() {
+  return (
+    <div className="h-[600px] w-full bg-transparent">
+      <Canvas
+        camera={{ position: [0, 8, 20], fov: 45 }}
+        shadows
+        style={{ background: 'transparent' }}
+      >
+        <Suspense fallback={null}>
+          <ambientLight intensity={0.5} />
+          <directionalLight
+            position={[5, 5, 5]}
+            intensity={1}
+            castShadow
+          />
+          
+          <Model 
+            url="/airinvst2.glb"
+            position={[1, 0, 0]}
+            scale={[0.001, 0.001, 0.001]}
+          />
+
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            minPolarAngle={Math.PI / 3}
+            maxPolarAngle={Math.PI / 2}
+          />
+          
+          <Environment preset="city" />
+        </Suspense>
+      </Canvas>
+    </div>
+  );
+}
+
+// Configure Amplify
 Amplify.configure({
   Auth: {
     Cognito: {
@@ -34,7 +124,6 @@ export default function Home() {
     const checkUser = async () => {
       try {
         await getCurrentUser();
-        // Redirect to dashboard if authenticated
         router.push('/dashboard');
       } catch (error) {
         // User is not logged in, stay on the sign-up page
@@ -68,8 +157,6 @@ export default function Home() {
       });
   
       console.log('Sign up successful:', signUpResult);
-      
-      // Pass the email to the verification page
       router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
     } catch (err) {
       console.error('Error during sign up:', err);
@@ -102,7 +189,7 @@ export default function Home() {
   };
 
   // Common styles
-  const cardClasses = "backdrop-blur-md bg-black/40 border border-white/10 shadow-2xl rounded-2xl";
+  const cardClasses = "backdrop-blur-md bg-black/25 border border-white/10 shadow-2xl rounded-2xl";
   const inputClasses = "w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20";
   const labelClasses = "block text-sm font-medium mb-2 text-white/80";
 
@@ -118,16 +205,16 @@ export default function Home() {
             backgroundPosition: "center",
           }}
         />
-        <div className="absolute inset-0 backdrop-blur-xl bg-gradient-to-br from-black/60 via-black/50 to-black/60" />
+        <div className="absolute inset-0 backdrop-blur-sm bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
       </div>
 
       {/* Main content */}
       <div className="relative z-10">
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
+        <div className="container mx-auto px-6 py-6 mt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
             {/* Form Column */}
-            <div className={`${cardClasses} p-8`}>
-              <h1 className="text-2xl font-light text-white/90 tracking-wide mb-8">
+            <div className={`${cardClasses} p-8 flex flex-col h-full`}>
+              <h1 className="text-4xl font-light text-white/90 tracking-wide mb-8">
                 Watch Your Investments Soar
               </h1>
 
@@ -239,22 +326,15 @@ export default function Home() {
               </form>
             </div>
 
-            {/* Image Column with Data Sources */}
+            {/* 3D Models Column with Data Sources */}
             <div className="flex flex-col h-full">
               <div className="relative flex-grow">
-                <Image
-                  src="/house-3d.png"
-                  alt="3D House"
-                  width={600}
-                  height={600}
-                  className="object-contain mx-auto"
-                  priority
-                />
+                <Scene3D />
               </div>
               
               {/* Data Sources with matching dark background */}
-              <div className={`${cardClasses} p-6`}>
-                <p className="text-gray-300 mb-4 font-light">With Data From</p>
+              <div className={`${cardClasses} p-6 text-center`}>
+                <p className="text-gray-300 mb-4 font-light text-center">With Data From</p>
                 <div className="flex items-center justify-center space-x-8">
                   <Image
                     src="/assets/photos/airbnblogo.png"
@@ -275,11 +355,13 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        <footer className="text-center py-6 text-white/70 bg-transparent">
-          <p>AirInvest 2024</p>
-        </footer>
+        <footer className="text-center py-99 text-white-400 mt-20">
+        <p>AirInvest 2024</p>
+      </footer>
+      
       </div>
+      
     </div>
+    
   );
 }
