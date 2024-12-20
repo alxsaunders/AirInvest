@@ -307,6 +307,7 @@ export default function Home() {
                     Format: +1 followed by your number
                   </p>
                 </div>
+                <div className='py-4'></div>
 
                 <button
                   type="submit"
@@ -354,7 +355,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <footer className="text-center py-99 text-white-400 mt-20">
+        <footer className="text-center py-99 text-gray   oo z-400 mt-20">
           <p>AirInvest 2024</p>
         </footer>
       </div>
