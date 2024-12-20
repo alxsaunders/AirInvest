@@ -63,7 +63,7 @@ function Model({ url, position }: ModelProps) {
 // Scene Component
 function Scene3D() {
   return (
-    <div className="h-[500px] w-full bg-transparent relative">
+    <div className="h-[450px] w-full bg-transparent relative">
       {/* Outer glow effect container */}
       <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur-[100px] -z-10"></div>
       <Canvas
@@ -211,8 +211,8 @@ export default function Home() {
 
       {/* Main content */}
       <div className="relative z-10">
-        <div className="container mx-auto px-6 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
+        <div className="container mx-auto px-6 pt-6 pb-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-end">
             {/* Form Column */}
             <div className={`${cardClasses} p-8`}>
               <h1 className="text-4xl font-light text-white/90 tracking-wide mb-8">

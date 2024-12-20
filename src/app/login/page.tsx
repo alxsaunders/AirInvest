@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 
-
 export default function Login() {
   const router = useRouter();
   const { checkAuth, isAuthenticated, login } = useAuth();
@@ -22,7 +21,7 @@ export default function Login() {
 
   const checkAuthStatus = async () => {
     try {
-      await checkAuth(); // Use context's checkAuth
+      await checkAuth();
       if (isAuthenticated) {
         router.push('/dashboard');
         return;
@@ -41,7 +40,7 @@ export default function Login() {
 
     try {
       await login(formData.email, formData.password);
-      await checkAuth(); // Refresh auth state after login
+      await checkAuth();
       router.push('/dashboard');
     } catch (err: any) {
       console.error('Login error:', err);
@@ -51,130 +50,117 @@ export default function Login() {
     }
   };
 
+  const inputClasses = "w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20";
+  const labelClasses = "block text-sm font-medium mb-2 text-white/80";
 
   return (
-    <div className="min-h-screen bg-[#1E1E1E] flex items-center justify-center px-4">
-      <div className="max-w-md w-full space-y-8 p-8 bg-gray-800 rounded-lg">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold text-white">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-400">
-            Or{' '}
-            <Link 
-              href="/" 
-              className="font-medium text-blue-400 hover:text-blue-300"
-            >
-              create a new account
-            </Link>
-          </p>
-        </div>
+    <div className="relative min-h-screen">
+      {/* Background with blur */}
+      <div className="fixed inset-0 z-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/assets/photos/loginbg.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
+      </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded">
-              {error}
-            </div>
-          )}
-
+      {/* Main content */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
+        <div className="max-w-md w-full space-y-8 p-8 backdrop-blur-md bg-black/35 border border-white/10 shadow-2xl rounded-2xl">
           <div>
-            <label 
-              htmlFor="email" 
-              className="block text-sm font-medium text-gray-300"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none mt-1"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            />
-          </div>
-
-          <div>
-            <label 
-              htmlFor="password" 
-              className="block text-sm font-medium text-gray-300"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none mt-1"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-blue-600 focus:ring-blue-500"
-              />
-              <label 
-                htmlFor="remember-me" 
-                className="ml-2 block text-sm text-gray-300"
+            <h2 className="mt-2 text-center text-3xl font-light text-white/90 tracking-wide">
+              Sign in to your account
+            </h2>
+            <p className="mt-2 text-center text-sm text-white/60">
+              Or{' '}
+              <Link 
+                href="/" 
+                className="font-medium text-blue-400 hover:text-blue-300 transition-colors duration-200"
               >
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <Link
-                href="/forgot-password"
-                className="font-medium text-blue-400 hover:text-blue-300"
-              >
-                Forgot your password?
+                create a new account
               </Link>
-            </div>
+            </p>
           </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200
-              ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            {isLoading ? 'Signing in...' : 'Sign in'}
-          </button>
-        </form>
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            {error && (
+              <div className="bg-red-500/10 border-2 border-red-500/50 text-red-400 px-4 py-3 rounded-xl backdrop-blur-md">
+                {error}
+              </div>
+            )}
 
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-600" />
+            <div>
+              <label htmlFor="email" className={labelClasses}>
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                className={inputClasses}
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-800 text-gray-400">
-                Or continue with
-              </span>
-            </div>
-          </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="password" className={labelClasses}>
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                className={inputClasses}
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-white/20 bg-white/10 text-blue-500 focus:ring-blue-500"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-white/80">
+                  Remember me
+                </label>
+              </div>
+
+              <div className="text-sm">
+                <Link
+                  href="/forgot-password"
+                  className="font-medium text-blue-400 hover:text-blue-300 transition-colors duration-200"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+            </div>
+
             <button
-              type="button"
-              className="w-full py-2 px-4 border border-gray-600 rounded-lg text-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              type="submit"
+              disabled={isLoading}
+              className={`
+                w-full bg-gradient-to-r from-blue-600 to-blue-700
+                text-white font-bold py-4 px-6 rounded-xl
+                transition-all duration-300 shadow-lg shadow-blue-500/20
+                hover:shadow-xl hover:shadow-blue-500/30
+                backdrop-blur-md border border-blue-400/20
+                ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-[1.02]'}
+              `}
             >
-              Google
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
-            <button
-              type="button"
-              className="w-full py-2 px-4 border border-gray-600 rounded-lg text-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Facebook
-            </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>

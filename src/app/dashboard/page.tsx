@@ -30,11 +30,25 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [savedAnalyses, setSavedAnalyses] = useState<SavedAnalysis[]>([]);
+  const [theme, setTheme] = useState('night'); // default theme
   const [selectedLocation, setSelectedLocation] =
     useState<google.maps.LatLngLiteral>({
       lat: 28.5999998,
       lng: -81.3392352,
     });
+
+  useEffect(() => {
+    // Load theme from localStorage on initial render
+    const savedTheme = localStorage.getItem('dashboard-theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme);
+    localStorage.setItem('dashboard-theme', newTheme);
+  };
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -172,115 +186,159 @@ export default function Dashboard() {
         onLoad={handleMapLoad}
         strategy="afterInteractive"
       />
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
-        {/* Greeting Section */}
-        <div className="w-full bg-gray-800/50 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <h1 className="text-3xl font-bold text-white">
-              {getGreeting()},{" "}
-              <span className="text-blue-400">{firstName}</span>
-            </h1>
-          </div>
+      <div className="min-h-screen relative">
+        {/* Dynamic background with blur */}
+        <div className="fixed inset-0 z-0">
+          <div
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              backgroundImage: `url('/assets/photos/${theme === 'night' ? 'CityNight.jpg' : 'Daylight.jpg'}')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
         </div>
 
-        {/* Property Search Section */}
-        <div className="relative pt-5">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <SearchSection onLocationUpdate={handleLocationUpdate} />
-            </div>
-          </div>
-        </div>
-
-        {/* Market Analysis and Map Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Market Analysis Side */}
-            <div>
-              <h1 className="text-2xl font-bold text-white mb-8">
-                Market Analysis
-              </h1>
-              <MarketAnalysis onCityChange={handleCityChange} />
-            </div>
-
-            {/* Map Side */}
-            <div className="flex flex-col">
-              <h2 className="text-2xl font-bold text-white mb-8">Map View</h2>
-              <div
-                className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 mb-4"
-                style={{ height: "450px" }}
-              >
-                {mapLoaded ? (
-                  <Map
-                    center={selectedLocation}
-                    zoom={12}
-                    markers={[
-                      {
-                        position: selectedLocation,
-                        title: "Selected Location",
-                      },
-                    ]}
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+        {/* Main content */}
+        <div className="relative z-10">
+          {/* Greeting Section with Theme Selector */}
+          <div className="w-full bg-gray-800/50 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              <div className="flex justify-between items-center">
+                <h1 className="text-3xl font-bold text-white">
+                  {getGreeting()},{" "}
+                  <span className="text-blue-400">{firstName}</span>
+                </h1>
+                
+                {/* Theme Selector */}
+                <div className="relative">
+                  <select
+                    value={theme}
+                    onChange={(e) => handleThemeChange(e.target.value)}
+                    className="bg-gray-700/50 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-white/10 
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer appearance-none pr-10"
+                  >
+                    <option value="night">Night Theme</option>
+                    <option value="day">Day Theme</option>
+                  </select>
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
                   </div>
-                )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Property Search Section */}
+          <div className="relative pt-5">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center">
+                <SearchSection onLocationUpdate={handleLocationUpdate} />
+              </div>
+            </div>
+          </div>
+
+          {/* Market Analysis and Map Section */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Market Analysis Side */}
+              <div>
+                <h1 className="text-2xl font-bold text-white mb-8">
+                  Market Analysis
+                </h1>
+                <MarketAnalysis onCityChange={handleCityChange} />
               </div>
 
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-bold text-white">
-                    Saved Analyses
-                  </h2>
-                  <Link 
-                    href="/saved-analyses"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    View All
-                  </Link>
-                </div>
-                
-                <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6">
-                  {savedAnalyses.length === 0 ? (
-                    <p className="text-gray-400 text-center">No saved analyses yet</p>
+              {/* Map Side */}
+              <div className="flex flex-col">
+                <h2 className="text-2xl font-bold text-white mb-8">Map View</h2>
+                <div
+                  className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6 mb-4"
+                  style={{ height: "450px" }}
+                >
+                  {mapLoaded ? (
+                    <Map
+                      center={selectedLocation}
+                      zoom={12}
+                      markers={[
+                        {
+                          position: selectedLocation,
+                          title: "Selected Location",
+                        },
+                      ]}
+                    />
                   ) : (
-                    <div className="grid grid-cols-2 gap-4">
-                      {savedAnalyses.map((analysis) => (
-                        <div
-                          key={analysis.id}
-                          onClick={() => router.push(`/investdetails?mode=view&id=${analysis.id}`)}
-                          className="relative cursor-pointer group"
-                        >
-                          <div className="relative h-24 w-full rounded-lg overflow-hidden">
-                            <Image
-                              src={analysis.propertyDetails.images[0]}
-                              alt={analysis.propertyDetails.address}
-                              fill
-                              className="object-cover transition-transform group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-black/50 flex items-end p-2">
-                              <p className="text-sm text-white truncate">
-                                {analysis.propertyDetails.address}
-                              </p>
-                              
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="flex items-center justify-center h-full">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
                     </div>
                   )}
                 </div>
+
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-bold text-white">
+                      Saved Analyses
+                    </h2>
+                    <Link 
+                      href="/saved-analyses"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    >
+                      View All
+                    </Link>
+                  </div>
+                  
+                  <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-6">
+                    {savedAnalyses.length === 0 ? (
+                      <p className="text-gray-400 text-center">No saved analyses yet</p>
+                    ) : (
+                      <div className="grid grid-cols-2 gap-4">
+                        {savedAnalyses.map((analysis) => (
+                          <div
+                            key={analysis.id}
+                            onClick={() => router.push(`/investdetails?mode=view&id=${analysis.id}`)}
+                            className="relative cursor-pointer group"
+                          >
+                            <div className="relative h-24 w-full rounded-lg overflow-hidden">
+                              <Image
+                                src={analysis.propertyDetails.images[0]}
+                                alt={analysis.propertyDetails.address}
+                                fill
+                                className="object-cover transition-transform group-hover:scale-105"
+                              />
+                              <div className="absolute inset-0 bg-black/50 flex items-end p-2">
+                                <p className="text-sm text-white truncate">
+                                  {analysis.propertyDetails.address}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          
+          <footer className="text-center py-4 text-gray-400 bg-transparent">
+            <p>AirInvest 2024</p>
+          </footer>
         </div>
-        <footer className="text-center py-4 text-gray-400 bg-transparent">
-        <p>AirInvest 2024</p>
-      </footer>
       </div>
-      
-   
     </>
   );
 }
