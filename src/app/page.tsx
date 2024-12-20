@@ -32,7 +32,7 @@ function Model({ url, position }: ModelProps) {
           if (child.material instanceof THREE.MeshStandardMaterial) {
             // Just enhance the original material
             child.material.envMapIntensity = 1;
-            child.material.roughness = 0.4;
+            child.material.roughness = 0.8;
             child.material.metalness = 0.8;
             child.material.needsUpdate = true;
           }
@@ -46,7 +46,7 @@ function Model({ url, position }: ModelProps) {
   useFrame((state) => {
     if (modelRef.current) {
       modelRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.1;
-      modelRef.current.rotation.y += 0.01;
+      modelRef.current.rotation.y += 0.005;
     }
   });
 
@@ -55,7 +55,7 @@ function Model({ url, position }: ModelProps) {
       ref={modelRef}
       object={gltf.scene}
       position={position}
-      scale={[1.2, 1.2, 1.2]}
+      scale={[1.4, 1.4, 1.4]}
     />
   );
 }
@@ -63,11 +63,11 @@ function Model({ url, position }: ModelProps) {
 // Scene Component
 function Scene3D() {
   return (
-    <div className="h-[450px] w-full bg-transparent relative">
+    <div className="h-[500px] w-full  bg-transparent relative">
       {/* Outer glow effect container */}
       <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur-[100px] -z-10"></div>
       <Canvas
-        camera={{ position: [0, 8, 20], fov: 45 }}
+        camera={{ position: [0, 0, 25], fov: 40 }}
         shadows
         style={{ background: 'transparent' }}
       >
@@ -81,7 +81,7 @@ function Scene3D() {
           
           <Model 
             url="/airinvst2.glb"
-            position={[1, 0, 0]}
+            position={[0.25, -1.5, -.5]}
             scale={[0.001, 0.001, 0.001]}
           />
 
