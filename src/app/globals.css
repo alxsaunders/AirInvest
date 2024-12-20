@@ -1,3 +1,4 @@
+/* tailwind.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,9 +6,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --font-title: var(--font-title), system-ui, sans-serif;
-  --font-body: var(--font-body), system-ui, sans-serif;
-  --font-footer: var(--font-footer), system-ui, sans-serif;
+  --font-title: 'TitleFont';
+  --font-body: 'BodyFont';
+  --font-footer: 'FooterFont';
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,20 +18,9 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
 @font-face {
   font-family: 'TitleFont';
-  src: url('/fonts/title.ttf') format('ttf');
+  src: url('/fonts/footer.otf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -38,7 +28,7 @@ body {
 
 @font-face {
   font-family: 'BodyFont';
-  src: url('/fonts/body.ttf') format('ttf');
+  src: url('/fonts/body.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -46,22 +36,30 @@ body {
 
 @font-face {
   font-family: 'FooterFont';
-  src: url('/fonts/footer.otf') format('otf');
+  src: url('/fonts/footer.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* Apply fonts to specific elements */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'TitleFont', sans-serif;
+@layer base {
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  }
+  
+  footer {
+    font-family: var(--font-footer), Arial, Helvetica, sans-serif;
+  }
 }
 
-body {
-  font-family: 'BodyFont', sans-serif;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
-
-footer {
-  font-family: 'FooterFont', sans-serif;
-}
-

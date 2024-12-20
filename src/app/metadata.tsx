@@ -1,5 +1,5 @@
 export const metadata = {
-    title: 'AirInvst',
+    title: 'Air Invest',
     description: 'Data Driven Home Investment App',
   };
   

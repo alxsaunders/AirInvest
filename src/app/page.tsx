@@ -63,7 +63,9 @@ function Model({ url, position }: ModelProps) {
 // Scene Component
 function Scene3D() {
   return (
-    <div className="h-[600px] w-full bg-transparent">
+    <div className="h-[500px] w-full bg-transparent relative">
+      {/* Outer glow effect container */}
+      <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur-[100px] -z-10"></div>
       <Canvas
         camera={{ position: [0, 8, 20], fov: 45 }}
         shadows
@@ -188,7 +190,7 @@ export default function Home() {
   };
 
   // Common styles
-  const cardClasses = "backdrop-blur-md bg-black/25 border border-white/10 shadow-2xl rounded-2xl";
+  const cardClasses = "backdrop-blur-md bg-black/35 border border-white/10 shadow-2xl rounded-2xl";
   const inputClasses = "w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20";
   const labelClasses = "block text-sm font-medium mb-2 text-white/80";
 
@@ -209,10 +211,10 @@ export default function Home() {
 
       {/* Main content */}
       <div className="relative z-10">
-        <div className="container mx-auto px-6 py-6 mt-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
+        <div className="container mx-auto px-6 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
             {/* Form Column */}
-            <div className={`${cardClasses} p-8 flex flex-col h-full`}>
+            <div className={`${cardClasses} p-8`}>
               <h1 className="text-4xl font-light text-white/90 tracking-wide mb-8">
                 Watch Your Investments Soar
               </h1>
@@ -307,7 +309,6 @@ export default function Home() {
                     Format: +1 followed by your number
                   </p>
                 </div>
-                <div className='py-4'></div>
 
                 <button
                   type="submit"
@@ -327,13 +328,13 @@ export default function Home() {
             </div>
 
             {/* 3D Models Column with Data Sources */}
-            <div className="flex flex-col h-full">
-              <div className="relative flex-grow">
+            <div className="flex flex-col">
+              <div className="relative">
                 <Scene3D />
               </div>
               
-              {/* Data Sources with matching dark background */}
-              <div className={`${cardClasses} p-6 text-center`}>
+              {/* Data Sources with no gap */}
+              <div className={`${cardClasses} p-6 text-center mt-0`}>
                 <p className="text-gray-300 mb-4 font-light text-center">With Data From</p>
                 <div className="flex items-center justify-center space-x-8">
                   <Image
@@ -355,7 +356,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <footer className="text-center py-99 text-gray   oo z-400 mt-20">
+        <footer className="text-center py-8 text-gray-400 z-40">
           <p>AirInvest 2024</p>
         </footer>
       </div>

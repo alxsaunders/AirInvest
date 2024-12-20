@@ -59,7 +59,7 @@ const NavBar = () => {
               className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105"
             >
               <div className="flex items-center">
-                <span className="text-white text-2xl font-bold tracking-tight">Air Invest</span>
+                <span className="text-white text-2xl font-bold tracking-tight h34d">Air Invest</span>
                 <span className="text-blue-400 ml-2">
                   <Image
                     src="/assets/icons/NAVLOGO2.png"
