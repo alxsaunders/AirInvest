@@ -28,17 +28,16 @@ function Model({ url, position }: ModelProps) {
     if (gltf.scene) {
       gltf.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          // Keep original material but ensure it can receive shadows
-          child.material.needsUpdate = true;
+          // Keep original material
+          if (child.material instanceof THREE.MeshStandardMaterial) {
+            // Just enhance the original material
+            child.material.envMapIntensity = 1;
+            child.material.roughness = 0.4;
+            child.material.metalness = 0.8;
+            child.material.needsUpdate = true;
+          }
           child.castShadow = true;
           child.receiveShadow = true;
-          
-          // If it's using MeshStandardMaterial, we can enhance it
-          if (child.material instanceof THREE.MeshStandardMaterial) {
-            child.material.envMapIntensity = 1;
-            child.material.roughness = 0.5;
-            child.material.metalness = 0.5;
-          }
         }
       });
     }
@@ -56,7 +55,7 @@ function Model({ url, position }: ModelProps) {
       ref={modelRef}
       object={gltf.scene}
       position={position}
-      scale={[1.3, 1.3, 1.3]}
+      scale={[1.2, 1.2, 1.2]}
     />
   );
 }
@@ -205,7 +204,7 @@ export default function Home() {
             backgroundPosition: "center",
           }}
         />
-        <div className="absolute inset-0 backdrop-blur-sm bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
+        <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
       </div>
 
       {/* Main content */}
@@ -356,12 +355,9 @@ export default function Home() {
           </div>
         </div>
         <footer className="text-center py-99 text-white-400 mt-20">
-        <p>AirInvest 2024</p>
-      </footer>
-      
+          <p>AirInvest 2024</p>
+        </footer>
       </div>
-      
     </div>
-    
   );
 }
