@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { signUp } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import { getCurrentUser } from 'aws-amplify/auth';
+import { motion } from 'framer-motion';
 import Head from 'next/head';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
@@ -28,9 +29,7 @@ function Model({ url, position }: ModelProps) {
     if (gltf.scene) {
       gltf.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          // Keep original material
           if (child.material instanceof THREE.MeshStandardMaterial) {
-            // Just enhance the original material
             child.material.envMapIntensity = 1;
             child.material.roughness = 0.8;
             child.material.metalness = 0.8;
@@ -63,8 +62,12 @@ function Model({ url, position }: ModelProps) {
 // Scene Component
 function Scene3D() {
   return (
-    <div className="h-[500px] w-full  bg-transparent relative">
-      {/* Outer glow effect container */}
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+      className="h-[500px] w-full bg-transparent relative"
+    >
       <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur-[100px] -z-10"></div>
       <Canvas
         camera={{ position: [0, 0, 25], fov: 40 }}
@@ -95,7 +98,7 @@ function Scene3D() {
           <Environment preset="city" />
         </Suspense>
       </Canvas>
-    </div>
+    </motion.div>
   );
 }
 
@@ -189,8 +192,8 @@ export default function Home() {
     }
   };
 
-  // Common styles
-  const cardClasses = "backdrop-blur-md bg-black/35 border border-white/10 shadow-2xl rounded-2xl";
+  // Common styles with lightened cards
+  const cardClasses = "backdrop-blur-md bg-black/25 border border-white/20 shadow-2xl rounded-2xl"; // Lightened from 35 to 25
   const inputClasses = "w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20";
   const labelClasses = "block text-sm font-medium mb-2 text-white/80";
 
@@ -209,12 +212,17 @@ export default function Home() {
         <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
       </div>
 
-      {/* Main content */}
+      {/* Main content with animations */}
       <div className="relative z-10">
         <div className="container mx-auto px-6 pt-6 pb-2">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-end">
-            {/* Form Column */}
-            <div className={`${cardClasses} p-8`}>
+            {/* Form Column with animation */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className={`${cardClasses} p-8`}
+            >
               <h1 className="text-4xl font-light text-white/90 tracking-wide mb-8">
                 Watch Your Investments Soar
               </h1>
@@ -325,16 +333,26 @@ export default function Home() {
                   {isLoading ? 'Creating Account...' : 'SIGN UP'}
                 </button>
               </form>
-            </div>
+            </motion.div>
 
             {/* 3D Models Column with Data Sources */}
-            <div className="flex flex-col">
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex flex-col"
+            >
               <div className="relative">
                 <Scene3D />
               </div>
               
-              {/* Data Sources with no gap */}
-              <div className={`${cardClasses} p-6 text-center mt-0`}>
+              {/* Data Sources with animation */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className={`${cardClasses} p-6 text-center mt-0`}
+              >
                 <p className="text-gray-300 mb-4 font-light text-center">With Data From</p>
                 <div className="flex items-center justify-center space-x-8">
                   <Image
@@ -352,13 +370,18 @@ export default function Home() {
                     className="object-contain"
                   />
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-        <footer className="text-center py-8 text-gray-400 z-40">
+        <motion.footer 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="text-center py-8 text-gray-400 z-40"
+        >
           <p>AirInvest 2024</p>
-        </footer>
+        </motion.footer>
       </div>
     </div>
   );

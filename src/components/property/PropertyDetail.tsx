@@ -44,8 +44,10 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
 
         {/* Main content grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
           {/* Left column - Property Details */}
           <div className="lg:col-span-7 space-y-7">
+            
             <Card className="bg-gray-800/50 border-gray-700">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl text-white">
@@ -91,14 +93,15 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
           {/* Right column - Investment Details */}
           <div className="lg:col-span-5 space-y-5">
             <Card className="bg-gray-800/50 border-gray-700">
+            <div className="mt-6">
+                  <AirBnbCal property={property} />
+                </div>
               <CardHeader className="text-center">
                 <CardTitle className="text-white">Investment Details</CardTitle>
               </CardHeader>
               <CardContent>
                 <InvestmentCalculator property={property} />
-                <div className="mt-6">
-                  <AirBnbCal property={property} />
-                </div>
+                
               </CardContent>
             </Card>
           </div>
