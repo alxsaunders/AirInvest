@@ -27,7 +27,7 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
   if (!property) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+    <div className="min-h-screen">
       <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-8">
           <Link

@@ -46,7 +46,7 @@ function Model({ url, position }: ModelProps) {
   useFrame((state) => {
     if (modelRef.current) {
       modelRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.1;
-      modelRef.current.rotation.y += 0.005;
+      modelRef.current.rotation.y += 0.002;
     }
   });
 

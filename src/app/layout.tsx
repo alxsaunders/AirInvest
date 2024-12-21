@@ -5,8 +5,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { getCurrentUser } from 'aws-amplify/auth';
 import '@/lib/auth-config';
 import { AuthProvider } from '@/context/AuthContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 import NavBar from '@/components/NavBar';
 import VideoLoader from '@/components/loaders/DefaultLoader';
+import ThemedLayout from '@/components/layout/ThemedLayout';
 import Script from 'next/script';
 import './globals.css';
 import { metadata } from './metadata';
@@ -40,7 +42,27 @@ const footerFont = localFont({
 });
 
 // Define protected routes that require authentication
-const protectedRoutes = ['/dashboard', '/profile', '/settings', '/results', '/singleresult'];
+const protectedRoutes = [
+  '/dashboard', 
+  '/profile', 
+  '/settings', 
+  '/results', 
+  '/singleresult',
+  '/investdetails',
+  '/saved-analyses'
+];
+
+// Pages that should have themed background
+const themedPages = [
+  '/dashboard',
+  '/results',
+  '/singleresult',
+  '/investdetails',
+  '/saved-analyses',
+  '/profile',
+  '/settings',
+  '/verify-email'
+];
 
 function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -63,16 +85,48 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Check if current path should have themed background
+  const shouldApplyTheme = themedPages.some(page => pathname.startsWith(page));
+
   return (
     <div className="min-h-screen flex flex-col font-body">
       <NavBar />
       {isLoading ? (
-        <div className="flex-1 relative">
-          <VideoLoader />
-        </div>
+        <>
+          {shouldApplyTheme ? (
+            // Themed loading state
+            <div className="flex-1">
+              <ThemedLayout>
+                <div className="relative min-h-[calc(100vh-64px)]">
+                  <VideoLoader />
+                </div>
+              </ThemedLayout>
+            </div>
+          ) : (
+            // Default day theme loading state
+            <div className="flex-1 relative">
+              <div className="fixed inset-0 z-0">
+                <div
+                  className="absolute inset-0 transition-all duration-500"
+                  style={{
+                    backgroundImage: "url('/assets/photos/Daylight.jpg')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+                <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
+              </div>
+              <div className="relative z-10 min-h-[calc(100vh-64px)]">
+                <VideoLoader />
+              </div>
+            </div>
+          )}
+        </>
       ) : (
         <main className="flex-1">
-          {children}
+          <ThemedLayout>
+            {children}
+          </ThemedLayout>
         </main>
       )}
     </div>
@@ -92,7 +146,9 @@ export default function RootLayout({
       </head>
       <body className="font-body">
         <AuthProvider>
-          <RootLayoutContent>{children}</RootLayoutContent>
+          <ThemeProvider>
+            <RootLayoutContent>{children}</RootLayoutContent>
+          </ThemeProvider>
         </AuthProvider>
         <Script
           async

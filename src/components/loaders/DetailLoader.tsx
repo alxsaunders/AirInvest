@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
@@ -12,7 +12,7 @@ const DetailLoader = () => {
   }, []);
 
   return createPortal(
-    <div className="fixed top-[64px] left-0 right-0 bottom-0 bg-[#1E1E1E] z-[25] flex items-center justify-center">
+    <div className="fixed top-[64px] left-0 right-0 bottom-0 z-[25] flex items-center justify-center">
       <div className="flex flex-col items-center">
         <video
           autoPlay

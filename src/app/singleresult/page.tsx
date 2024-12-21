@@ -108,6 +108,7 @@ export default function SingleResultPage() {
   }, [propertyData]);
 
   if (loading) {
+    window.scrollTo(0, 0);
     return (
       <DetailLoader />
     );
@@ -115,7 +116,7 @@ export default function SingleResultPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 p-6">
+      <div className="min-h-screen p-6">
         <Alert variant="destructive">
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
@@ -141,7 +142,7 @@ export default function SingleResultPage() {
 
   if (!propertyData) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-white">No property data available</div>
       </div>
     );

@@ -14,6 +14,7 @@ import Icon from '@/components/Icon';
 import React from 'react';
 import SearchSection from '@/components/SearchSection';
 import Image from 'next/image';
+import { useTheme } from '@/context/ThemeContext';
 
 interface SavedAnalysis {
   id: string;
@@ -30,25 +31,12 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [savedAnalyses, setSavedAnalyses] = useState<SavedAnalysis[]>([]);
-  const [theme, setTheme] = useState('night'); // default theme
+  const { theme, setTheme } = useTheme(); // Use global theme context
   const [selectedLocation, setSelectedLocation] =
     useState<google.maps.LatLngLiteral>({
       lat: 28.5999998,
       lng: -81.3392352,
     });
-
-  useEffect(() => {
-    // Load theme from localStorage on initial render
-    const savedTheme = localStorage.getItem('dashboard-theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-  }, []);
-
-  const handleThemeChange = (newTheme: string) => {
-    setTheme(newTheme);
-    localStorage.setItem('dashboard-theme', newTheme);
-  };
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -143,19 +131,31 @@ export default function Dashboard() {
       setMapLoaded(false);
     }
     return (
-      <>
-        <div className="w-full bg-gray-800/50 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          </div>
-        </div>
-        <VideoLoader />
-      </>
+      <div className="relative min-h-screen">
+      {/* Background from theme */}
+      <div className="fixed inset-0 z-0">
+        <div
+          className="absolute inset-0 transition-all duration-500"
+          style={{
+            backgroundImage: `url('/assets/photos/${theme === 'night' ? 'CityNight.jpg' : 'Daylight.jpg'}')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
+      </div>
+      
+  
+
+      {/* Video Loader */}
+      <VideoLoader />
+    </div>
     );
   }
 
   if (!firstName) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="bg-gray-800/50 backdrop-blur-md rounded-lg p-8 text-center">
           <h2 className="text-2xl font-bold text-white mb-4">
             Sign In Required
@@ -174,74 +174,56 @@ export default function Dashboard() {
     );
   }
 
-  const handleMapLoad = () => {
-    console.log("Map script loaded");
-    setMapLoaded(true);
-  };
-
   return (
     <>
       <Script
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&loading=async`}
-        onLoad={handleMapLoad}
+        onLoad={() => setMapLoaded(true)}
         strategy="afterInteractive"
       />
       <div className="min-h-screen relative">
-        {/* Dynamic background with blur */}
-        <div className="fixed inset-0 z-0">
-          <div
-            className="absolute inset-0 transition-all duration-500"
-            style={{
-              backgroundImage: `url('/assets/photos/${theme === 'night' ? 'CityNight.jpg' : 'Daylight.jpg'}')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-          <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
-        </div>
-
-        {/* Main content */}
-        <div className="relative z-10">
-          {/* Greeting Section with Theme Selector */}
-          <div className="w-full bg-gray-800/50 backdrop-blur-md">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-              <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-white">
-                  {getGreeting()},{" "}
-                  <span className="text-blue-400">{firstName}</span>
-                </h1>
-                
-                {/* Theme Selector */}
-                <div className="relative">
-                  <select
-                    value={theme}
-                    onChange={(e) => handleThemeChange(e.target.value)}
-                    className="bg-gray-700/50 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-white/10 
-                      focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer appearance-none pr-10"
+        {/* Greeting Section with Theme Selector */}
+        <div className="w-full bg-gray-800/50 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-3xl font-bold text-white">
+                {getGreeting()},{" "}
+                <span className="text-blue-400">{firstName}</span>
+              </h1>
+              
+              {/* Theme Selector */}
+              <div className="relative">
+                <select
+                  value={theme}
+                  onChange={(e) => setTheme(e.target.value)}
+                  className="bg-gray-700/50 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-white/10 
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer appearance-none pr-10"
+                >
+                  <option value="night">Night Theme</option>
+                  <option value="day">Day Theme</option>
+                </select>
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <option value="night">Night Theme</option>
-                    <option value="day">Day Theme</option>
-                  </select>
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
+        {/* Rest of the dashboard content */}
+        <div className="relative z-10">
           {/* Property Search Section */}
           <div className="relative pt-5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -288,6 +270,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="space-y-4">
+                  {/* Saved Analyses Section */}
                   <div className="flex justify-between items-center">
                     <h2 className="text-2xl font-bold text-white">
                       Saved Analyses

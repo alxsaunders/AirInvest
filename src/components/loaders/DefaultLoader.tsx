@@ -1,36 +1,38 @@
-import Head from 'next/head';
+'use client';
+
 import { useEffect } from 'react';
 
-const VideoLoader = () => {
+interface VideoLoaderProps {
+  text?: string;
+}
+
+const VideoLoader = ({ text }: VideoLoaderProps) => {
   useEffect(() => {
-    // Lock scrolling
     document.body.style.overflow = 'hidden';
-    
-    // Cleanup function to remove lock when component unmounts
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, []);
 
   return (
-    <>
-      <Head>
-        <link rel="preload" href="/assets/videos/loader.webm" as="video" />
-      </Head>
-      <div className="absolute inset-0 bg-[#1E1E1E] z-[25] flex items-center justify-center">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-60 h-60"
-        >
-          <source src="/assets/videos/loader.webm" type="video/webm" />
-          <source src="/assets/videos/loader.mp4" type="video/mp4" />
-          <div className="text-white text-lg">Loading...</div>
-        </video>
-      </div>
-    </>
+    <div className="absolute inset-0 z-[25] flex flex-col items-center justify-center">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="w-60 h-60"
+      >
+        <source src="/assets/videos/loader.webm" type="video/webm" />
+        <source src="/assets/videos/loader.mp4" type="video/mp4" />
+        <div className="text-white text-lg">Loading...</div>
+      </video>
+      {text && (
+        <div className="text-white text-md mt-2">
+          {text}
+        </div>
+      )}
+    </div>
   );
 };
 

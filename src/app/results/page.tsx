@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getCurrentUser } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
+import VideoLoader from "@/components/loaders/DefaultLoader";
 
 interface ZillowProperty {
   zpid: string;
@@ -166,6 +167,28 @@ export default function ResultsPage() {
 
   // if (isLoading) {
   //   return (
+  //     <div className="relative min-h-screen">
+  //       {/* Background from theme */}
+  //       <div className="fixed inset-0 z-0">
+  //         <div
+  //           className="absolute inset-0 transition-all duration-500"
+  //           style={{
+  //             backgroundImage: `url('/assets/photos/Daylight.jpg')`,
+  //             backgroundSize: "cover",
+  //             backgroundPosition: "center",
+  //           }}
+  //         />
+  //         <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
+  //       </div>
+        
+       
+  
+  //       {/* Video Loader */}
+  //       <VideoLoader />
+  //     </div>
+  //       );
+  //     }
+  //   return (
   //     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
   //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
   //         <div className="flex justify-between items-center mb-8">
@@ -198,7 +221,7 @@ export default function ResultsPage() {
   // }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">Search Results</h1>

@@ -216,7 +216,7 @@ export default function InvestDetails() {
   const roi = ((annualRevenue - (property.price * 0.1)) / property.price) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-12">
+    <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {isViewingMode && (
           <button

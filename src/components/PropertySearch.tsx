@@ -46,15 +46,19 @@ const bathOptions = [
   { label: "4+", value: "4" },
 ];
 
-const LoadingOverlay = () => {
+const LoadingOverlay = ({ }) => {
   return createPortal(
-    <div className="fixed top-[64px] left-0 right-0 bottom-0 bg-[#1E1E1E] z-[9999] flex items-center justify-center">
-      <VideoLoader />
+    <div 
+      className="fixed inset-0 bg-white/50 dark:bg-black/50 flex flex-col items-center justify-center z-50"
+      style={{ backdropFilter: 'blur(4px)' }}
+    >
+      <div className="flex flex-col items-center">
+        <VideoLoader text="Loading Properties..." />
+      </div>
     </div>,
     document.body
   );
 };
-
 export default function PropertySearch({ onLocationUpdate }: PropertySearchProps) {
   const router = useRouter();
   const [city, setCity] = useState("");
@@ -232,7 +236,7 @@ export default function PropertySearch({ onLocationUpdate }: PropertySearchProps
         </div>
       )}
 
-      {isLoading && <LoadingOverlay />}
+      {isLoading && <LoadingOverlay />  }
 
       <form onSubmit={handleSearch} className="space-y-4">
         {/* City and State Search */}
