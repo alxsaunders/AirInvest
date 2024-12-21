@@ -38,6 +38,33 @@ interface AirbnbListing {
 }
 
 const AirBnbCal = ({ property }: AirBnbCalProps) => {
+ // Helper function to calculate adjusted Airbnb price
+ const calculateAirbnbPrice = (originalPrice: string): number => {
+   // Remove '$' and convert to number
+   const price = parseFloat(originalPrice.replace('$', '').replace(',', ''));
+   
+   if (isNaN(price)) {
+     console.error('Invalid price format');
+     return 0;
+   }
+
+   let adjustedPrice: number;
+
+   if (price > 200) {
+     // If price is above $200, calculate 62.5% of the price
+     adjustedPrice = price * 0.625;
+   } else if (price > 150) {
+     // If price is above $150, calculate 79% of the price
+     adjustedPrice = price * 0.79;
+   } else {
+     // For prices $150 or below, use the original price
+     adjustedPrice = price;
+   }
+
+   // Round to two decimal places
+   return Math.round(adjustedPrice * 100) / 100;
+ };
+
  const [loading, setLoading] = useState(false);
  const [loadingProgress, setLoadingProgress] = useState(0);
  const [results, setResults] = useState<AirbnbListing[]>([]);
@@ -120,6 +147,35 @@ const AirBnbCal = ({ property }: AirBnbCalProps) => {
    }
  };
 
+ // Process results with adjusted prices
+ const processedResults = results.map(listing => ({
+   ...listing,
+   adjustedPrice: calculateAirbnbPrice(listing.pricing.price),
+ }));
+
+ // Handle continue to investment analysis
+ const handleContinue = () => {
+   if (selectedListingId) {
+     const selectedProperty = processedResults.find(
+       (r) => r.id === selectedListingId
+     );
+     
+     localStorage.setItem(
+       "selectedAirbnb",
+       JSON.stringify({
+         ...selectedProperty,
+         originalPrice: selectedProperty?.pricing.price,
+         adjustedPrice: selectedProperty?.adjustedPrice
+       })
+     );
+     localStorage.setItem(
+       "zillowProperty",
+       JSON.stringify(property)
+     );
+     router.push("/investdetails");
+   }
+ };
+
  return (
    <div className="space-y-6">
      {error && (
@@ -179,7 +235,7 @@ const AirBnbCal = ({ property }: AirBnbCalProps) => {
        results.length > 0 && (
          <>
            <div className="grid grid-cols-1 gap-4">
-             {results.map((listing) => (
+             {processedResults.map((listing) => (
                <div
                  key={listing.id}
                  className={`bg-gray-800/50 border border-gray-700 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-700/50 ${
@@ -230,8 +286,11 @@ const AirBnbCal = ({ property }: AirBnbCalProps) => {
                      <div className="flex flex-col justify-between flex-grow">
                        <div>
                          <h3 className="text-lg font-medium text-gray-200">
-                           {listing.pricing.price}/night
+                           ${listing.adjustedPrice.toFixed(2)}/night (Adjusted)
                          </h3>
+                         <p className="text-sm text-gray-400 line-through">
+                           Original: {listing.pricing.price}/night
+                         </p>
                          <a
                            href={listing.url}
                            target="_blank"
@@ -262,22 +321,7 @@ const AirBnbCal = ({ property }: AirBnbCalProps) => {
            </div>
            <div className="flex justify-center mt-6">
              <button
-               onClick={() => {
-                 if (selectedListingId) {
-                   const selectedProperty = results.find(
-                     (r) => r.id === selectedListingId
-                   );
-                   localStorage.setItem(
-                     "selectedAirbnb",
-                     JSON.stringify(selectedProperty)
-                   );
-                   localStorage.setItem(
-                     "zillowProperty",
-                     JSON.stringify(property)
-                   );
-                   router.push("/investdetails");
-                 }
-               }}
+               onClick={handleContinue}
                disabled={!selectedListingId}
                className={`px-6 py-3 rounded-lg transition-all ${
                  selectedListingId

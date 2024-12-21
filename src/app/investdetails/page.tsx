@@ -200,6 +200,7 @@ export default function InvestDetails() {
   };
 
   if (isLoading) {
+    window.scrollTo(0, 0);
     return <InvestLoader />;
   }
 

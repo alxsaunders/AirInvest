@@ -11,7 +11,10 @@ const InvestLoader = () => {
   }, []);
 
   return (
-    <div className="flex-1 bg-[#1E1E1E] z-40 flex items-center justify-center min-h-[calc(100vh-64px)]">
+    <div 
+      className="flex-1 bg-white/50 dark:bg-black/50 z-40 flex items-center justify-center min-h-[calc(100vh-64px)]"
+      style={{ backdropFilter: 'blur(4px)' }}
+    >
       <video
         autoPlay
         loop
@@ -21,7 +24,7 @@ const InvestLoader = () => {
       >
         <source src="/assets/videos/InvestLoader.webm" type="video/webm" />
         <source src="/assets/videos/InvestLoader.mp4" type="video/mp4" />
-        <div className="text-white text-lg">Loading...</div>
+        <div className="text-black dark:text-white text-lg">Loading...</div>
       </video>
     </div>
   );
