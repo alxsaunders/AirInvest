@@ -52,7 +52,7 @@ export default function ThemedLayout({ children }: ThemedLayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10">
+      <div className="relative z-10"> 
         {children}
       </div>
     </div>
