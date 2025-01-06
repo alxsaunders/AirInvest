@@ -1,4 +1,3 @@
-// components/layout/ThemedLayout.tsx
 'use client';
 
 import { useTheme } from '@/context/ThemeContext';
@@ -51,7 +50,6 @@ export default function ThemedLayout({ children }: ThemedLayoutProps) {
         <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
       </div>
 
-      {/* Main content */}
       <div className="relative z-10"> 
         {children}
       </div>
