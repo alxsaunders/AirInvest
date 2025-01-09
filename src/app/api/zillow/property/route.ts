@@ -1,4 +1,3 @@
-// app/api/zillow/detail/route.ts
 import { NextResponse } from 'next/server';
 import { ApifyClient } from 'apify-client';
 
