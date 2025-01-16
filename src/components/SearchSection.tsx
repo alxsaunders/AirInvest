@@ -1,4 +1,3 @@
-// components/SearchSection.tsx
 import React, { useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import Icon from './Icon/Icon';
