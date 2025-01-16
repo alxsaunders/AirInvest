@@ -1,4 +1,3 @@
-// components/layout/ThemeSelector.tsx
 'use client';
 
 import { useTheme } from '@/context/ThemeContext';
