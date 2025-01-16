@@ -38,9 +38,8 @@ interface AirbnbListing {
 }
 
 const AirBnbCal = ({ property }: AirBnbCalProps) => {
- // Helper function to calculate adjusted Airbnb price
  const calculateAirbnbPrice = (originalPrice: string): number => {
-   // Remove '$' and convert to number
+  
    const price = parseFloat(originalPrice.replace('$', '').replace(',', ''));
    
    if (isNaN(price)) {
