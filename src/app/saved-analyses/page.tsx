@@ -92,6 +92,7 @@ export default function SavedAnalyses() {
                         <p className="text-sm text-gray-400">
                           {analysis.propertyDetails.bedrooms} beds • {analysis.propertyDetails.bathrooms} baths
                         </p>
+                        <p>AREA TO WORK ON</p>
                       </div>
                     </div>
                   </div>
