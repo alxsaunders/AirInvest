@@ -1,4 +1,3 @@
-// app/api/airbnb/estimates/route.ts
 import { NextResponse } from 'next/server';
 import { ApifyClient } from 'apify-client';
 

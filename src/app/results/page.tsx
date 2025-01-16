@@ -3,9 +3,6 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getCurrentUser } from "aws-amplify/auth";
-import { useRouter } from "next/navigation";
-import VideoLoader from "@/components/loaders/DefaultLoader";
 
 interface ZillowProperty {
   zpid: string;
