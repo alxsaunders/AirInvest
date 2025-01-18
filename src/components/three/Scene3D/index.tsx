@@ -22,12 +22,6 @@ export default function Scene3D() {
             castShadow
           />
           
-          {/* First GLB model */}
-          {/* <Model 
-  url="/airinvst1.glb"
-  position={[-1, 0, 0]}
-  scale={[0.001, 0.001, 0.001]}
-/> */}
 
 <Model 
   url="/airinvst2.glb"
