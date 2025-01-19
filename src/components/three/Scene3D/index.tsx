@@ -1,4 +1,3 @@
-// src/components/three/Scene3D/index.tsx
 'use client';
 
 import { Suspense } from 'react';
