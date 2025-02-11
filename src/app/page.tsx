@@ -1,387 +1,89 @@
 'use client';
 
-import { useState, useEffect, Suspense, useRef } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { signUp } from 'aws-amplify/auth';
-import { Amplify } from 'aws-amplify';
-import { getCurrentUser } from 'aws-amplify/auth';
 import { motion } from 'framer-motion';
-import Head from 'next/head';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { Environment, OrbitControls } from '@react-three/drei';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import * as THREE from 'three';
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-
-// Model Component
-interface ModelProps {
-  url: string;
-  position: [number, number, number];
-  scale?: [number, number, number];
-}
-
-function Model({ url, position }: ModelProps) {
-  const modelRef = useRef<THREE.Group>();
-  const gltf = useLoader(GLTFLoader, url);
-  
-  useEffect(() => {
-    if (gltf.scene) {
-      gltf.scene.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          if (child.material instanceof THREE.MeshStandardMaterial) {
-            child.material.envMapIntensity = 1;
-            child.material.roughness = 0.8;
-            child.material.metalness = 0.8;
-            child.material.needsUpdate = true;
-          }
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-    }
-  }, [gltf]);
-  
-  useFrame((state) => {
-    if (modelRef.current) {
-      modelRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.1;
-      modelRef.current.rotation.y += 0.002;
-    }
-  });
-
-  return (
-    <primitive
-      ref={modelRef}
-      object={gltf.scene}
-      position={position}
-      scale={[1.4, 1.4, 1.4]}
-    />
-  );
-}
-
-function Scene3D() {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="h-[500px] w-full bg-transparent relative"
-    >
-      <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur-[100px] -z-10"></div>
-      <Canvas
-        camera={{ position: [0, 0, 25], fov: 40 }}
-        shadows
-        style={{ background: 'transparent' }}
-      >
-        <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
-          <directionalLight
-            position={[5, 5, 5]}
-            intensity={1}
-            castShadow
-          />
-          
-          <Model 
-            url="/airinvst2.glb"
-            position={[0.25, -1.5, -.5]}
-            scale={[0.001, 0.001, 0.001]}
-          />
-
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            minPolarAngle={Math.PI / 3}
-            maxPolarAngle={Math.PI / 2}
-          />
-          
-          <Environment preset="city" />
-        </Suspense>
-      </Canvas>
-    </motion.div>
-  );
-}
-
-// Configure Amplify
-Amplify.configure({
-  Auth: {
-    Cognito: {
-      userPoolId: process.env.NEXT_PUBLIC_AWS_USER_POOL_ID!,
-      userPoolClientId: process.env.NEXT_PUBLIC_AWS_CLIENT_ID!,
-    }
-  }
-});
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function Home() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    phone: ''
-  });
-
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        await getCurrentUser();
-        router.push('/dashboard');
-      } catch (error) {
-        // User is not logged in, stay on the sign-up page
-      }
-    };
-
-    checkUser();
-  }, [router]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-  
-    try {
-      const formattedPhone = formData.phone.startsWith('+1') 
-        ? formData.phone 
-        : `+1${formData.phone.replace(/\D/g, '')}`;
-  
-      const signUpResult = await signUp({
-        username: formData.email,
-        password: formData.password,
-        options: {
-          userAttributes: {
-            email: formData.email,
-            given_name: formData.firstName,
-            family_name: formData.lastName,
-            phone_number: formattedPhone,
-          }
-        }
-      });
-  
-      console.log('Sign up successful:', signUpResult);
-      router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
-    } catch (err) {
-      console.error('Error during sign up:', err);
-      if (err instanceof Error) {
-        switch (err.name) {
-          case 'UsernameExistsException':
-            setError('An account with this email already exists.');
-            break;
-          case 'InvalidParameterException':
-            if (err.message.includes('password')) {
-              setError('Password must be at least 8 characters long and contain uppercase, lowercase, numbers, and special characters.');
-            } else if (err.message.includes('phone')) {
-              setError('Please enter a valid phone number in +1XXXXXXXXXX format.');
-            } else {
-              setError(err.message);
-            }
-            break;
-          case 'InvalidPasswordException':
-            setError('Password must meet complexity requirements.');
-            break;
-          default:
-            setError(err.message);
-        }
-      } else {
-        setError('Failed to create account. Please try again.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Common styles with lightened cards
-  const cardClasses = "backdrop-blur-md bg-black/25 border border-white/20 shadow-2xl rounded-2xl"; // Lightened from 35 to 25
-  const inputClasses = "w-full p-3 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none transition duration-200 hover:bg-white/20";
-  const labelClasses = "block text-sm font-medium mb-2 text-white/80";
 
   return (
-    <div className="relative min-h-screen">
-      {/* Background with blur */}
-      <div className="fixed inset-0 z-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "url('/assets/photos/homeBg.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="absolute inset-0 backdrop-blur-[4px] bg-gradient-to-br from-black/40 via-black/30 to-black/40" />
-      </div>
+    <div className="relative min-h-screen w-full overflow-hidden">
+    {/* Video Background - positioned fixed to go under navbar */}
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="fixed top-0 left-0 w-full h-full object-cover z-0 blur-[6px]"
+    >
+      <source src="assets/videos/AirInvest.m4v" type="video/mp4" />
+    </video>
 
-      {/* Main content with animations */}
-      <div className="relative z-10">
-        <div className="container mx-auto px-6 pt-6 pb-2">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-end">
-            {/* Form Column with animation */}
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className={`${cardClasses} p-8`}
-            >
-              <h1 className="text-4xl font-light text-white/90 tracking-wide mb-8">
-                Watch Your Investments Soar
-              </h1>
+      {/* Overlay */}
+      <div className="fixed inset-0 bg-black/45 z-10" />
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {error && (
-                  <div className="bg-red-500/10 border-2 border-red-500/50 text-red-400 px-4 py-3 rounded-xl backdrop-blur-md">
-                    {error}
-                  </div>
-                )}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="firstName" className={labelClasses}>
-                      First Name
-                    </label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      required
-                      className={inputClasses}
-                      placeholder="John"
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="lastName" className={labelClasses}>
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      required
-                      className={inputClasses}
-                      placeholder="Doe"
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="email" className={labelClasses}>
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    className={inputClasses}
-                    placeholder="johndoe@gmail.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="password" className={labelClasses}>
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    id="password"
-                    required
-                    minLength={8}
-                    className={inputClasses}
-                    placeholder="********"
-                    value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  />
-                  <p className="text-sm text-white/60 mt-2">
-                    Must be at least 8 characters with uppercase, lowercase, numbers, and special characters
-                  </p>
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className={labelClasses}>
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    required
-                    className={inputClasses}
-                    placeholder="+1 (555) 555-5555"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  />
-                  <p className="text-sm text-white/60 mt-2">
-                    Format: +1 followed by your number
-                  </p>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className={`
-                    w-full bg-gradient-to-r from-blue-600 to-blue-700
-                    text-white font-bold py-4 px-6 rounded-xl
-                    transition-all duration-300 shadow-lg shadow-blue-500/20
-                    hover:shadow-xl hover:shadow-blue-500/30
-                    backdrop-blur-md border border-blue-400/20
-                    ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-[1.02]'}
-                  `}
-                >
-                  {isLoading ? 'Creating Account...' : 'SIGN UP'}
-                </button>
-              </form>
-            </motion.div>
-
-            {/* 3D Models Column with Data Sources */}
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-col"
-            >
-              <div className="relative">
-                <Scene3D />
-              </div>
-              
-              {/* Data Sources with animation */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className={`${cardClasses} p-6 text-center mt-0`}
-              >
-                <p className="text-gray-300 mb-4 font-light text-center">With Data From</p>
-                <div className="flex items-center justify-center space-x-8">
-                  <Image
-                    src="/assets/photos/airbnblogo.png"
-                    alt="Airbnb"
-                    width={120}
-                    height={60}
-                    className="object-contain"
-                  />
-                  <Image
-                    src="/assets/photos/zillowlogo.png"
-                    alt="Zillow"
-                    width={120}
-                    height={60}
-                    className="object-contain"
-                  />
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-        <motion.footer 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center py-8 text-gray-400 z-40"
+      {/* Main Content */}
+      <div className="relative z-20 min-h-screen flex flex-col items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          <p>AirInvest 2024</p>
-        </motion.footer>
+          <h1 className="text-4xl md:text-6xl font-bold text-white/90 tracking-wide mb-8 px-4">
+            Watch Your Investments Soar
+          </h1>
+
+          <button
+            onClick={() => router.push('/register')}
+            className="bg-gradient-to-r from-blue-400 to-blue-500
+              hover:from-blue-600 hover:to-blue-700
+              text-white font-bold py-4 px-14 rounded-xl
+              transition-all duration-300 shadow-lg shadow-blue-500/20
+              hover:shadow-xl hover:shadow-blue-500/30
+              hover:scale-[1.02] backdrop-blur-md border border-blue-400/20"
+          >
+            SIGN UP
+          </button>
+        </motion.div>
+
+        {/* Data Sources Card */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="backdrop-blur-md bg-black/25 border border-white/20 shadow-2xl rounded-2xl p-6 text-center max-w-xl mx-auto"
+        >
+          <p className="text-gray-300 mb-4 font-light text-center">With Data From</p>
+          <div className="flex items-center justify-center space-x-14">
+            <Image
+              src="/assets/photos/airbnblogo.png"
+              alt="Airbnb"
+              width={120}
+              height={60}
+              className="object-contain"
+            />
+            <Image
+              src="/assets/photos/zillowlogo.png"
+              alt="Zillow"
+              width={120}
+              height={60}
+              className="object-contain"
+            />
+          </div>
+        </motion.div>
       </div>
+
+      {/* Footer */}
+      <motion.footer 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+        className="absolute bottom-0 w-full text-center py-8 text-gray-400 z-20"
+      >
+        <p>AirInvest 2024</p>
+      </motion.footer>
     </div>
   );
 }

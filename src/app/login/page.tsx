@@ -78,7 +78,7 @@ export default function Login() {
             <p className="mt-2 text-center text-sm text-white/60">
               Or{' '}
               <Link 
-                href="/" 
+                href="/register" 
                 className="font-medium text-blue-400 hover:text-blue-300 transition-colors duration-200"
               >
                 create a new account
