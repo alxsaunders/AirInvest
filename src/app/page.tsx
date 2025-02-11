@@ -59,7 +59,6 @@ function Model({ url, position }: ModelProps) {
   );
 }
 
-// Scene Component
 function Scene3D() {
   return (
     <motion.div 
