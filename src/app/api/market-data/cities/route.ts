@@ -5,7 +5,7 @@ import path from 'path';
 
 export async function GET() {
   try {
-    // Read from ZHVI file
+    // Read from ZHVI file.
     const zhviPath = path.join(process.cwd(), 'src', 'data', 'zhvi.csv');
     console.log('Reading ZHVI file from:', zhviPath);
     
