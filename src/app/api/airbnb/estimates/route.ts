@@ -12,6 +12,7 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
+    
     const client = new ApifyClient({
       token: process.env.APIFY_API_TOKEN,
     });
