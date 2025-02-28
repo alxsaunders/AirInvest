@@ -101,6 +101,7 @@ export default function Features() {
           </button>
         </div>
       </div>
+      
     </section>
   );
 }
