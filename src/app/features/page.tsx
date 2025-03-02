@@ -84,8 +84,6 @@ export default function Features() {
             AirInvest provides all the tools you need to analyze, compare, and optimize your real estate investment decisions.
           </p>
         </div>
-        
-        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <FeatureCard
