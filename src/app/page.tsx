@@ -7,6 +7,7 @@ import Image from 'next/image';
 export default function Home() {
   const router = useRouter();
 
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
     {/* Video Background - positioned fixed to go under navbar */}
