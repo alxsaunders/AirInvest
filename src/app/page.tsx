@@ -18,6 +18,7 @@ export default function Home() {
       playsInline
       className="fixed top-0 left-0 w-full h-full object-cover z-0 blur-[6px]"
     >
+      
       <source src="assets/videos/AirInvest.m4v" type="video/mp4" />
     </video>
 
