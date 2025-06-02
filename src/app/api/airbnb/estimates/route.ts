@@ -30,19 +30,44 @@ export async function POST(request: Request) {
 
     console.log('Calling Apify with input:', input);
 
-    const run = await client.actor("NDa1latMI7JHJzSYU").call(input);
+    // Start the actor run but don't wait for it to finish
+    const run = await client.actor("NDa1latMI7JHJzSYU").start(input);
+    console.log('Actor run started with ID:', run.id);
+
+    // Wait for up to 20 seconds for the run to complete
+    const startTime = Date.now();
+    const timeout = 15000; // 15 seconds
+    
+    while (Date.now() - startTime < timeout) {
+      // Check the run status
+      const runInfo = await client.run(run.id).get();
+      
+      if (runInfo.status === 'SUCCEEDED' || runInfo.status === 'FAILED') {
+        console.log('Run completed with status:', runInfo.status);
+        break;
+      }
+      
+      // Wait a bit before checking again
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    // After timeout or completion, abort the run if still running
+    const finalRunInfo = await client.run(run.id).get();
+    if (finalRunInfo.status === 'RUNNING' || finalRunInfo.status === 'READY') {
+      console.log('Aborting run due to timeout');
+      await client.run(run.id).abort();
+    }
+
+    // Fetch whatever results are available
+    console.log('Fetching available results from dataset');
     const { items } = await client.dataset(run.defaultDatasetId).listItems({
       limit: 3
     });
 
-    if (!items || items.length === 0) {
-      return NextResponse.json(
-        { error: 'No properties found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(items);
+    // Return whatever we got (could be empty, partial, or complete results)
+    console.log(`Returning ${items?.length || 0} items`);
+    return NextResponse.json(items || []);
+    
   } catch (error) {
     console.error('Error in API route:', error);
     return NextResponse.json(
