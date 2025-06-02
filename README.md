@@ -1,6 +1,13 @@
 # AirInvest
 
+![AirInvest Logo](./public/assets/icons/NAVLOGO2.png)
+
 A real estate investment analysis platform that combines Zillow property data with Airbnb rental estimates to help users make informed investment decisions.
+
+## Screenshots
+
+![AirInvest Screenshot 1](./public/assets/photos/1.png)
+![AirInvest Screenshot 2](./public/assets/photos/2.jpg)
 
 ## Features
 
